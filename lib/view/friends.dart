@@ -20,57 +20,16 @@ class Friends extends StatelessWidget {
         children: [
           const SearchBar(),
           Expanded(
-            child: ListView(
-              children: const <Widget>[
-                ListTile(
-                  title: Text("test"),
-                ),
-                ListTile(
-                  title: Text("test1"),
-                ),
-                ListTile(
-                  title: Text("test"),
-                ),
-                ListTile(
-                  title: Text("test2"),
-                ),
-                ListTile(
-                  title: Text("test"),
-                ),
-                ListTile(
-                  title: Text("test"),
-                ),
-                ListTile(
-                  title: Text("test3"),
-                ),
-                ListTile(
-                  title: Text("test"),
-                ),
-                ListTile(
-                  title: Text("test"),
-                ),
-                ListTile(
-                  title: Text("test"),
-                ),
-                ListTile(
-                  title: Text("test4"),
-                ),
-                ListTile(
-                  title: Text("test"),
-                ),
-                ListTile(
-                  title: Text("test"),
-                ),
-                ListTile(
-                  title: Text("test"),
-                ),
-                ListTile(
-                  title: Text("test"),
-                ),
-                ListTile(
-                  title: Text("test5"),
-                ),
-              ],
+            child: ListView.builder(
+              itemCount: 5,
+              itemBuilder: (BuildContext context, int index) {
+                return ListTile(
+                  title: const Text("Test Friend"),
+                  onTap: () async {
+                    await Navigator.pushNamed(context, "/friends/detail");
+                  },
+                );
+              },
             ),
           ),
         ],

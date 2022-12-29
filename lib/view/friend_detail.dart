@@ -18,7 +18,7 @@ class FriendDetail extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            // TODO: back process
+            Navigator.pop(context);
           },
         ),
         title: const Text("Detail"),
