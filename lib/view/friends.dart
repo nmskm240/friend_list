@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:friend_list/component/search_bar.dart';
 
 class Friends extends StatelessWidget {
   const Friends({Key? key}) : super(key: key);
@@ -17,7 +18,7 @@ class Friends extends StatelessWidget {
       ),
       body: Column(
         children: [
-          const TextField(),
+          const SearchBar(),
           Expanded(
             child: ListView(
               children: const <Widget>[
