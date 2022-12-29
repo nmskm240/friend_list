@@ -25,6 +25,9 @@ class Friends extends StatelessWidget {
               itemBuilder: (BuildContext context, int index) {
                 return ListTile(
                   title: const Text("Test Friend"),
+                  leading: const CircleAvatar(
+                    child: Icon(Icons.person),
+                  ),
                   onTap: () async {
                     await Navigator.pushNamed(context, "/friends/detail");
                   },
