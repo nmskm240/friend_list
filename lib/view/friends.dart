@@ -12,7 +12,9 @@ class Friends extends StatelessWidget {
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.add),
-            onPressed: () {},
+            onPressed: () async {
+              await Navigator.pushNamed(context, "/friends/edit");
+            },
           )
         ],
       ),
