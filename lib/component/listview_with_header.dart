@@ -5,9 +5,12 @@ class ListViewWithHeader extends StatelessWidget {
   List<Widget> children;
   Widget? trailing;
 
-  ListViewWithHeader(
-      {Key? key, required this.title, required this.children, this.trailing})
-      : super(key: key);
+  ListViewWithHeader({
+    Key? key,
+    required this.title,
+    required this.children,
+    this.trailing,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

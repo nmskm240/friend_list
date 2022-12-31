@@ -24,32 +24,23 @@ class FriendDetail extends StatelessWidget {
               background: Padding(
                 padding: const EdgeInsets.all(20),
                 child: Column(
-                  children: const <Widget>[
-                    CircleAvatar(
+                  children: <Widget>[
+                    const CircleAvatar(
                       radius: 70,
                       backgroundImage:
                           AssetImage("assets/demo/images/face_001.png"),
                     ),
                     Text(
                       "Test Friend",
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: Theme.of(context).textTheme.headlineMedium,
                     ),
                     Text(
                       "nickname",
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 15,
-                      ),
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     Text(
                       "XX years old",
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 15,
-                      ),
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   ],
                 ),
@@ -67,7 +58,6 @@ class FriendDetail extends StatelessWidget {
                         IconButton(
                           icon: const FaIcon(
                             FontAwesomeIcons.phone,
-                            color: Colors.grey,
                           ),
                           onPressed: () {
                             // TODO: other app open
@@ -76,7 +66,6 @@ class FriendDetail extends StatelessWidget {
                         IconButton(
                           icon: const FaIcon(
                             FontAwesomeIcons.mapLocation,
-                            color: Colors.grey,
                           ),
                           onPressed: () {
                             // TODO: other app open
@@ -85,7 +74,6 @@ class FriendDetail extends StatelessWidget {
                         IconButton(
                           icon: const FaIcon(
                             FontAwesomeIcons.facebook,
-                            color: Colors.grey,
                           ),
                           onPressed: () {
                             // TODO: other app open
@@ -94,7 +82,6 @@ class FriendDetail extends StatelessWidget {
                         IconButton(
                           icon: const FaIcon(
                             FontAwesomeIcons.instagram,
-                            color: Colors.grey,
                           ),
                           onPressed: () {
                             // TODO: other app open
@@ -103,7 +90,6 @@ class FriendDetail extends StatelessWidget {
                         IconButton(
                           icon: const FaIcon(
                             FontAwesomeIcons.twitter,
-                            color: Colors.grey,
                           ),
                           onPressed: () {
                             // TODO: other app open
