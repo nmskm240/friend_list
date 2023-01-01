@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:friend_list/component/search_bar.dart';
 
-class Friends extends StatelessWidget {
-  const Friends({Key? key}) : super(key: key);
+class FriendList extends StatelessWidget {
+  const FriendList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
