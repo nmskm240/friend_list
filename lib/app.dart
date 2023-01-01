@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:friend_list/view/friend_detail.dart';
-import 'package:friend_list/view/friend_edit.dart';
-import 'package:friend_list/view/friend_list.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:friend_list/router/app_router.dart';
 
-class App extends StatelessWidget {
+class App extends ConsumerWidget {
   const App({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
       title: "FriendList",
+      home: Router(
+        routerDelegate: AppRouter(ref),
+      ),
       theme: ThemeData(
         appBarTheme: const AppBarTheme(
           backgroundColor: Color(0xFF495464),
@@ -24,12 +26,6 @@ class App extends StatelessWidget {
         bottomAppBarColor: const Color(0xFFE8E8E8),
         cardColor: const Color(0xFFE8E8E8),
       ),
-      initialRoute: "/friends",
-      routes: <String, WidgetBuilder>{
-        "/friends": (BuildContext context) => const FriendList(),
-        "/friends/detail": (BuildContext context) => const FriendDetail(),
-        "/friends/edit": (BuildContext context) => const FriendEdit(),
-      },
     );
   }
 }
