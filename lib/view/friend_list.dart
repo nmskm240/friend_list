@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:friend_list/component/search_bar.dart';
+import 'package:friend_list/provider/app_router_provider.dart';
 
-class Friends extends StatelessWidget {
-  const Friends({Key? key}) : super(key: key);
+class FriendList extends ConsumerWidget {
+  const FriendList({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Friends"),
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.add),
-            onPressed: () async {
-              await Navigator.pushNamed(context, "/friends/edit");
+            onPressed: () {
+              ref.read(appRouteProvider.notifier).state = "/friend/edit";
             },
           )
         ],
@@ -30,8 +32,8 @@ class Friends extends StatelessWidget {
                   leading: const CircleAvatar(
                     child: Icon(Icons.person),
                   ),
-                  onTap: () async {
-                    await Navigator.pushNamed(context, "/friends/detail");
+                  onTap: () {
+                    ref.read(appRouteProvider.notifier).state = "/friend/detail";
                   },
                 );
               },

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:friend_list/component/listview_with_header.dart';
+import 'package:friend_list/provider/app_router_provider.dart';
 
-class FriendDetail extends StatelessWidget {
+class FriendDetail extends ConsumerWidget {
   const FriendDetail({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -16,6 +18,7 @@ class FriendDetail extends StatelessWidget {
                 icon: const Icon(Icons.edit),
                 onPressed: () {
                   // TODO: edit process
+                  ref.read(appRouteProvider.notifier).state = "/friend/edit";
                 },
               ),
             ],
@@ -117,7 +120,7 @@ class FriendDetail extends StatelessWidget {
                 Card(
                   child: ListViewWithHeader(
                     title: "Tag",
-                    children: <Widget> [
+                    children: <Widget>[
                       ListTile(
                         title: Wrap(
                           children: const <Widget>[
