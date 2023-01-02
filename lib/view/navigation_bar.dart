@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:friend_list/provider/bottom_nvaigation_bar_router_provider.dart';
+import 'package:friend_list/router/bottom_nvaigation_bar_router.dart';
 
-class NavigatorBar extends StatelessWidget {
-  const NavigatorBar({Key? key}) : super(key: key);
+class NavigatorBar extends ConsumerWidget {
+  const NavigatorBar(WidgetRef ref, {Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
+      body: Router(
+        routerDelegate: BottomNavigationBarRouter(ref),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -27,8 +33,9 @@ class NavigatorBar extends StatelessWidget {
             label: "Setting",
           ),
         ],
+        currentIndex: ref.watch(bottomNavigationBarRouteProvider.notifier).state,
         onTap: (value) {
-          
+          ref.watch(bottomNavigationBarRouteProvider.notifier).state = value;
         },
       ),
     );

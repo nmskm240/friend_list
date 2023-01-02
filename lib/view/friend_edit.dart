@@ -16,7 +16,7 @@ class FriendEdit extends ConsumerWidget {
             icon: const Icon(Icons.check),
             onPressed: () {
               //TODO: edit process
-              ref.read(appRouteProvider.notifier).state = "/detail";
+              ref.read(appRouteProvider.notifier).state = "/friend/detail";
             },
           ),
         ],

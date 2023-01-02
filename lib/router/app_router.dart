@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:friend_list/provider/app_router_provider.dart';
 import 'package:friend_list/view/friend_detail.dart';
 import 'package:friend_list/view/friend_edit.dart';
-import 'package:friend_list/view/friend_list.dart';
+import 'package:friend_list/view/navigation_bar.dart';
 
 final _navigatorKey = GlobalKey<NavigatorState>();
 
@@ -23,14 +23,19 @@ class AppRouter extends RouterDelegate<Empty>
     return Navigator(
       key: navigatorKey,
       pages: [
-        const MaterialPage(child: FriendList()),
-        if ("/detail" == route) const MaterialPage(child: FriendDetail()),
-        if ("/edit" == route) const MaterialPage(child: FriendEdit()),
+        MaterialPage(child: NavigatorBar(ref)),
+        /* TODO: transitioning from the detail screen to the edit screen, 
+            when the user returns to the edit screen, 
+            the user is now redirected to the detail screen instead of the home screen.
+        */
+        if (route == "/friend/detail") const MaterialPage(child: FriendDetail()),
+        if (route == "/friend/edit") const MaterialPage(child: FriendEdit()),
       ],
       onPopPage: (route, result) {
         provider.state = '';
         return route.didPop(result);
       },
+      
     );
   }
 

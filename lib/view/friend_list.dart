@@ -15,7 +15,7 @@ class FriendList extends ConsumerWidget {
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: () {
-              ref.read(appRouteProvider.notifier).state = "/edit";
+              ref.read(appRouteProvider.notifier).state = "/friend/edit";
             },
           )
         ],
@@ -33,7 +33,7 @@ class FriendList extends ConsumerWidget {
                     child: Icon(Icons.person),
                   ),
                   onTap: () {
-                    ref.read(appRouteProvider.notifier).state = "/detail";
+                    ref.read(appRouteProvider.notifier).state = "/friend/detail";
                   },
                 );
               },
