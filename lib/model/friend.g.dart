@@ -7,9 +7,10 @@ part of 'friend.dart';
 // **************************************************************************
 
 _$_Friend _$$_FriendFromJson(Map<String, dynamic> json) => _$_Friend(
+      id: json['id'] as int?,
       name: json['name'] as String,
       nickname: json['nickname'] as String?,
-      iconPath: json['iconPath'] as String?,
+      icon: json['icon'] as String?,
       birthday: json['birthday'] == null
           ? null
           : DateTime.parse(json['birthday'] as String),
@@ -22,9 +23,10 @@ _$_Friend _$$_FriendFromJson(Map<String, dynamic> json) => _$_Friend(
     );
 
 Map<String, dynamic> _$$_FriendToJson(_$_Friend instance) => <String, dynamic>{
+      'id': instance.id,
       'name': instance.name,
       'nickname': instance.nickname,
-      'iconPath': instance.iconPath,
+      'icon': instance.icon,
       'birthday': instance.birthday?.toIso8601String(),
       'anniversaries': instance.anniversaries,
       'contacts': instance.contacts,

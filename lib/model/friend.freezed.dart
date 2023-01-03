@@ -20,9 +20,10 @@ Friend _$FriendFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Friend {
+  int? get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String? get nickname => throw _privateConstructorUsedError;
-  String? get iconPath => throw _privateConstructorUsedError;
+  String? get icon => throw _privateConstructorUsedError;
   DateTime? get birthday => throw _privateConstructorUsedError;
   List<Anniversary>? get anniversaries => throw _privateConstructorUsedError;
   List<Contact>? get contacts => throw _privateConstructorUsedError;
@@ -38,9 +39,10 @@ abstract class $FriendCopyWith<$Res> {
       _$FriendCopyWithImpl<$Res, Friend>;
   @useResult
   $Res call(
-      {String name,
+      {int? id,
+      String name,
       String? nickname,
-      String? iconPath,
+      String? icon,
       DateTime? birthday,
       List<Anniversary>? anniversaries,
       List<Contact>? contacts});
@@ -59,14 +61,19 @@ class _$FriendCopyWithImpl<$Res, $Val extends Friend>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = freezed,
     Object? name = null,
     Object? nickname = freezed,
-    Object? iconPath = freezed,
+    Object? icon = freezed,
     Object? birthday = freezed,
     Object? anniversaries = freezed,
     Object? contacts = freezed,
   }) {
     return _then(_value.copyWith(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -75,9 +82,9 @@ class _$FriendCopyWithImpl<$Res, $Val extends Friend>
           ? _value.nickname
           : nickname // ignore: cast_nullable_to_non_nullable
               as String?,
-      iconPath: freezed == iconPath
-          ? _value.iconPath
-          : iconPath // ignore: cast_nullable_to_non_nullable
+      icon: freezed == icon
+          ? _value.icon
+          : icon // ignore: cast_nullable_to_non_nullable
               as String?,
       birthday: freezed == birthday
           ? _value.birthday
@@ -102,9 +109,10 @@ abstract class _$$_FriendCopyWith<$Res> implements $FriendCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String name,
+      {int? id,
+      String name,
       String? nickname,
-      String? iconPath,
+      String? icon,
       DateTime? birthday,
       List<Anniversary>? anniversaries,
       List<Contact>? contacts});
@@ -120,14 +128,19 @@ class __$$_FriendCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = freezed,
     Object? name = null,
     Object? nickname = freezed,
-    Object? iconPath = freezed,
+    Object? icon = freezed,
     Object? birthday = freezed,
     Object? anniversaries = freezed,
     Object? contacts = freezed,
   }) {
     return _then(_$_Friend(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -136,9 +149,9 @@ class __$$_FriendCopyWithImpl<$Res>
           ? _value.nickname
           : nickname // ignore: cast_nullable_to_non_nullable
               as String?,
-      iconPath: freezed == iconPath
-          ? _value.iconPath
-          : iconPath // ignore: cast_nullable_to_non_nullable
+      icon: freezed == icon
+          ? _value.icon
+          : icon // ignore: cast_nullable_to_non_nullable
               as String?,
       birthday: freezed == birthday
           ? _value.birthday
@@ -160,9 +173,10 @@ class __$$_FriendCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Friend extends _Friend {
   const _$_Friend(
-      {required this.name,
+      {this.id,
+      required this.name,
       this.nickname,
-      this.iconPath,
+      this.icon,
       this.birthday,
       final List<Anniversary>? anniversaries,
       final List<Contact>? contacts})
@@ -174,11 +188,13 @@ class _$_Friend extends _Friend {
       _$$_FriendFromJson(json);
 
   @override
+  final int? id;
+  @override
   final String name;
   @override
   final String? nickname;
   @override
-  final String? iconPath;
+  final String? icon;
   @override
   final DateTime? birthday;
   final List<Anniversary>? _anniversaries;
@@ -203,7 +219,7 @@ class _$_Friend extends _Friend {
 
   @override
   String toString() {
-    return 'Friend(name: $name, nickname: $nickname, iconPath: $iconPath, birthday: $birthday, anniversaries: $anniversaries, contacts: $contacts)';
+    return 'Friend(id: $id, name: $name, nickname: $nickname, icon: $icon, birthday: $birthday, anniversaries: $anniversaries, contacts: $contacts)';
   }
 
   @override
@@ -211,11 +227,11 @@ class _$_Friend extends _Friend {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Friend &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.nickname, nickname) ||
                 other.nickname == nickname) &&
-            (identical(other.iconPath, iconPath) ||
-                other.iconPath == iconPath) &&
+            (identical(other.icon, icon) || other.icon == icon) &&
             (identical(other.birthday, birthday) ||
                 other.birthday == birthday) &&
             const DeepCollectionEquality()
@@ -227,9 +243,10 @@ class _$_Friend extends _Friend {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      id,
       name,
       nickname,
-      iconPath,
+      icon,
       birthday,
       const DeepCollectionEquality().hash(_anniversaries),
       const DeepCollectionEquality().hash(_contacts));
@@ -250,9 +267,10 @@ class _$_Friend extends _Friend {
 
 abstract class _Friend extends Friend {
   const factory _Friend(
-      {required final String name,
+      {final int? id,
+      required final String name,
       final String? nickname,
-      final String? iconPath,
+      final String? icon,
       final DateTime? birthday,
       final List<Anniversary>? anniversaries,
       final List<Contact>? contacts}) = _$_Friend;
@@ -261,11 +279,13 @@ abstract class _Friend extends Friend {
   factory _Friend.fromJson(Map<String, dynamic> json) = _$_Friend.fromJson;
 
   @override
+  int? get id;
+  @override
   String get name;
   @override
   String? get nickname;
   @override
-  String? get iconPath;
+  String? get icon;
   @override
   DateTime? get birthday;
   @override
