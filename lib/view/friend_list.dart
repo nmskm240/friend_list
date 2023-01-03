@@ -7,6 +7,7 @@ import 'package:friend_list/component/search_bar.dart';
 import 'package:friend_list/core/database/friend_database.dart';
 import 'package:friend_list/model/friend.dart';
 import 'package:friend_list/provider/app_router_provider.dart';
+import 'package:friend_list/provider/friend_select_provider.dart';
 
 class FriendList extends ConsumerWidget {
   const FriendList({Key? key}) : super(key: key);
@@ -44,6 +45,8 @@ class FriendList extends ConsumerWidget {
                     return FriendListTile(
                       data: snapshot.data!.elementAt(index),
                       onTap: () {
+                        ref.read(friendSelectProvider.notifier).state =
+                            snapshot.data!.elementAt(index).id!;
                         ref.read(appRouteProvider.notifier).state =
                             "/friend/detail";
                       },
