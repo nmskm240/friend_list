@@ -70,20 +70,9 @@ class FriendDatabase {
   Future<Friend> getAt(int id) async {
     var db = await database;
     var results = await db.query("friends", where: "id=?", whereArgs: [id]);
-    print(results);
-    return results.map(
-      (e) {
-        int? id = e["id"] as int?;
-        String name = e["name"] as String;
-        String? nickname = e["nickname"] as String?;
-        String? icon = e["icon"] as String?;
-        return Friend(
-          id: id,
-          name: name,
-          nickname: nickname,
-          icon: icon,
-        );
-      },
-    ).first;
+    if(results.isEmpty) {
+      throw Exception("The element with the specified ID does not exist.");
+    }
+    return Friend.fromJson(results.first);
   }
 }

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:friend_list/component/friend_list_tile.dart';
@@ -39,14 +37,21 @@ class FriendList extends ConsumerWidget {
                     child: CircularProgressIndicator.adaptive(),
                   );
                 }
+                if (snapshot.hasError) {
+                  //TODO: error handling
+                  return const Center(
+                    child: Text("ERROR"),
+                  );
+                }
                 return ListView.builder(
-                  itemCount: snapshot.data!.length,
+                  itemCount: snapshot.data?.length,
                   itemBuilder: (BuildContext context, int index) {
+                    var data = snapshot.data!.elementAt(index);
                     return FriendListTile(
-                      data: snapshot.data!.elementAt(index),
+                      data: data,
                       onTap: () {
                         ref.read(friendSelectProvider.notifier).state =
-                            snapshot.data!.elementAt(index).id!;
+                            data.id!;
                         ref.read(appRouteProvider.notifier).state =
                             "/friend/detail";
                       },
