@@ -14,19 +14,21 @@ class Contact with _$Contact {
 }
 
 enum ContactMethodType {
-  phone("Phone", "tel"),
-  address("Address", ""),
-  email("Email", "mailto"),
-  twitter("Twitter", "twitter:"),
-  facebook("Facebook", "facebook:"),
-  instagram("Instagram", "instagram:"),
+  phone("Phone", r"^0[-\d]{9,12}", "tel"),
+  address("Address", r"", ""),
+  email("Email", r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+", "mailto"),
+  twitter("Twitter", r"^[a-zA-Z0-9.a-zA-Z0-9_]", "twitter:"),
+  facebook("Facebook", r"^[a-zA-Z0-9.a-zA-Z0-9_]", "facebook:"),
+  instagram("Instagram", r"^[a-zA-Z0-9.a-zA-Z0-9_]", "instagram:"),
   ;
 
   final String name;
+  final String rule;
   final String uri;
 
   const ContactMethodType(
     this.name,
+    this.rule,
     this.uri,
   );
 }
