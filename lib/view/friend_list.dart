@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:friend_list/component/friend_list_tile.dart';
 import 'package:friend_list/component/search_bar.dart';
 import 'package:friend_list/core/database/friend_database.dart';
 import 'package:friend_list/model/friend.dart';
@@ -40,12 +41,8 @@ class FriendList extends ConsumerWidget {
                 return ListView.builder(
                   itemCount: snapshot.data!.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return ListTile(
-                      title: Text(snapshot.data!.elementAt(index).name),
-                      subtitle: Text(snapshot.data!.elementAt(index).nickname ?? ""),
-                      leading: CircleAvatar(
-                        backgroundImage: MemoryImage(base64Decode(snapshot.data!.elementAt(index).icon!)),
-                      ),
+                    return FriendListTile(
+                      data: snapshot.data!.elementAt(index),
                       onTap: () {
                         ref.read(appRouteProvider.notifier).state =
                             "/friend/detail";

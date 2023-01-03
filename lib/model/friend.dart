@@ -42,6 +42,6 @@ class Friend with _$Friend {
   }
 
   int? get age {
-    return AgeCalculator.age(birthday!).years;
+    return birthday == null ? null : AgeCalculator.age(birthday!).years;
   }
 }
