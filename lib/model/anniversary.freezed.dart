@@ -21,6 +21,7 @@ Anniversary _$AnniversaryFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Anniversary {
   String get name => throw _privateConstructorUsedError;
+  @DateTimeField()
   DateTime get date => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -35,7 +36,7 @@ abstract class $AnniversaryCopyWith<$Res> {
           Anniversary value, $Res Function(Anniversary) then) =
       _$AnniversaryCopyWithImpl<$Res, Anniversary>;
   @useResult
-  $Res call({String name, DateTime date});
+  $Res call({String name, @DateTimeField() DateTime date});
 }
 
 /// @nodoc
@@ -75,7 +76,7 @@ abstract class _$$_AnniversaryCopyWith<$Res>
       __$$_AnniversaryCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name, DateTime date});
+  $Res call({String name, @DateTimeField() DateTime date});
 }
 
 /// @nodoc
@@ -108,7 +109,8 @@ class __$$_AnniversaryCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_Anniversary implements _Anniversary {
-  const _$_Anniversary({required this.name, required this.date});
+  const _$_Anniversary(
+      {required this.name, @DateTimeField() required this.date});
 
   factory _$_Anniversary.fromJson(Map<String, dynamic> json) =>
       _$$_AnniversaryFromJson(json);
@@ -116,6 +118,7 @@ class _$_Anniversary implements _Anniversary {
   @override
   final String name;
   @override
+  @DateTimeField()
   final DateTime date;
 
   @override
@@ -153,7 +156,7 @@ class _$_Anniversary implements _Anniversary {
 abstract class _Anniversary implements Anniversary {
   const factory _Anniversary(
       {required final String name,
-      required final DateTime date}) = _$_Anniversary;
+      @DateTimeField() required final DateTime date}) = _$_Anniversary;
 
   factory _Anniversary.fromJson(Map<String, dynamic> json) =
       _$_Anniversary.fromJson;
@@ -161,6 +164,7 @@ abstract class _Anniversary implements Anniversary {
   @override
   String get name;
   @override
+  @DateTimeField()
   DateTime get date;
   @override
   @JsonKey(ignore: true)

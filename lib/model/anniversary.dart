@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:friend_list/util/datetime_field.dart';
 
 part 'anniversary.freezed.dart';
 part 'anniversary.g.dart';
@@ -7,7 +8,7 @@ part 'anniversary.g.dart';
 class Anniversary with _$Anniversary {
   const factory Anniversary({
     required String name,
-    required DateTime date,
+    @DateTimeField() required DateTime date,
   }) = _Anniversary;
   factory Anniversary.fromJson(Map<String, dynamic> json) =>
       _$AnniversaryFromJson(json);

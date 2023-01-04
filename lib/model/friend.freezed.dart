@@ -24,8 +24,11 @@ mixin _$Friend {
   String get name => throw _privateConstructorUsedError;
   String? get nickname => throw _privateConstructorUsedError;
   String? get icon => throw _privateConstructorUsedError;
+  @DateTimeField()
   DateTime? get birthday => throw _privateConstructorUsedError;
+  @AnniversaryListField()
   List<Anniversary>? get anniversaries => throw _privateConstructorUsedError;
+  @ContactListField()
   List<Contact>? get contacts => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -43,9 +46,9 @@ abstract class $FriendCopyWith<$Res> {
       String name,
       String? nickname,
       String? icon,
-      DateTime? birthday,
-      List<Anniversary>? anniversaries,
-      List<Contact>? contacts});
+      @DateTimeField() DateTime? birthday,
+      @AnniversaryListField() List<Anniversary>? anniversaries,
+      @ContactListField() List<Contact>? contacts});
 }
 
 /// @nodoc
@@ -113,9 +116,9 @@ abstract class _$$_FriendCopyWith<$Res> implements $FriendCopyWith<$Res> {
       String name,
       String? nickname,
       String? icon,
-      DateTime? birthday,
-      List<Anniversary>? anniversaries,
-      List<Contact>? contacts});
+      @DateTimeField() DateTime? birthday,
+      @AnniversaryListField() List<Anniversary>? anniversaries,
+      @ContactListField() List<Contact>? contacts});
 }
 
 /// @nodoc
@@ -177,9 +180,9 @@ class _$_Friend extends _Friend {
       required this.name,
       this.nickname,
       this.icon,
-      this.birthday,
-      final List<Anniversary>? anniversaries,
-      final List<Contact>? contacts})
+      @DateTimeField() this.birthday,
+      @AnniversaryListField() final List<Anniversary>? anniversaries,
+      @ContactListField() final List<Contact>? contacts})
       : _anniversaries = anniversaries,
         _contacts = contacts,
         super._();
@@ -196,9 +199,11 @@ class _$_Friend extends _Friend {
   @override
   final String? icon;
   @override
+  @DateTimeField()
   final DateTime? birthday;
   final List<Anniversary>? _anniversaries;
   @override
+  @AnniversaryListField()
   List<Anniversary>? get anniversaries {
     final value = _anniversaries;
     if (value == null) return null;
@@ -209,6 +214,7 @@ class _$_Friend extends _Friend {
 
   final List<Contact>? _contacts;
   @override
+  @ContactListField()
   List<Contact>? get contacts {
     final value = _contacts;
     if (value == null) return null;
@@ -271,9 +277,9 @@ abstract class _Friend extends Friend {
       required final String name,
       final String? nickname,
       final String? icon,
-      final DateTime? birthday,
-      final List<Anniversary>? anniversaries,
-      final List<Contact>? contacts}) = _$_Friend;
+      @DateTimeField() final DateTime? birthday,
+      @AnniversaryListField() final List<Anniversary>? anniversaries,
+      @ContactListField() final List<Contact>? contacts}) = _$_Friend;
   const _Friend._() : super._();
 
   factory _Friend.fromJson(Map<String, dynamic> json) = _$_Friend.fromJson;
@@ -287,10 +293,13 @@ abstract class _Friend extends Friend {
   @override
   String? get icon;
   @override
+  @DateTimeField()
   DateTime? get birthday;
   @override
+  @AnniversaryListField()
   List<Anniversary>? get anniversaries;
   @override
+  @ContactListField()
   List<Contact>? get contacts;
   @override
   @JsonKey(ignore: true)

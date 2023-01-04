@@ -11,15 +11,11 @@ _$_Friend _$$_FriendFromJson(Map<String, dynamic> json) => _$_Friend(
       name: json['name'] as String,
       nickname: json['nickname'] as String?,
       icon: json['icon'] as String?,
-      birthday: json['birthday'] == null
-          ? null
-          : DateTime.parse(json['birthday'] as String),
-      anniversaries: (json['anniversaries'] as List<dynamic>?)
-          ?.map((e) => Anniversary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      contacts: (json['contacts'] as List<dynamic>?)
-          ?.map((e) => Contact.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      birthday: const DateTimeField().fromJson(json['birthday'] as String?),
+      anniversaries: const AnniversaryListField()
+          .fromJson(json['anniversaries'] as List<Map<String, dynamic>>?),
+      contacts: const ContactListField()
+          .fromJson(json['contacts'] as List<Map<String, dynamic>>?),
     );
 
 Map<String, dynamic> _$$_FriendToJson(_$_Friend instance) => <String, dynamic>{
@@ -27,7 +23,8 @@ Map<String, dynamic> _$$_FriendToJson(_$_Friend instance) => <String, dynamic>{
       'name': instance.name,
       'nickname': instance.nickname,
       'icon': instance.icon,
-      'birthday': instance.birthday?.toIso8601String(),
-      'anniversaries': instance.anniversaries,
-      'contacts': instance.contacts,
+      'birthday': const DateTimeField().toJson(instance.birthday),
+      'anniversaries':
+          const AnniversaryListField().toJson(instance.anniversaries),
+      'contacts': const ContactListField().toJson(instance.contacts),
     };
