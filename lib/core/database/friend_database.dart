@@ -25,9 +25,27 @@ class FriendDatabase {
             name TEXT,
             nickname TEXT,
             icon TEXT,
-            birthday TEXT,
-            anniversary TEXT,
-            contact TEXT
+            birthday TEXT
+          )
+          ''');
+        await db.execute('''
+          CREATE TABLE IF NOT EXISTS Anniversaries (
+            id INTEGER AUTOINCREMENT,
+            name TEXT,
+            date TEXT,
+            friend_id INTEGER,
+            PRIMARY KEY (id, friend_id),
+            FOREIGN KEY (friend_id) REFERENCES Friends (id)
+          )
+          ''');
+        await db.execute('''
+          CREATE TABLE IF NOT EXISTS Contacts (
+            id INTEGER AUTOINCREMENT,
+            method TEXT,
+            value TEXT,
+            friend_id INTEGER,
+            PRIMARY KEY (id, friend_id),
+            FOREIGN KEY (friend_id) REFERENCES Friends (id)
           )
           ''');
       },
