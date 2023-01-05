@@ -1,13 +1,16 @@
+import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/widgets.dart';
 import 'package:friend_list/model/friend.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 class FriendDatabase {
-  FriendDatabase._();
-  static final FriendDatabase instance = FriendDatabase._();
+  @protected
+  FriendDatabase();
+  static final FriendDatabase instance = FriendDatabase();
 
   static Database? _database;
 
@@ -18,8 +21,13 @@ class FriendDatabase {
     return await openDatabase(
       path,
       version: 1,
-      onCreate: (db, version) async {
-        await db.execute('''
+      onCreate: onCreate,
+    );
+  }
+
+  @protected
+  FutureOr onCreate(Database db, int version) async {
+    await db.execute('''
           CREATE TABLE IF NOT EXISTS Friends (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT,
@@ -28,28 +36,24 @@ class FriendDatabase {
             birthday TEXT
           )
           ''');
-        await db.execute('''
+    await db.execute('''
           CREATE TABLE IF NOT EXISTS Anniversaries (
-            id INTEGER AUTOINCREMENT,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT,
             date TEXT,
             friend_id INTEGER,
-            PRIMARY KEY (id, friend_id),
             FOREIGN KEY (friend_id) REFERENCES Friends (id)
           )
           ''');
-        await db.execute('''
+    await db.execute('''
           CREATE TABLE IF NOT EXISTS Contacts (
-            id INTEGER AUTOINCREMENT,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             method TEXT,
             value TEXT,
             friend_id INTEGER,
-            PRIMARY KEY (id, friend_id),
             FOREIGN KEY (friend_id) REFERENCES Friends (id)
           )
           ''');
-      },
-    );
   }
 
   Future<String> tryGetPath() async {
@@ -66,7 +70,7 @@ class FriendDatabase {
     return path;
   }
 
-  Future<void> insert(Friend element) async {
+  Future<int> insert(Friend element) async {
     final db = await database;
     final friend = element.toJson();
     final anniversaries =
@@ -81,14 +85,14 @@ class FriendDatabase {
       e["friend_id"] = id;
       await db.insert("Contacts", e);
     });
+    return id;
   }
 
   Future<Iterable<Friend>> getAll() async {
     var db = await database;
     var results = await db.query("friends");
     return await Future.wait(results.map((e) {
-      final id = int.parse(e["id"] as String);
-      return getAt(id);
+      return getAt(e["id"] as int);
     }));
   }
 
@@ -98,7 +102,7 @@ class FriendDatabase {
     if (results.isEmpty) {
       throw Exception("The element with the specified ID does not exist.");
     }
-    final friend = results.first;
+    final friend = Map<String, dynamic>.from(results.first);
     final anniversaries =
         await db.query("Anniversaries", where: "friend_id=?", whereArgs: [id]);
     final contacts =
