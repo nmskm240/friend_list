@@ -66,6 +66,22 @@ class FriendDatabase {
     return path;
   }
 
+  Future<void> insert(Friend element) async {
+    final db = await database;
+    final friend = element.toJson();
+    final anniversaries = friend.remove("anniversaries") as List<Map<String, dynamic>>;
+    final contacts = friend.remove("contacts") as List<Map<String, dynamic>>;
+    final id = await db.insert("Friends", friend);
+    await Future.forEach(anniversaries, (Map<String, dynamic> e) async {
+      e["friend_id"] = id;
+      await db.insert("Anniversaries", e);
+    });
+    await Future.forEach(contacts, (Map<String, dynamic> e) async {
+      e["friend_id"] = id;
+      await db.insert("Contacts", e);
+    });
+  }
+
   Future<Iterable<Friend>> getAll() async {
     var db = await database;
     var results = await db.query("friends");
