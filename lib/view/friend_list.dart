@@ -50,8 +50,7 @@ class FriendList extends ConsumerWidget {
                     return FriendListTile(
                       data: data,
                       onTap: () {
-                        ref.read(friendSelectProvider.notifier).state =
-                            data.id!;
+                        ref.read(friendSelectProvider.notifier).state = data;
                         ref.read(appRouteProvider.notifier).state =
                             "/friend/detail";
                       },
