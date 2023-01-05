@@ -69,7 +69,8 @@ class FriendDatabase {
   Future<void> insert(Friend element) async {
     final db = await database;
     final friend = element.toJson();
-    final anniversaries = friend.remove("anniversaries") as List<Map<String, dynamic>>;
+    final anniversaries =
+        friend.remove("anniversaries") as List<Map<String, dynamic>>;
     final contacts = friend.remove("contacts") as List<Map<String, dynamic>>;
     final id = await db.insert("Friends", friend);
     await Future.forEach(anniversaries, (Map<String, dynamic> e) async {
@@ -85,28 +86,27 @@ class FriendDatabase {
   Future<Iterable<Friend>> getAll() async {
     var db = await database;
     var results = await db.query("friends");
-    return results.map(
-      (e) {
-        int? id = e["id"] as int?;
-        String name = e["name"] as String;
-        String? nickname = e["nickname"] as String?;
-        String? icon = e["icon"] as String?;
-        return Friend(
-          id: id,
-          name: name,
-          nickname: nickname,
-          icon: icon,
-        );
-      },
-    );
+    return await Future.wait(results.map((e) {
+      final id = int.parse(e["id"] as String);
+      return getAt(id);
+    }));
   }
 
   Future<Friend> getAt(int id) async {
     var db = await database;
     var results = await db.query("friends", where: "id=?", whereArgs: [id]);
-    if(results.isEmpty) {
+    if (results.isEmpty) {
       throw Exception("The element with the specified ID does not exist.");
     }
-    return Friend.fromJson(results.first);
+    final friend = results.first;
+    final anniversaries =
+        await db.query("Anniversaries", where: "friend_id=?", whereArgs: [id]);
+    final contacts =
+        await db.query("contacts", where: "friend_id=?", whereArgs: [id]);
+    friend.addAll({
+      "anniversaries": anniversaries,
+      "contacts": contacts,
+    });
+    return Friend.fromJson(friend);
   }
 }
