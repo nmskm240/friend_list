@@ -20,6 +20,7 @@ Anniversary _$AnniversaryFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Anniversary {
+  int? get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   @DateTimeField()
   DateTime get date => throw _privateConstructorUsedError;
@@ -36,7 +37,7 @@ abstract class $AnniversaryCopyWith<$Res> {
           Anniversary value, $Res Function(Anniversary) then) =
       _$AnniversaryCopyWithImpl<$Res, Anniversary>;
   @useResult
-  $Res call({String name, @DateTimeField() DateTime date});
+  $Res call({int? id, String name, @DateTimeField() DateTime date});
 }
 
 /// @nodoc
@@ -52,10 +53,15 @@ class _$AnniversaryCopyWithImpl<$Res, $Val extends Anniversary>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = freezed,
     Object? name = null,
     Object? date = null,
   }) {
     return _then(_value.copyWith(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -76,7 +82,7 @@ abstract class _$$_AnniversaryCopyWith<$Res>
       __$$_AnniversaryCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name, @DateTimeField() DateTime date});
+  $Res call({int? id, String name, @DateTimeField() DateTime date});
 }
 
 /// @nodoc
@@ -90,10 +96,15 @@ class __$$_AnniversaryCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = freezed,
     Object? name = null,
     Object? date = null,
   }) {
     return _then(_$_Anniversary(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -110,11 +121,13 @@ class __$$_AnniversaryCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Anniversary implements _Anniversary {
   const _$_Anniversary(
-      {required this.name, @DateTimeField() required this.date});
+      {this.id, required this.name, @DateTimeField() required this.date});
 
   factory _$_Anniversary.fromJson(Map<String, dynamic> json) =>
       _$$_AnniversaryFromJson(json);
 
+  @override
+  final int? id;
   @override
   final String name;
   @override
@@ -123,7 +136,7 @@ class _$_Anniversary implements _Anniversary {
 
   @override
   String toString() {
-    return 'Anniversary(name: $name, date: $date)';
+    return 'Anniversary(id: $id, name: $name, date: $date)';
   }
 
   @override
@@ -131,13 +144,14 @@ class _$_Anniversary implements _Anniversary {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Anniversary &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.date, date) || other.date == date));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, name, date);
+  int get hashCode => Object.hash(runtimeType, id, name, date);
 
   @JsonKey(ignore: true)
   @override
@@ -155,12 +169,15 @@ class _$_Anniversary implements _Anniversary {
 
 abstract class _Anniversary implements Anniversary {
   const factory _Anniversary(
-      {required final String name,
+      {final int? id,
+      required final String name,
       @DateTimeField() required final DateTime date}) = _$_Anniversary;
 
   factory _Anniversary.fromJson(Map<String, dynamic> json) =
       _$_Anniversary.fromJson;
 
+  @override
+  int? get id;
   @override
   String get name;
   @override

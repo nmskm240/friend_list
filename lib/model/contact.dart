@@ -8,6 +8,7 @@ part 'contact.g.dart';
 @freezed
 class Contact with _$Contact {
   const factory Contact({
+    int? id,
     required ContactMethodType method,
     required String value,
   }) = _Contact;
