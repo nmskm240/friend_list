@@ -1,11 +1,12 @@
 import 'package:flutter/widgets.dart';
+import 'package:friend_list/infrastructure/database/app_database.dart';
 import 'package:friend_list/infrastructure/database/friend_database.dart';
 import 'package:friend_list/model/friend.dart';
 import 'package:friend_list/repository/friend_repository.dart';
 
 class LocalDatabaseFriendRepository implements FreindRepository {
   @protected
-  final FriendDatabase database;
+  final AppDatabase<Friend> database;
 
   LocalDatabaseFriendRepository() : database = FriendDatabase();
 

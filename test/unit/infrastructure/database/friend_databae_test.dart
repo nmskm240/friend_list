@@ -25,7 +25,7 @@ class FriendDatabaseMock extends FriendDatabase {
 }
 
 void main() {
-  int id = 1;
+  int id = 14;
   test("insert", () async {
     final friend = Friend(
       name: "Test Friend",
@@ -62,6 +62,7 @@ void main() {
     final friend = await database.getAt(id);
     expect(friend.name, "Test Friend");
     expect(friend.anniversaries?.length, 1);
+    print(friend);
   });
 
   test("update", () async {

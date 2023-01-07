@@ -1,0 +1,44 @@
+@startuml
+
+package view {}
+
+package viewModel {}
+
+package model {
+    class Anniversary
+    class Contact
+    class Friend
+}
+
+package repository {
+    interface FriendRepository
+    class LocalDatabaseFriendRepository
+}
+
+package infrastructure {
+    package database {
+        class AnniversaryTable
+        abstract AppDatabase
+        class ContactTable
+        class FriendDatabase
+        class FriendTable
+        abstract Table
+    }
+}
+
+Friend "1" --> "*" Anniversary
+Friend "1" --> "*" Contact
+
+FriendRepository .up.> Friend
+
+FriendRepository <|.. LocalDatabaseFriendRepository
+
+LocalDatabaseFriendRepository --> AppDatabase
+
+AppDatabase <|-- FriendDatabase
+Table <|-- AnniversaryTable
+Table <|-- ContactTable
+Table <|-- FriendTable
+AppDatabase "1" --> "*" Table
+
+@enduml

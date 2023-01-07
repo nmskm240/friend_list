@@ -11,5 +11,5 @@ abstract class Table {
   FutureOr<void>? onCreate(Database database, int version);
   FutureOr<void>? onUpgrade(Database database, int oldVersion, int currentVersion);
   FutureOr<void>? onDowngrade(Database database, int oldVersion, int currentVersion);
-  FutureOr<void>?  onOpen(Database database);
+  FutureOr<void>? onOpen(Database database);
 }
