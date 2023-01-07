@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:friend_list/provider/app_router_provider.dart';
-import 'package:friend_list/view/friend_detail.dart';
-import 'package:friend_list/view/friend_edit.dart';
-import 'package:friend_list/view/navigation_bar.dart';
+import 'package:friend_list/view/page/friend_detail.dart';
+import 'package:friend_list/view/page/friend_edit.dart';
+import 'package:friend_list/view/page/navigation_bar.dart';
 
 final _navigatorKey = GlobalKey<NavigatorState>();
 

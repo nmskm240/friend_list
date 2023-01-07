@@ -1,8 +1,16 @@
 @startuml
 
-package view {}
+package view {
+    package page {
+        class FriendDetail
+        class FriendEdit
+        class FriendList
+    }
+}
 
-package viewModel {}
+package viewModel {
+    class FriendViewModel
+}
 
 package model {
     class Anniversary
@@ -25,6 +33,13 @@ package infrastructure {
         abstract Table
     }
 }
+
+FriendDetail ..> FriendViewModel
+FriendEdit ..> FriendViewModel
+FriendList ..> FriendViewModel
+
+FriendViewModel ..> Friend
+FriendViewModel --> FriendRepository
 
 Friend "1" --> "*" Anniversary
 Friend "1" --> "*" Contact
