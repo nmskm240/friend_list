@@ -5,16 +5,16 @@ import 'package:friend_list/model/friend.dart';
 import 'package:friend_list/repository/friend_repository.dart';
 import 'package:friend_list/repository/local_database_friend_repository.dart';
 
-final friendViewModelProvider =
-    ChangeNotifierProvider((ref) => FriendViewModel());
+final friendListViewModelProvider =
+    ChangeNotifierProvider((ref) => FriendListViewModel());
 
-class FriendViewModel extends ChangeNotifier {
+class FriendListViewModel extends ChangeNotifier {
   List<Friend> _friends = [];
   final FreindRepository _repository;
 
   Iterable<Friend> get friends => _friends;
 
-  FriendViewModel({FreindRepository? repository})
+  FriendListViewModel({FreindRepository? repository})
       : _repository = repository ?? LocalDatabaseFriendRepository();
 
   Future<void> refresh() async {

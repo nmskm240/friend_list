@@ -13,7 +13,7 @@ package component {
 }
 
 package viewModel {
-    class FriendViewModel
+    class FriendListViewModel
 }
 
 package model {
@@ -38,14 +38,12 @@ package infrastructure {
     }
 }
 
-FriendDetail ..> FriendViewModel
-FriendEdit ..> FriendViewModel
-FriendList ..> FriendViewModel
+FriendList ..> FriendListViewModel
 
 FriendEdit ..> FormBuilderCircleAvatar
 
-FriendViewModel ..> Friend
-FriendViewModel --> FriendRepository
+FriendListViewModel ..> Friend
+FriendListViewModel --> FriendRepository
 
 Friend "1" --> "*" Anniversary
 Friend "1" --> "*" Contact
