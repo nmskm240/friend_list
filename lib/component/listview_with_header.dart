@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class ListViewWithHeader extends StatelessWidget {
-  String title;
-  List<Widget> children;
-  Widget? trailing;
+  final String title;
+  final List<Widget> children;
+  final Widget? trailing;
 
-  ListViewWithHeader({
+  const ListViewWithHeader({
     Key? key,
     required this.title,
     required this.children,
