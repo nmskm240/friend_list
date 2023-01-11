@@ -5,7 +5,7 @@ import 'package:friend_list/component/dialog/confirm_dialog.dart';
 import 'package:friend_list/model/anniversary.dart';
 import 'package:friend_list/model/contact.dart';
 
-final friendEditProvider =
+final friendEditViewModelProvider =
     ChangeNotifierProvider((ref) => FriendEditViewModel());
 
 class FriendEditViewModel extends ChangeNotifier {

@@ -38,13 +38,12 @@ package infrastructure {
 FriendList ..> FriendListViewModel
 FriendEdit ..> FriendEditViewModel
 
-FriendListViewModel ..> Friend
 FriendListViewModel --> FriendRepository
 
 Friend "1" --> "*" Anniversary
 Friend "1" --> "*" Contact
 
-FriendRepository .up.> Friend
+FriendRepository ..> Friend
 
 FriendRepository <|.. LocalDatabaseFriendRepository
 
