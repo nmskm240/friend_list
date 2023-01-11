@@ -12,6 +12,25 @@ class ListViewWithHeader extends StatelessWidget {
     this.trailing,
   }) : super(key: key);
 
+  factory ListViewWithHeader.builder({
+    Key? key,
+    required BuildContext context,
+    required String title,
+    required int itemCount,
+    required Function(BuildContext context, int index) itemBuilder,
+    Widget? trailing,
+  }) {
+    final List<Widget> children = [];
+    for (var i = 0; i < itemCount; i++) {
+      children.add(itemBuilder(context, i));
+    }
+    return ListViewWithHeader(
+      title: title,
+      trailing: trailing,
+      children: children,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var header = SizedBox(
@@ -21,7 +40,9 @@ class ListViewWithHeader extends StatelessWidget {
         trailing: trailing,
       ),
     );
-    return Column(
+    return ListView(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       children: [header, ...children],
     );
   }

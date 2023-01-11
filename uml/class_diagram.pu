@@ -8,12 +8,9 @@ package view {
     }
 }
 
-package component {
-    class FormBuilderCircleAvatar
-}
-
 package viewModel {
     class FriendListViewModel
+    class FriendEditViewModel
 }
 
 package model {
@@ -39,8 +36,7 @@ package infrastructure {
 }
 
 FriendList ..> FriendListViewModel
-
-FriendEdit ..> FormBuilderCircleAvatar
+FriendEdit ..> FriendEditViewModel
 
 FriendListViewModel ..> Friend
 FriendListViewModel --> FriendRepository
