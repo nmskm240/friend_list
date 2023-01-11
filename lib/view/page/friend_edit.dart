@@ -102,33 +102,35 @@ class FriendEdit extends ConsumerWidget {
               },
             ),
             const Divider(),
-            ListViewWithHeader(
+            ListViewWithHeader.builder(
+              context: context,
               title: "Contact",
               trailing: IconButton(
                 icon: const Icon(Icons.add),
-                onPressed: () {
+                onPressed: () async {
                   // TODO: add process
+                  await viewmodel.createContact(context);
                 },
               ),
-              children: <Widget>[
-                ListTile(
+              itemCount: viewmodel.contacts.length,
+              itemBuilder: (context, index) {
+                final contact = viewmodel.contacts.elementAt(index);
+                return ListTile(
                   title: FormBuilderTextField(
-                    name: "",
-                    decoration: const InputDecoration(
-                      label: Text("Phone"),
+                    name: 'contacts.${contact.method.name}',
+                    decoration: InputDecoration(
+                      label: Text(contact.method.name),
                     ),
-                    controller: TextEditingController(
-                      text: "000-0000-0000",
-                    ),
+                    initialValue: contact.value,
                   ),
                   trailing: IconButton(
                     icon: const Icon(Icons.delete),
-                    onPressed: () {
-                      // TODO: delete process
+                    onPressed: () async {
+                      await viewmodel.deleteContact(context, contact);
                     },
                   ),
-                ),
-              ],
+                );
+              },
             ),
             const Divider(),
             ListViewWithHeader(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:friend_list/component/dialog/anniversary_form_dialog.dart';
 import 'package:friend_list/component/dialog/confirm_dialog.dart';
+import 'package:friend_list/component/dialog/contact_form_dialog.dart';
 import 'package:friend_list/model/anniversary.dart';
 import 'package:friend_list/model/contact.dart';
 
@@ -13,7 +14,7 @@ class FriendEditViewModel extends ChangeNotifier {
   final List<Contact> _contacts;
 
   Iterable<Anniversary> get anniversaries => _anniversaries;
-  Iterable<Contact> get contact => _contacts;
+  Iterable<Contact> get contacts => _contacts;
 
   FriendEditViewModel({
     List<Anniversary>? anniversaries,
@@ -38,6 +39,26 @@ class FriendEditViewModel extends ChangeNotifier {
         .show(context);
     if (isAccept) {
       _anniversaries.remove(anniversary);
+      notifyListeners();
+    }
+  }
+
+  Future<void> createContact(BuildContext context) async {
+    final json = await ContactFormDialog().show(context);
+    if (json == null) {
+      return;
+    }
+    final newContact = Contact(method: json["method"], value: json["value"]);
+    _contacts.add(newContact);
+    notifyListeners();
+  }
+
+  Future<void> deleteContact(BuildContext context, Contact contact) async {
+    final isAccept = await ConfirmDialog(
+            "Confirm", "Do you want to delete the ${contact.method.name} ?")
+        .show(context);
+    if (isAccept) {
+      _contacts.remove(contact);
       notifyListeners();
     }
   }
