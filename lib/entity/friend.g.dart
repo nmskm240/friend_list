@@ -9,13 +9,11 @@ part of 'friend.dart';
 _$_Friend _$$_FriendFromJson(Map<String, dynamic> json) => _$_Friend(
       id: json['id'] as int?,
       name: json['name'] as String,
-      nickname: json['nickname'] as String?,
-      icon: json['icon'] as String?,
+      nickname: json['nickname'] as String? ?? "",
+      icon: json['icon'] as String? ?? "",
       birthday: const DateTimeField().fromJson(json['birthday'] as String?),
-      anniversaries: const AnniversaryListField()
-          .fromJson(json['anniversaries'] as List<Map<String, dynamic>>?),
-      contacts: const ContactListField()
-          .fromJson(json['contacts'] as List<Map<String, dynamic>>?),
+      createdAt: const CreatedAtField().fromJson(json['created_at'] as String?),
+      updatedAt: const UpdatedAtField().fromJson(json['updated_at'] as String?),
     );
 
 Map<String, dynamic> _$$_FriendToJson(_$_Friend instance) => <String, dynamic>{
@@ -24,7 +22,6 @@ Map<String, dynamic> _$$_FriendToJson(_$_Friend instance) => <String, dynamic>{
       'nickname': instance.nickname,
       'icon': instance.icon,
       'birthday': const DateTimeField().toJson(instance.birthday),
-      'anniversaries':
-          const AnniversaryListField().toJson(instance.anniversaries),
-      'contacts': const ContactListField().toJson(instance.contacts),
+      'created_at': const CreatedAtField().toJson(instance.createdAt),
+      'updated_at': const UpdatedAtField().toJson(instance.updatedAt),
     };

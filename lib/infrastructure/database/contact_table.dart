@@ -4,7 +4,7 @@ import 'package:friend_list/infrastructure/database/table.dart';
 import 'package:sqflite/sqflite.dart';
 
 class ContactTable extends Table {
-  const ContactTable() : super("Contacts");
+  const ContactTable() : super("contacts");
 
   @override
   FutureOr<void>? onConfigure(Database database) {}
@@ -16,8 +16,7 @@ class ContactTable extends Table {
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             method TEXT,
             value TEXT,
-            friend_id INTEGER,
-            FOREIGN KEY (friend_id) REFERENCES Friends (id)
+            friend_id TEXT
           )
           ''');
   }

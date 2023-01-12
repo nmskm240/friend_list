@@ -4,7 +4,7 @@ import 'package:friend_list/infrastructure/database/table.dart';
 import 'package:sqflite/sqflite.dart';
 
 class AnniversaryTable extends Table {
-  const AnniversaryTable() : super("Anniversaries");
+  const AnniversaryTable() : super("anniversaries");
 
   @override
   FutureOr<void>? onConfigure(Database database) {}
@@ -16,8 +16,7 @@ class AnniversaryTable extends Table {
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT,
             date TEXT,
-            friend_id INTEGER,
-            FOREIGN KEY (friend_id) REFERENCES Friends (id)
+            friend_id TEXT
           )
           ''');
   }

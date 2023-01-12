@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:friend_list/model/friend.dart';
+import 'package:friend_list/entity/friend.dart';
 import 'package:intl/intl.dart';
 
 class FriendListTile extends ConsumerWidget {
@@ -18,9 +18,9 @@ class FriendListTile extends ConsumerWidget {
     return ListTile(
       key: key,
       title: Text(data.name),
-      subtitle: Text(data.nickname ?? ""),
+      subtitle: Text(data.nickname),
       leading: CircleAvatar(
-        backgroundImage: MemoryImage(base64Decode(data.icon!)),
+        backgroundImage: MemoryImage(base64Decode(data.icon)),
       ),
       trailing: Column(
         crossAxisAlignment: CrossAxisAlignment.end,

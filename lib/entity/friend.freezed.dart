@@ -22,14 +22,16 @@ Friend _$FriendFromJson(Map<String, dynamic> json) {
 mixin _$Friend {
   int? get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  String? get nickname => throw _privateConstructorUsedError;
-  String? get icon => throw _privateConstructorUsedError;
+  String get nickname => throw _privateConstructorUsedError;
+  String get icon => throw _privateConstructorUsedError;
   @DateTimeField()
   DateTime? get birthday => throw _privateConstructorUsedError;
-  @AnniversaryListField()
-  List<Anniversary>? get anniversaries => throw _privateConstructorUsedError;
-  @ContactListField()
-  List<Contact>? get contacts => throw _privateConstructorUsedError;
+  @CreatedAtField()
+  @JsonKey(name: "created_at")
+  DateTime? get createdAt => throw _privateConstructorUsedError;
+  @UpdatedAtField()
+  @JsonKey(name: "updated_at")
+  DateTime? get updatedAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -44,11 +46,11 @@ abstract class $FriendCopyWith<$Res> {
   $Res call(
       {int? id,
       String name,
-      String? nickname,
-      String? icon,
+      String nickname,
+      String icon,
       @DateTimeField() DateTime? birthday,
-      @AnniversaryListField() List<Anniversary>? anniversaries,
-      @ContactListField() List<Contact>? contacts});
+      @CreatedAtField() @JsonKey(name: "created_at") DateTime? createdAt,
+      @UpdatedAtField() @JsonKey(name: "updated_at") DateTime? updatedAt});
 }
 
 /// @nodoc
@@ -66,11 +68,11 @@ class _$FriendCopyWithImpl<$Res, $Val extends Friend>
   $Res call({
     Object? id = freezed,
     Object? name = null,
-    Object? nickname = freezed,
-    Object? icon = freezed,
+    Object? nickname = null,
+    Object? icon = null,
     Object? birthday = freezed,
-    Object? anniversaries = freezed,
-    Object? contacts = freezed,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -81,26 +83,26 @@ class _$FriendCopyWithImpl<$Res, $Val extends Friend>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      nickname: freezed == nickname
+      nickname: null == nickname
           ? _value.nickname
           : nickname // ignore: cast_nullable_to_non_nullable
-              as String?,
-      icon: freezed == icon
+              as String,
+      icon: null == icon
           ? _value.icon
           : icon // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       birthday: freezed == birthday
           ? _value.birthday
           : birthday // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      anniversaries: freezed == anniversaries
-          ? _value.anniversaries
-          : anniversaries // ignore: cast_nullable_to_non_nullable
-              as List<Anniversary>?,
-      contacts: freezed == contacts
-          ? _value.contacts
-          : contacts // ignore: cast_nullable_to_non_nullable
-              as List<Contact>?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      updatedAt: freezed == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
   }
 }
@@ -114,11 +116,11 @@ abstract class _$$_FriendCopyWith<$Res> implements $FriendCopyWith<$Res> {
   $Res call(
       {int? id,
       String name,
-      String? nickname,
-      String? icon,
+      String nickname,
+      String icon,
       @DateTimeField() DateTime? birthday,
-      @AnniversaryListField() List<Anniversary>? anniversaries,
-      @ContactListField() List<Contact>? contacts});
+      @CreatedAtField() @JsonKey(name: "created_at") DateTime? createdAt,
+      @UpdatedAtField() @JsonKey(name: "updated_at") DateTime? updatedAt});
 }
 
 /// @nodoc
@@ -133,11 +135,11 @@ class __$$_FriendCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? name = null,
-    Object? nickname = freezed,
-    Object? icon = freezed,
+    Object? nickname = null,
+    Object? icon = null,
     Object? birthday = freezed,
-    Object? anniversaries = freezed,
-    Object? contacts = freezed,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
   }) {
     return _then(_$_Friend(
       id: freezed == id
@@ -148,26 +150,26 @@ class __$$_FriendCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      nickname: freezed == nickname
+      nickname: null == nickname
           ? _value.nickname
           : nickname // ignore: cast_nullable_to_non_nullable
-              as String?,
-      icon: freezed == icon
+              as String,
+      icon: null == icon
           ? _value.icon
           : icon // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       birthday: freezed == birthday
           ? _value.birthday
           : birthday // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      anniversaries: freezed == anniversaries
-          ? _value._anniversaries
-          : anniversaries // ignore: cast_nullable_to_non_nullable
-              as List<Anniversary>?,
-      contacts: freezed == contacts
-          ? _value._contacts
-          : contacts // ignore: cast_nullable_to_non_nullable
-              as List<Contact>?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      updatedAt: freezed == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -178,14 +180,12 @@ class _$_Friend extends _Friend {
   const _$_Friend(
       {this.id,
       required this.name,
-      this.nickname,
-      this.icon,
+      this.nickname = "",
+      this.icon = "",
       @DateTimeField() this.birthday,
-      @AnniversaryListField() final List<Anniversary>? anniversaries,
-      @ContactListField() final List<Contact>? contacts})
-      : _anniversaries = anniversaries,
-        _contacts = contacts,
-        super._();
+      @CreatedAtField() @JsonKey(name: "created_at") this.createdAt,
+      @UpdatedAtField() @JsonKey(name: "updated_at") this.updatedAt})
+      : super._();
 
   factory _$_Friend.fromJson(Map<String, dynamic> json) =>
       _$$_FriendFromJson(json);
@@ -195,37 +195,26 @@ class _$_Friend extends _Friend {
   @override
   final String name;
   @override
-  final String? nickname;
+  @JsonKey()
+  final String nickname;
   @override
-  final String? icon;
+  @JsonKey()
+  final String icon;
   @override
   @DateTimeField()
   final DateTime? birthday;
-  final List<Anniversary>? _anniversaries;
   @override
-  @AnniversaryListField()
-  List<Anniversary>? get anniversaries {
-    final value = _anniversaries;
-    if (value == null) return null;
-    if (_anniversaries is EqualUnmodifiableListView) return _anniversaries;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
-  final List<Contact>? _contacts;
+  @CreatedAtField()
+  @JsonKey(name: "created_at")
+  final DateTime? createdAt;
   @override
-  @ContactListField()
-  List<Contact>? get contacts {
-    final value = _contacts;
-    if (value == null) return null;
-    if (_contacts is EqualUnmodifiableListView) return _contacts;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
+  @UpdatedAtField()
+  @JsonKey(name: "updated_at")
+  final DateTime? updatedAt;
 
   @override
   String toString() {
-    return 'Friend(id: $id, name: $name, nickname: $nickname, icon: $icon, birthday: $birthday, anniversaries: $anniversaries, contacts: $contacts)';
+    return 'Friend(id: $id, name: $name, nickname: $nickname, icon: $icon, birthday: $birthday, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -240,22 +229,16 @@ class _$_Friend extends _Friend {
             (identical(other.icon, icon) || other.icon == icon) &&
             (identical(other.birthday, birthday) ||
                 other.birthday == birthday) &&
-            const DeepCollectionEquality()
-                .equals(other._anniversaries, _anniversaries) &&
-            const DeepCollectionEquality().equals(other._contacts, _contacts));
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      name,
-      nickname,
-      icon,
-      birthday,
-      const DeepCollectionEquality().hash(_anniversaries),
-      const DeepCollectionEquality().hash(_contacts));
+      runtimeType, id, name, nickname, icon, birthday, createdAt, updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -275,11 +258,16 @@ abstract class _Friend extends Friend {
   const factory _Friend(
       {final int? id,
       required final String name,
-      final String? nickname,
-      final String? icon,
-      @DateTimeField() final DateTime? birthday,
-      @AnniversaryListField() final List<Anniversary>? anniversaries,
-      @ContactListField() final List<Contact>? contacts}) = _$_Friend;
+      final String nickname,
+      final String icon,
+      @DateTimeField()
+          final DateTime? birthday,
+      @CreatedAtField()
+      @JsonKey(name: "created_at")
+          final DateTime? createdAt,
+      @UpdatedAtField()
+      @JsonKey(name: "updated_at")
+          final DateTime? updatedAt}) = _$_Friend;
   const _Friend._() : super._();
 
   factory _Friend.fromJson(Map<String, dynamic> json) = _$_Friend.fromJson;
@@ -289,18 +277,20 @@ abstract class _Friend extends Friend {
   @override
   String get name;
   @override
-  String? get nickname;
+  String get nickname;
   @override
-  String? get icon;
+  String get icon;
   @override
   @DateTimeField()
   DateTime? get birthday;
   @override
-  @AnniversaryListField()
-  List<Anniversary>? get anniversaries;
+  @CreatedAtField()
+  @JsonKey(name: "created_at")
+  DateTime? get createdAt;
   @override
-  @ContactListField()
-  List<Contact>? get contacts;
+  @UpdatedAtField()
+  @JsonKey(name: "updated_at")
+  DateTime? get updatedAt;
   @override
   @JsonKey(ignore: true)
   _$$_FriendCopyWith<_$_Friend> get copyWith =>

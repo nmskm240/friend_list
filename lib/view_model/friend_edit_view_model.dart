@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:friend_list/component/dialog/anniversary_form_dialog.dart';
 import 'package:friend_list/component/dialog/confirm_dialog.dart';
 import 'package:friend_list/component/dialog/contact_form_dialog.dart';
-import 'package:friend_list/model/anniversary.dart';
-import 'package:friend_list/model/contact.dart';
+import 'package:friend_list/entity/anniversary.dart';
+import 'package:friend_list/entity/contact.dart';
 
 final friendEditViewModelProvider =
     ChangeNotifierProvider((ref) => FriendEditViewModel());
@@ -27,8 +27,8 @@ class FriendEditViewModel extends ChangeNotifier {
     if (json == null) {
       return;
     }
-    final newAnniversary = Anniversary(name: json["name"], date: json["date"]);
-    _anniversaries.add(newAnniversary);
+    // final newAnniversary = Anniversary(name: json["name"], date: json["date"]);
+    // _anniversaries.add(newAnniversary);
     notifyListeners();
   }
 
@@ -48,8 +48,8 @@ class FriendEditViewModel extends ChangeNotifier {
     if (json == null) {
       return;
     }
-    final newContact = Contact(method: json["method"], value: json["value"]);
-    _contacts.add(newContact);
+    // final newContact = Contact(method: json["method"], value: json["value"]);
+    // _contacts.add(newContact);
     notifyListeners();
   }
 

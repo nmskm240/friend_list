@@ -13,15 +13,24 @@ package viewModel {
     class FriendEditViewModel
 }
 
-package model {
+package usecase {
+    class FriendListShow
+}
+
+
+package repository {
+    interface AnniversaryRepository
+    interface ContactRepository
+    interface FriendRepository
+    class LocalDatabaseAnniversaryRepository
+    class LocalDatabaseContactRepository
+    class LocalDatabaseFriendRepository
+}
+
+package entity {
     class Anniversary
     class Contact
     class Friend
-}
-
-package repository {
-    interface FriendRepository
-    class LocalDatabaseFriendRepository
 }
 
 package infrastructure {
@@ -38,15 +47,20 @@ package infrastructure {
 FriendList ..> FriendListViewModel
 FriendEdit ..> FriendEditViewModel
 
-FriendListViewModel --> FriendRepository
+FriendListViewModel ..> FriendListShow
 
-Friend "1" --> "*" Anniversary
-Friend "1" --> "*" Contact
+FriendListShow ..> FriendRepository
 
-FriendRepository ..> Friend
+Anniversary <-- AnniversaryRepository
+Contact <-- ContactRepository
+Friend <-- FriendRepository
 
+AnniversaryRepository <|.. LocalDatabaseAnniversaryRepository
+ContactRepository <|.. LocalDatabaseContactRepository
 FriendRepository <|.. LocalDatabaseFriendRepository
 
+LocalDatabaseAnniversaryRepository --> AppDatabase
+LocalDatabaseContactRepository --> AppDatabase
 LocalDatabaseFriendRepository --> AppDatabase
 
 AppDatabase <|-- FriendDatabase

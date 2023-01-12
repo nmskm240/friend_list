@@ -4,7 +4,7 @@ import 'package:friend_list/infrastructure/database/table.dart';
 import 'package:sqflite/sqflite.dart';
 
 class FriendTable extends Table {
-  const FriendTable() : super("Friends");
+  const FriendTable() : super("friends");
 
   @override
   FutureOr<void>? onConfigure(Database database) {}
@@ -17,7 +17,9 @@ class FriendTable extends Table {
             name TEXT,
             nickname TEXT,
             icon TEXT,
-            birthday TEXT
+            birthday TEXT,
+            created_at TEXT,
+            updated_at TEXT
           )
           ''');
   }

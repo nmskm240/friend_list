@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:friend_list/component/dialog/form_dialog.dart';
-import 'package:friend_list/model/contact.dart';
+import 'package:friend_list/entity/contact.dart';
 
 class ContactFormDialog extends FormDialog {
   late ContactMethodType method;

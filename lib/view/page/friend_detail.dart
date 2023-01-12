@@ -33,15 +33,15 @@ class FriendDetail extends ConsumerWidget {
                   children: <Widget>[
                     CircleAvatar(
                       radius: 70,
-                      backgroundImage: MemoryImage(base64Decode(data!.icon!)),
+                      backgroundImage: MemoryImage(base64Decode(data!.icon)),
                     ),
                     Text(
                       data.name,
                       style: Theme.of(context).textTheme.headlineMedium,
                     ),
-                    if (data.nickname != null)
+                    if (data.nickname.isNotEmpty)
                       Text(
-                        data.nickname!,
+                        data.nickname,
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
                     if (data.age != null)
@@ -57,22 +57,22 @@ class FriendDetail extends ConsumerWidget {
           SliverList(
             delegate: SliverChildListDelegate(
               [
-                Card(
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: data.contacts?.length ?? 0,
-                    itemBuilder: (context, index) {
-                      return IconButton(
-                        icon: FaIcon(
-                          data.contacts!.elementAt(index).method.icon,
-                        ),
-                        onPressed: () {
-                          // TODO: other app open
-                        },
-                      );
-                    },
-                  ),
-                ),
+                // Card(
+                //   child: ListView.builder(
+                //     scrollDirection: Axis.horizontal,
+                //     itemCount: data.contacts?.length ?? 0,
+                //     itemBuilder: (context, index) {
+                //       return IconButton(
+                //         icon: FaIcon(
+                //           data.contacts!.elementAt(index).method.icon,
+                //         ),
+                //         onPressed: () {
+                //           // TODO: other app open
+                //         },
+                //       );
+                //     },
+                //   ),
+                // ),
                 Card(
                   child: ListViewWithHeader(
                     title: "Anniversary",

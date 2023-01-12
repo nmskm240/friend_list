@@ -1,4 +1,4 @@
-import 'package:friend_list/model/friend.dart';
+import 'package:friend_list/entity/friend.dart';
 
 abstract class FreindRepository {
   Future<Friend> save(Friend friend);
