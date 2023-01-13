@@ -3,7 +3,7 @@ import 'package:friend_list/entity/contact.dart';
 import 'package:friend_list/infrastructure/database/app_database.dart';
 import 'package:friend_list/repository/contact_repository.dart';
 
-class LocalDatabaseContactRepository implements ContactRepository {
+class ContactRepositoryByLocalDatabase implements ContactRepository {
   @override
   Future<void> deleteByID(int id) async {
     final db = await AppDatabase.instance.database;

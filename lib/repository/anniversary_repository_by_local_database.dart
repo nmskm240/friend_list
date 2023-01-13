@@ -3,7 +3,7 @@ import 'package:friend_list/entity/anniversary.dart';
 import 'package:friend_list/infrastructure/database/app_database.dart';
 import 'package:friend_list/repository/anniversary_repository.dart';
 
-class LocalDatabaseAnniversaryRepository implements AnniversaryRepository {
+class AnniversaryRepositoryByLocalDatabase implements AnniversaryRepository {
   @override
   Future<void> deleteByID(int id) async {
     final db = await AppDatabase.instance.database;

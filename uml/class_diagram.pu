@@ -22,15 +22,15 @@ package repository {
     interface AnniversaryRepository
     interface ContactRepository
     interface FriendRepository
-    class LocalDatabaseAnniversaryRepository
-    class LocalDatabaseContactRepository
-    class LocalDatabaseFriendRepository
+    class AnniversaryRepositoryByLocalDatabase
+    class ContactRepositoryByLocalDatabase
+    class FriendRepositoryByLocalDatabase
 }
 
 package entity {
-    class Anniversary
-    class Contact
-    class Friend
+    class Anniversary<<freezed>>
+    class Contact<<freezed>>
+    class Friend<<freezed>>
 }
 
 package infrastructure {
@@ -54,13 +54,13 @@ Anniversary <-- AnniversaryRepository
 Contact <-- ContactRepository
 Friend <-- FriendRepository
 
-AnniversaryRepository <|.. LocalDatabaseAnniversaryRepository
-ContactRepository <|.. LocalDatabaseContactRepository
-FriendRepository <|.. LocalDatabaseFriendRepository
+AnniversaryRepository <|.. AnniversaryRepositoryByLocalDatabase
+ContactRepository <|.. ContactRepositoryByLocalDatabase
+FriendRepository <|.. FriendRepositoryByLocalDatabase
 
-LocalDatabaseAnniversaryRepository --> AppDatabase
-LocalDatabaseContactRepository --> AppDatabase
-LocalDatabaseFriendRepository --> AppDatabase
+AnniversaryRepositoryByLocalDatabase --> AppDatabase
+ContactRepositoryByLocalDatabase --> AppDatabase
+FriendRepositoryByLocalDatabase --> AppDatabase
 
 Table <|-- AnniversaryTable
 Table <|-- ContactTable

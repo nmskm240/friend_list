@@ -3,9 +3,7 @@ import 'package:friend_list/infrastructure/database/app_database.dart';
 import 'package:friend_list/entity/friend.dart';
 import 'package:friend_list/repository/friend_repository.dart';
 
-class LocalDatabaseFriendRepository implements FreindRepository {
-  LocalDatabaseFriendRepository();
-
+class FriendRepositoryByLocalDatbase implements FriendRepository {
   @override
   Future<void> deleteByID(int id) async {
     final db = await AppDatabase.instance.database;
