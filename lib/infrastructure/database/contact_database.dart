@@ -1,14 +1,14 @@
 import 'dart:async';
 
+import 'package:friend_list/entity/contact.dart';
 import 'package:friend_list/infrastructure/database/app_database.dart';
-import 'package:friend_list/infrastructure/database/friend_table.dart';
-import 'package:friend_list/entity/friend.dart';
+import 'package:friend_list/infrastructure/database/contact_table.dart';
 
-class FriendDatabase extends AppDatabase<Friend> {
-  FriendDatabase()
+class ContactDatabase extends AppDatabase<Contact> {
+  ContactDatabase()
       : super(
-          fileName: "friend.db",
-          table: const FriendTable(),
+          fileName: "contact.db",
+          table: const ContactTable(),
         );
 
   @override
@@ -18,9 +18,11 @@ class FriendDatabase extends AppDatabase<Friend> {
   }
 
   @override
-  Future<int> update(Friend element) async {
+  Future<int> update(Contact element) async {
     if (element.id == null) {
       throw Exception("Unregistered element");
+    } else if (element.friendID == null) {
+      throw Exception("No friendID associated");
     }
     final db = await database;
     final id = element.id!;
@@ -30,28 +32,31 @@ class FriendDatabase extends AppDatabase<Friend> {
   }
 
   @override
-  Future<int> insert(Friend element) async {
+  Future<int> insert(Contact element) async {
+    if (element.friendID == null) {
+      throw Exception("No friendID associated");
+    }
     final db = await database;
     final friend = element.toJson();
     return await db.insert(table.name, friend);
   }
 
   @override
-  Future<Iterable<Friend>> getAll() async {
+  Future<Iterable<Contact>> getAll() async {
     final db = await database;
     final results = await db.query(table.name);
     return results.map((e) {
-      return Friend.fromJson(e);
+      return Contact.fromJson(e);
     });
   }
 
   @override
-  Future<Friend> getByID(int id) async {
+  Future<Contact> getByID(int id) async {
     final db = await database;
     final results = await db.query(table.name, where: "id=?", whereArgs: [id]);
     if (results.isEmpty) {
       throw Exception("The element with the specified ID does not exist.");
     }
-    return Friend.fromJson(results.first);
+    return Contact.fromJson(results.first);
   }
 }

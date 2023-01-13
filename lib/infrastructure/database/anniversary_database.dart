@@ -1,14 +1,14 @@
 import 'dart:async';
 
+import 'package:friend_list/entity/anniversary.dart';
+import 'package:friend_list/infrastructure/database/anniversary_table.dart';
 import 'package:friend_list/infrastructure/database/app_database.dart';
-import 'package:friend_list/infrastructure/database/friend_table.dart';
-import 'package:friend_list/entity/friend.dart';
 
-class FriendDatabase extends AppDatabase<Friend> {
-  FriendDatabase()
+class AnniversaryDatabase extends AppDatabase<Anniversary> {
+  AnniversaryDatabase()
       : super(
-          fileName: "friend.db",
-          table: const FriendTable(),
+          fileName: "anniversary.db",
+          table: const AnniversaryTable(),
         );
 
   @override
@@ -18,9 +18,11 @@ class FriendDatabase extends AppDatabase<Friend> {
   }
 
   @override
-  Future<int> update(Friend element) async {
+  Future<int> update(Anniversary element) async {
     if (element.id == null) {
       throw Exception("Unregistered element");
+    } else if (element.friendID == null) {
+      throw Exception("No friendID associated");
     }
     final db = await database;
     final id = element.id!;
@@ -30,28 +32,31 @@ class FriendDatabase extends AppDatabase<Friend> {
   }
 
   @override
-  Future<int> insert(Friend element) async {
+  Future<int> insert(Anniversary element) async {
+    if (element.friendID == null) {
+      throw Exception("No friendID associated");
+    }
     final db = await database;
     final friend = element.toJson();
     return await db.insert(table.name, friend);
   }
 
   @override
-  Future<Iterable<Friend>> getAll() async {
+  Future<Iterable<Anniversary>> getAll() async {
     final db = await database;
     final results = await db.query(table.name);
     return results.map((e) {
-      return Friend.fromJson(e);
+      return Anniversary.fromJson(e);
     });
   }
 
   @override
-  Future<Friend> getByID(int id) async {
+  Future<Anniversary> getByID(int id) async {
     final db = await database;
     final results = await db.query(table.name, where: "id=?", whereArgs: [id]);
     if (results.isEmpty) {
       throw Exception("The element with the specified ID does not exist.");
     }
-    return Friend.fromJson(results.first);
+    return Anniversary.fromJson(results.first);
   }
 }

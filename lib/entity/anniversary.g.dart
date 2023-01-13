@@ -11,7 +11,7 @@ _$_Anniversary _$$_AnniversaryFromJson(Map<String, dynamic> json) =>
       id: json['id'] as int?,
       name: json['name'] as String,
       date: DateTime.parse(json['date'] as String),
-      friendID: json['friend_id'] as int,
+      friendID: json['friend_id'] as int?,
     );
 
 Map<String, dynamic> _$$_AnniversaryToJson(_$_Anniversary instance) =>

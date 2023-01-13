@@ -24,7 +24,7 @@ mixin _$Contact {
   ContactMethodType get method => throw _privateConstructorUsedError;
   String get value => throw _privateConstructorUsedError;
   @JsonKey(name: "friend_id")
-  int get friendID => throw _privateConstructorUsedError;
+  int? get friendID => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -40,7 +40,7 @@ abstract class $ContactCopyWith<$Res> {
       {int? id,
       ContactMethodType method,
       String value,
-      @JsonKey(name: "friend_id") int friendID});
+      @JsonKey(name: "friend_id") int? friendID});
 }
 
 /// @nodoc
@@ -59,7 +59,7 @@ class _$ContactCopyWithImpl<$Res, $Val extends Contact>
     Object? id = freezed,
     Object? method = null,
     Object? value = null,
-    Object? friendID = null,
+    Object? friendID = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -74,10 +74,10 @@ class _$ContactCopyWithImpl<$Res, $Val extends Contact>
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
               as String,
-      friendID: null == friendID
+      friendID: freezed == friendID
           ? _value.friendID
           : friendID // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
     ) as $Val);
   }
 }
@@ -93,7 +93,7 @@ abstract class _$$_ContactCopyWith<$Res> implements $ContactCopyWith<$Res> {
       {int? id,
       ContactMethodType method,
       String value,
-      @JsonKey(name: "friend_id") int friendID});
+      @JsonKey(name: "friend_id") int? friendID});
 }
 
 /// @nodoc
@@ -109,7 +109,7 @@ class __$$_ContactCopyWithImpl<$Res>
     Object? id = freezed,
     Object? method = null,
     Object? value = null,
-    Object? friendID = null,
+    Object? friendID = freezed,
   }) {
     return _then(_$_Contact(
       id: freezed == id
@@ -124,10 +124,10 @@ class __$$_ContactCopyWithImpl<$Res>
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
               as String,
-      friendID: null == friendID
+      friendID: freezed == friendID
           ? _value.friendID
           : friendID // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
     ));
   }
 }
@@ -139,7 +139,7 @@ class _$_Contact implements _Contact {
       {this.id,
       required this.method,
       required this.value,
-      @JsonKey(name: "friend_id") required this.friendID});
+      @JsonKey(name: "friend_id") this.friendID});
 
   factory _$_Contact.fromJson(Map<String, dynamic> json) =>
       _$$_ContactFromJson(json);
@@ -152,7 +152,7 @@ class _$_Contact implements _Contact {
   final String value;
   @override
   @JsonKey(name: "friend_id")
-  final int friendID;
+  final int? friendID;
 
   @override
   String toString() {
@@ -194,7 +194,7 @@ abstract class _Contact implements Contact {
       {final int? id,
       required final ContactMethodType method,
       required final String value,
-      @JsonKey(name: "friend_id") required final int friendID}) = _$_Contact;
+      @JsonKey(name: "friend_id") final int? friendID}) = _$_Contact;
 
   factory _Contact.fromJson(Map<String, dynamic> json) = _$_Contact.fromJson;
 
@@ -206,7 +206,7 @@ abstract class _Contact implements Contact {
   String get value;
   @override
   @JsonKey(name: "friend_id")
-  int get friendID;
+  int? get friendID;
   @override
   @JsonKey(ignore: true)
   _$$_ContactCopyWith<_$_Contact> get copyWith =>

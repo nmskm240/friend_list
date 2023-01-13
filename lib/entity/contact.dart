@@ -11,7 +11,7 @@ class Contact with _$Contact {
     int? id,
     required ContactMethodType method,
     required String value,
-    @JsonKey(name: "friend_id") required int friendID,
+    @JsonKey(name: "friend_id") int? friendID,
   }) = _Contact;
   factory Contact.fromJson(Map<String, dynamic> json) =>
       _$ContactFromJson(json);

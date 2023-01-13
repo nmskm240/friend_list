@@ -8,17 +8,12 @@ class FriendDatabaseMock extends FriendDatabase {
   @override
   Future<Database> init() async {
     sqfliteFfiInit();
-    final path = await tryGetPath();
+    final path = super.fileName;
     final options = OpenDatabaseOptions(
       version: 1,
       onCreate: super.table.onCreate,
     );
     return await databaseFactoryFfi.openDatabase(path, options: options);
-  }
-
-  @override
-  Future<String> tryGetPath() async {
-    return "test.db";
   }
 }
 

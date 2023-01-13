@@ -16,7 +16,7 @@ class ContactTable extends Table {
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             method TEXT,
             value TEXT,
-            friend_id TEXT
+            friend_id INTEGER
           )
           ''');
   }

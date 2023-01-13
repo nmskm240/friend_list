@@ -10,7 +10,7 @@ class Anniversary with _$Anniversary {
     int? id,
     required String name,
     @DateTimeField() required DateTime date,
-    @JsonKey(name: "friend_id") required int friendID,
+    @JsonKey(name: "friend_id") int? friendID,
   }) = _Anniversary;
   factory Anniversary.fromJson(Map<String, dynamic> json) =>
       _$AnniversaryFromJson(json);

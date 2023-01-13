@@ -16,7 +16,7 @@ class AnniversaryTable extends Table {
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT,
             date TEXT,
-            friend_id TEXT
+            friend_id INTEGER
           )
           ''');
   }

@@ -17,7 +17,7 @@ abstract class AppDatabase<T> {
   Future<Database> get database async => _database ??= await init();
 
   AppDatabase({
-    this.fileName = "app.db",
+    required this.fileName,
     required this.table,
   });
 
