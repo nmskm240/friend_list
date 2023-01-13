@@ -35,12 +35,9 @@ package entity {
 
 package infrastructure {
     package database {
-        class AnniversaryDatabase
         class AnniversaryTable
-        abstract AppDatabase
-        class ContactDatabase
+        class AppDatabase<<singleton>>
         class ContactTable
-        class FriendDatabase
         class FriendTable
         abstract Table
     }
@@ -65,12 +62,9 @@ LocalDatabaseAnniversaryRepository --> AppDatabase
 LocalDatabaseContactRepository --> AppDatabase
 LocalDatabaseFriendRepository --> AppDatabase
 
-AppDatabase <|-- AnniversaryDatabase
-AppDatabase <|-- ContactDatabase
-AppDatabase <|-- FriendDatabase
 Table <|-- AnniversaryTable
 Table <|-- ContactTable
 Table <|-- FriendTable
-AppDatabase -->  Table
+AppDatabase "1" --> "*" Table
 
 @enduml

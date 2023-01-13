@@ -1,10 +1,11 @@
 import 'dart:async';
 
+import 'package:friend_list/constant/config.dart';
 import 'package:friend_list/infrastructure/database/table.dart';
 import 'package:sqflite/sqflite.dart';
 
 class AnniversaryTable extends Table {
-  const AnniversaryTable() : super("anniversaries");
+  const AnniversaryTable() : super(Config.anniversaryTableName);
 
   @override
   FutureOr<void>? onConfigure(Database database) {}

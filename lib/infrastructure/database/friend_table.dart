@@ -1,10 +1,11 @@
 import 'dart:async';
 
+import 'package:friend_list/constant/config.dart';
 import 'package:friend_list/infrastructure/database/table.dart';
 import 'package:sqflite/sqflite.dart';
 
 class FriendTable extends Table {
-  const FriendTable() : super("friends");
+  const FriendTable() : super(Config.friendTableName);
 
   @override
   FutureOr<void>? onConfigure(Database database) {}

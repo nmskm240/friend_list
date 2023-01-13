@@ -2,53 +2,54 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/widgets.dart';
-import 'package:friend_list/infrastructure/database/table.dart' as t;
+import 'package:friend_list/infrastructure/database/anniversary_table.dart';
+import 'package:friend_list/infrastructure/database/contact_table.dart';
+import 'package:friend_list/infrastructure/database/friend_table.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
-abstract class AppDatabase<T> {
+class AppDatabase {
   Database? _database;
 
-  final String fileName;
-  final t.Table table;
+  static final AppDatabase instance = AppDatabase._();
+  final String fileName = "app.db";
+  final tables = const [
+    FriendTable(),
+    AnniversaryTable(),
+    ContactTable(),
+  ];
 
-  @protected
-  Future<Database> get database async => _database ??= await init();
+  Future<Database> get database async => _database ??= await _init();
 
-  AppDatabase({
-    required this.fileName,
-    required this.table,
-  });
+  AppDatabase._();
 
-  @protected
-  Future<Database> init() async {
-    var path = await tryGetPath();
+  Future<Database> _init() async {
+    var path = await _tryGetPath();
     return await openDatabase(
       path,
       version: 1,
-      onCreate: (db, version) => table.onCreate(db, version),
+      onCreate: _onCreate,
     );
   }
 
-  @protected
-  Future<String> tryGetPath() async {
-    var filePath = '';
+  Future<String> _tryGetPath() async {
+    late final String path;
     if (Platform.isAndroid) {
-      filePath = await getDatabasesPath();
+      path = await getDatabasesPath();
     } else if (Platform.isIOS) {
       final directory = await getLibraryDirectory();
-      filePath = directory.path;
+      path = directory.path;
     } else {
       throw Exception('Unable to determine platform.');
     }
-    final path = join(filePath, fileName);
-    return path;
+    return join(path, fileName);
   }
 
-  Future<void> deleteByID(int id);
-  Future<int> update(T element);
-  Future<int> insert(T element);
-  Future<Iterable<T>> getAll();
-  Future<T> getByID(int id);
+  @protected
+  void _onCreate(Database db, int version) {
+    for (final table in tables) {
+      table.onCreate(db, version);
+    }
+  }
 }
