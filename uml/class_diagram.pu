@@ -14,7 +14,7 @@ package viewModel {
 }
 
 package usecase {
-    class FriendListShow
+    interface Usecase<T>
 }
 
 
@@ -46,9 +46,7 @@ package infrastructure {
 FriendList ..> FriendListViewModel
 FriendEdit ..> FriendEditViewModel
 
-FriendListViewModel ..> FriendListShow
-
-FriendListShow ..> FriendRepository
+FriendListViewModel ..> FriendRepository
 
 Anniversary <-- AnniversaryRepository
 Contact <-- ContactRepository

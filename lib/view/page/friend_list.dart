@@ -10,8 +10,7 @@ class FriendList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final viewModel =
-        ref.watch<FriendListViewModel>(friendListViewModelProvider);
+    final viewmodel = ref.read(friendListViewModelProvider.notifier);
     return Scaffold(
       appBar: AppBar(
         title: const Text("Friends"),
@@ -29,16 +28,22 @@ class FriendList extends ConsumerWidget {
           const SearchBar(),
           Expanded(
             child: RefreshIndicator(
-              onRefresh: viewModel.refresh,
-              child: ListView.builder(
-                physics: const AlwaysScrollableScrollPhysics(),
-                itemCount: viewModel.friends.length,
-                itemBuilder: (context, index) {
-                  return FriendListTile(
-                    data: viewModel.friends.elementAt(index),
-                  );
-                },
-              ),
+              onRefresh: viewmodel.load,
+              child: ref.watch(friendListViewModelProvider).when(
+                    loading: CircularProgressIndicator.new,
+                    error: (error, stacktrace) => Text(error.toString()),
+                    data: (value) {
+                      return ListView.builder(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        itemCount: value.length,
+                        itemBuilder: (context, index) {
+                          return FriendListTile(
+                            data: value.elementAt(index),
+                          );
+                        },
+                      );
+                    },
+                  ),
             ),
           ),
         ],

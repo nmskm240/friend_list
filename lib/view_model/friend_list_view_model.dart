@@ -1,24 +1,27 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:friend_list/entity/friend.dart';
 import 'package:friend_list/repository/friend_repository.dart';
-import 'package:friend_list/repository/local_database_friend_repository.dart';
+import 'package:friend_list/repository/friend_repository_by_local_database.dart';
 
 final friendListViewModelProvider =
-    ChangeNotifierProvider((ref) => FriendListViewModel());
+    StateNotifierProvider<FriendListViewModel, AsyncValue<List<Friend>>>(
+  (ref) {
+    return FriendListViewModel(FriendRepositoryByLocalDatbase());
+  },
+);
 
-class FriendListViewModel extends ChangeNotifier {
-  List<Friend> _friends = [];
-  final FreindRepository _repository;
+class FriendListViewModel extends StateNotifier<AsyncValue<List<Friend>>> {
+  final FriendRepository _repository;
 
-  Iterable<Friend> get friends => _friends;
+  FriendListViewModel(this._repository) : super(const AsyncValue.loading()) {
+    load();
+  }
 
-  FriendListViewModel({FreindRepository? repository})
-      : _repository = repository ?? LocalDatabaseFriendRepository();
-
-  Future<void> refresh() async {
-    final values = await _repository.getAll();
-    _friends = List<Friend>.from(values);
-    notifyListeners();
+  Future<void> load() async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      final friends = await _repository.getAll();
+      return friends.toList();
+    });
   }
 }
