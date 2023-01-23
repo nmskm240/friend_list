@@ -1,10 +1,14 @@
 @startuml
 
 package view {
+    package component {
+        class FriendListView 
+    }
+
     package page {
         class FriendDetail
         class FriendEdit
-        class FriendList
+        class FriendListPage
     }
 }
 
@@ -43,7 +47,9 @@ package infrastructure {
     }
 }
 
-FriendList ..> FriendListViewModel
+FriendListView ..> FriendListViewModel
+
+FriendListPage ..> FriendListView
 FriendEdit ..> FriendEditViewModel
 
 FriendListViewModel ..> FriendRepository

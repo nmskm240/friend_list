@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:friend_list/provider/bottom_nvaigation_bar_router_provider.dart';
-import 'package:friend_list/view/page/friend_list.dart';
+import 'package:friend_list/view/page/friend_list_page.dart';
 import 'package:friend_list/view/page/calender.dart';
 import 'package:friend_list/view/page/setting.dart';
 
@@ -23,7 +23,7 @@ class BottomNavigationBarRouter extends RouterDelegate<Empty>
     return Navigator(
       key: navigatorKey,
       pages: [
-        if (index == 0) const MaterialPage(child: FriendList()),
+        if (index == 0) const MaterialPage(child: FriendListPage()),
         if (index == 1) const MaterialPage(child: Calender()),
         if (index == 2) const MaterialPage(child: Setting()),
       ],
