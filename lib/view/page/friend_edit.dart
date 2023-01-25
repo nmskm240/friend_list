@@ -18,8 +18,9 @@ class FriendEdit extends ConsumerWidget {
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.check),
-            onPressed: () {
+            onPressed: () async {
               //TODO: edit process
+              await viewmodel.onSaved();
               ref.read(appRouteProvider.notifier).state = "/friend/detail";
             },
           ),
@@ -34,6 +35,10 @@ class FriendEdit extends ConsumerWidget {
               child: FormBuilderCircleAvatar(
                 name: "icon",
                 radius: 60,
+                initialIcon: viewmodel.icon,
+                onChanged: (s) {
+                  viewmodel.onChangedIcon(s ?? "");
+                },
               ),
             ),
             Column(
@@ -41,6 +46,10 @@ class FriendEdit extends ConsumerWidget {
                 ListTile(
                   title: FormBuilderTextField(
                     name: 'name',
+                    initialValue: viewmodel.name,
+                    onChanged: (value) {
+                      viewmodel.onChangedName(value ?? "");
+                    },
                     decoration: const InputDecoration(
                       label: Text("name"),
                     ),
@@ -49,6 +58,10 @@ class FriendEdit extends ConsumerWidget {
                 ListTile(
                   title: FormBuilderTextField(
                     name: "nickname",
+                    initialValue: viewmodel.nickname,
+                    onChanged: (value) {
+                      viewmodel.onChangedNickname(value ?? "");
+                    },
                     decoration: const InputDecoration(
                       label: Text("nickname"),
                     ),
@@ -73,7 +86,11 @@ class FriendEdit extends ConsumerWidget {
                   return ListTile(
                     title: FormBuilderDateTimePicker(
                       name: 'birthday',
+                      initialValue: viewmodel.birthday,
                       inputType: InputType.date,
+                      onChanged: (value) {
+                        viewmodel.onChangedBirthday(value!);
+                      },
                       decoration: const InputDecoration(
                         label: Text("Birthday"),
                       ),
@@ -83,6 +100,7 @@ class FriendEdit extends ConsumerWidget {
                   final anniversary =
                       viewmodel.anniversaries.elementAt(index - 1);
                   return ListTile(
+                    //TODO: Persistence of input values
                     title: FormBuilderDateTimePicker(
                       name: 'anniversaries.${anniversary.name}',
                       inputType: InputType.date,
@@ -116,6 +134,7 @@ class FriendEdit extends ConsumerWidget {
               itemBuilder: (context, index) {
                 final contact = viewmodel.contacts.elementAt(index);
                 return ListTile(
+                  //TODO: Persistence of input values
                   title: FormBuilderTextField(
                     name: 'contacts.${contact.method.name}',
                     decoration: InputDecoration(

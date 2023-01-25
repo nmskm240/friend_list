@@ -17,8 +17,8 @@ package viewModel {
     class FriendEditViewModel
 }
 
-package usecase {
-    interface Usecase<T>
+package modl {
+    class EditData<<freezed>>
 }
 
 
@@ -52,15 +52,20 @@ FriendListView ..> FriendListViewModel
 FriendListPage ..> FriendListView
 FriendEdit ..> FriendEditViewModel
 
-FriendListViewModel ..> FriendRepository
+FriendEditViewModel ..> EditData
 
-Anniversary <-- AnniversaryRepository
-Contact <-- ContactRepository
-Friend <-- FriendRepository
+EditData ..> AnniversaryRepository
+EditData ..> ContactRepository
+EditData ..> FriendRepository
+FriendListViewModel ..> FriendRepository
 
 AnniversaryRepository <|.. AnniversaryRepositoryByLocalDatabase
 ContactRepository <|.. ContactRepositoryByLocalDatabase
 FriendRepository <|.. FriendRepositoryByLocalDatabase
+
+Anniversary <-- AnniversaryRepository
+Contact <-- ContactRepository
+Friend <-- FriendRepository
 
 AnniversaryRepositoryByLocalDatabase --> AppDatabase
 ContactRepositoryByLocalDatabase --> AppDatabase
