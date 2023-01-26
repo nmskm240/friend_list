@@ -7,7 +7,6 @@ part of 'contact.dart';
 // **************************************************************************
 
 _$_Contact _$$_ContactFromJson(Map<String, dynamic> json) => _$_Contact(
-      id: json['id'] as int?,
       method: $enumDecode(_$ContactMethodTypeEnumMap, json['method']),
       value: json['value'] as String,
       friendID: json['friend_id'] as int?,
@@ -15,7 +14,6 @@ _$_Contact _$$_ContactFromJson(Map<String, dynamic> json) => _$_Contact(
 
 Map<String, dynamic> _$$_ContactToJson(_$_Contact instance) =>
     <String, dynamic>{
-      'id': instance.id,
       'method': _$ContactMethodTypeEnumMap[instance.method]!,
       'value': instance.value,
       'friend_id': instance.friendID,

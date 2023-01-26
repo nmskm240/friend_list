@@ -1,18 +1,17 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:flutter/widgets.dart';
-import 'package:friend_list/infrastructure/database/anniversary_table.dart';
-import 'package:friend_list/infrastructure/database/contact_table.dart';
-import 'package:friend_list/infrastructure/database/friend_table.dart';
+import 'package:friend_list/infrastructure/local/anniversary_table.dart';
+import 'package:friend_list/infrastructure/local/contact_table.dart';
+import 'package:friend_list/infrastructure/local/friend_table.dart';
+import 'package:friend_list/infrastructure/local/i_database_provider.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
-class AppDatabase {
+class AppDatabase implements IDatabaseProvider {
   Database? _database;
 
-  static final AppDatabase instance = AppDatabase._();
   final String fileName = "app.db";
   final tables = const [
     FriendTable(),
@@ -20,16 +19,16 @@ class AppDatabase {
     ContactTable(),
   ];
 
-  Future<Database> get database async => _database ??= await _init();
+  @override
+  Future<Database> get database async => _database ??= await init();
 
-  AppDatabase._();
-
-  Future<Database> _init() async {
+  @override
+  Future<Database> init() async {
     var path = await _tryGetPath();
     return await openDatabase(
       path,
       version: 1,
-      onCreate: _onCreate,
+      onCreate: onCreate,
     );
   }
 
@@ -46,8 +45,8 @@ class AppDatabase {
     return join(path, fileName);
   }
 
-  @protected
-  void _onCreate(Database db, int version) {
+  @override
+  void onCreate(Database db, int version) {
     for (final table in tables) {
       table.onCreate(db, version);
     }

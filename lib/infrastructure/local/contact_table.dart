@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:friend_list/constant/config.dart';
-import 'package:friend_list/infrastructure/database/table.dart';
+import 'package:friend_list/infrastructure/local/i_table.dart';
 import 'package:sqflite/sqflite.dart';
 
-class ContactTable extends Table {
+class ContactTable extends ITable {
   const ContactTable() : super(Config.contactTableName);
 
   @override
@@ -14,7 +14,6 @@ class ContactTable extends Table {
   FutureOr<void>? onCreate(Database database, int version) async {
     await database.execute('''
           CREATE TABLE IF NOT EXISTS $name (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
             method TEXT,
             value TEXT,
             friend_id INTEGER

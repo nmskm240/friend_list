@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:friend_list/constant/config.dart';
-import 'package:friend_list/infrastructure/database/table.dart';
+import 'package:friend_list/infrastructure/local/i_table.dart';
 import 'package:sqflite/sqflite.dart';
 
-class FriendTable extends Table {
+class FriendTable extends ITable {
   const FriendTable() : super(Config.friendTableName);
 
   @override
@@ -18,7 +18,6 @@ class FriendTable extends Table {
             name TEXT,
             nickname TEXT,
             icon TEXT,
-            birthday TEXT,
             created_at TEXT,
             updated_at TEXT
           )

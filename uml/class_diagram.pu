@@ -1,33 +1,36 @@
 @startuml
 
 package view {
-    package component {
-        class FriendListView 
-    }
-
     package page {
         class FriendDetail
-        class FriendEdit
+        class FriendEditPage
         class FriendListPage
+    }
+
+    package component {
+        class FriendListView
+        class FriendBasicInfoEditForm
+        class EditableAnniversaryTile
+        class EditableContactTile
     }
 }
 
 package viewModel {
     class FriendListViewModel
-    class FriendEditViewModel
+    class FriendBasicInfoEditViewModel
+    class EditableAnniversaryViewModel
+    class EditableContactViewModel
 }
 
-package modl {
-    class EditData<<freezed>>
+package model {
+    class FriendBasicInfo<<freezed>>
+    class EditableAnniversary<<freezed>>
+    class EditableContact<<freezed>>
 }
 
 
 package repository {
-    interface AnniversaryRepository
-    interface ContactRepository
     interface FriendRepository
-    class AnniversaryRepositoryByLocalDatabase
-    class ContactRepositoryByLocalDatabase
     class FriendRepositoryByLocalDatabase
 }
 
@@ -38,42 +41,48 @@ package entity {
 }
 
 package infrastructure {
-    package database {
+    package local {
         class AnniversaryTable
-        class AppDatabase<<singleton>>
+        class AppDatabase
         class ContactTable
         class FriendTable
-        abstract Table
+        interface IDatabaseProvider
+        interface ITable
     }
 }
 
 FriendListView ..> FriendListViewModel
 
 FriendListPage ..> FriendListView
-FriendEdit ..> FriendEditViewModel
+FriendEditPage ..> FriendBasicInfoEditForm
+FriendEditPage ..> EditableAnniversaryTile
+FriendEditPage ..> EditableContactTile
 
-FriendEditViewModel ..> EditData
+FriendBasicInfoEditForm ..> FriendBasicInfoEditViewModel
+EditableAnniversaryTile ..> EditableAnniversaryViewModel
+EditableContactTile ..> EditableContactViewModel
 
-EditData ..> AnniversaryRepository
-EditData ..> ContactRepository
-EditData ..> FriendRepository
-FriendListViewModel ..> FriendRepository
+FriendBasicInfoEditViewModel ..> FriendBasicInfo
+EditableAnniversaryViewModel ..> EditableAnniversary
+EditableContactViewModel ..> EditableContact
 
-AnniversaryRepository <|.. AnniversaryRepositoryByLocalDatabase
-ContactRepository <|.. ContactRepositoryByLocalDatabase
-FriendRepository <|.. FriendRepositoryByLocalDatabase
+FriendBasicInfo ..> Friend
+EditableAnniversary ..> Anniversary
+EditableContact ..> Contact
 
-Anniversary <-- AnniversaryRepository
-Contact <-- ContactRepository
+Friend o-left- Anniversary
+Friend o- Contact
+
 Friend <-- FriendRepository
 
-AnniversaryRepositoryByLocalDatabase --> AppDatabase
-ContactRepositoryByLocalDatabase --> AppDatabase
-FriendRepositoryByLocalDatabase --> AppDatabase
+FriendRepository <|.. FriendRepositoryByLocalDatabase
 
-Table <|-- AnniversaryTable
-Table <|-- ContactTable
-Table <|-- FriendTable
-AppDatabase "1" --> "*" Table
+FriendRepositoryByLocalDatabase --> IDatabaseProvider
+
+ITable <|-- AnniversaryTable
+ITable <|-- ContactTable
+ITable <|-- FriendTable
+AppDatabase "1" o-- "*" ITable
+IDatabaseProvider <|-- AppDatabase
 
 @enduml

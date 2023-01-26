@@ -25,10 +25,11 @@ class FriendListTile extends ConsumerWidget {
       trailing: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Text(data.birthday == null
-              ? "unknown birthday"
-              : DateFormat("yyyy/MM/dd").format(data.birthday!)),
-          Text('${data.age ?? "?"} years old'),
+          //TODO: display age
+          // Text(data.birthday == null
+          //     ? "unknown birthday"
+          //     : DateFormat("yyyy/MM/dd").format(data.birthday!)),
+          // Text('${data.age ?? "?"} years old'),
         ],
       ),
       onTap: onTap,

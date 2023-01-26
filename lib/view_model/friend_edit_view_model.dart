@@ -28,7 +28,11 @@ class FriendEditViewModel extends ChangeNotifier {
 
   onSaved() async {
     final repository = FriendRepositoryByLocalDatbase();
-    final friend = Friend(name: name, nickname: nickname, icon: icon, birthday: birthday,);
+    final friend = Friend(
+      name: name,
+      nickname: nickname,
+      icon: icon,
+    );
     final saved = await repository.save(friend);
     final id = saved.id;
     //TODO: save process

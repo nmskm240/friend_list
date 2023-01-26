@@ -2,10 +2,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:friend_list/entity/friend.dart';
 
 void main() {
-  var friend = Friend(
+  var friend = const Friend(
     name: "test",
     nickname: "test",
-    birthday: DateTime(2000, 1, 1),
     icon: "image_bytes",
   );
 
@@ -19,7 +18,6 @@ void main() {
     expect(json["updated_at"], isA<String>());
     var restored = Friend.fromJson(json);
     expect(restored, isA<Friend>());
-    expect(restored.birthday, isA<DateTime>());
     expect(restored.createdAt, isA<DateTime>());
     expect(restored.updatedAt, isA<DateTime>());
   });

@@ -24,8 +24,10 @@ mixin _$Friend {
   String get name => throw _privateConstructorUsedError;
   String get nickname => throw _privateConstructorUsedError;
   String get icon => throw _privateConstructorUsedError;
-  @DateTimeField()
-  DateTime? get birthday => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  List<Anniversary> get anniversaries => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  List<Contact> get contacts => throw _privateConstructorUsedError;
   @CreatedAtField()
   @JsonKey(name: "created_at")
   DateTime? get createdAt => throw _privateConstructorUsedError;
@@ -48,7 +50,8 @@ abstract class $FriendCopyWith<$Res> {
       String name,
       String nickname,
       String icon,
-      @DateTimeField() DateTime? birthday,
+      @JsonKey(ignore: true) List<Anniversary> anniversaries,
+      @JsonKey(ignore: true) List<Contact> contacts,
       @CreatedAtField() @JsonKey(name: "created_at") DateTime? createdAt,
       @UpdatedAtField() @JsonKey(name: "updated_at") DateTime? updatedAt});
 }
@@ -70,7 +73,8 @@ class _$FriendCopyWithImpl<$Res, $Val extends Friend>
     Object? name = null,
     Object? nickname = null,
     Object? icon = null,
-    Object? birthday = freezed,
+    Object? anniversaries = null,
+    Object? contacts = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
@@ -91,10 +95,14 @@ class _$FriendCopyWithImpl<$Res, $Val extends Friend>
           ? _value.icon
           : icon // ignore: cast_nullable_to_non_nullable
               as String,
-      birthday: freezed == birthday
-          ? _value.birthday
-          : birthday // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+      anniversaries: null == anniversaries
+          ? _value.anniversaries
+          : anniversaries // ignore: cast_nullable_to_non_nullable
+              as List<Anniversary>,
+      contacts: null == contacts
+          ? _value.contacts
+          : contacts // ignore: cast_nullable_to_non_nullable
+              as List<Contact>,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -118,7 +126,8 @@ abstract class _$$_FriendCopyWith<$Res> implements $FriendCopyWith<$Res> {
       String name,
       String nickname,
       String icon,
-      @DateTimeField() DateTime? birthday,
+      @JsonKey(ignore: true) List<Anniversary> anniversaries,
+      @JsonKey(ignore: true) List<Contact> contacts,
       @CreatedAtField() @JsonKey(name: "created_at") DateTime? createdAt,
       @UpdatedAtField() @JsonKey(name: "updated_at") DateTime? updatedAt});
 }
@@ -137,7 +146,8 @@ class __$$_FriendCopyWithImpl<$Res>
     Object? name = null,
     Object? nickname = null,
     Object? icon = null,
-    Object? birthday = freezed,
+    Object? anniversaries = null,
+    Object? contacts = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
@@ -158,10 +168,14 @@ class __$$_FriendCopyWithImpl<$Res>
           ? _value.icon
           : icon // ignore: cast_nullable_to_non_nullable
               as String,
-      birthday: freezed == birthday
-          ? _value.birthday
-          : birthday // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+      anniversaries: null == anniversaries
+          ? _value._anniversaries
+          : anniversaries // ignore: cast_nullable_to_non_nullable
+              as List<Anniversary>,
+      contacts: null == contacts
+          ? _value._contacts
+          : contacts // ignore: cast_nullable_to_non_nullable
+              as List<Contact>,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -182,10 +196,13 @@ class _$_Friend extends _Friend {
       required this.name,
       this.nickname = "",
       this.icon = "",
-      @DateTimeField() this.birthday,
+      @JsonKey(ignore: true) final List<Anniversary> anniversaries = const [],
+      @JsonKey(ignore: true) final List<Contact> contacts = const [],
       @CreatedAtField() @JsonKey(name: "created_at") this.createdAt,
       @UpdatedAtField() @JsonKey(name: "updated_at") this.updatedAt})
-      : super._();
+      : _anniversaries = anniversaries,
+        _contacts = contacts,
+        super._();
 
   factory _$_Friend.fromJson(Map<String, dynamic> json) =>
       _$$_FriendFromJson(json);
@@ -200,9 +217,24 @@ class _$_Friend extends _Friend {
   @override
   @JsonKey()
   final String icon;
+  final List<Anniversary> _anniversaries;
   @override
-  @DateTimeField()
-  final DateTime? birthday;
+  @JsonKey(ignore: true)
+  List<Anniversary> get anniversaries {
+    if (_anniversaries is EqualUnmodifiableListView) return _anniversaries;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_anniversaries);
+  }
+
+  final List<Contact> _contacts;
+  @override
+  @JsonKey(ignore: true)
+  List<Contact> get contacts {
+    if (_contacts is EqualUnmodifiableListView) return _contacts;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_contacts);
+  }
+
   @override
   @CreatedAtField()
   @JsonKey(name: "created_at")
@@ -214,7 +246,7 @@ class _$_Friend extends _Friend {
 
   @override
   String toString() {
-    return 'Friend(id: $id, name: $name, nickname: $nickname, icon: $icon, birthday: $birthday, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'Friend(id: $id, name: $name, nickname: $nickname, icon: $icon, anniversaries: $anniversaries, contacts: $contacts, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -227,8 +259,9 @@ class _$_Friend extends _Friend {
             (identical(other.nickname, nickname) ||
                 other.nickname == nickname) &&
             (identical(other.icon, icon) || other.icon == icon) &&
-            (identical(other.birthday, birthday) ||
-                other.birthday == birthday) &&
+            const DeepCollectionEquality()
+                .equals(other._anniversaries, _anniversaries) &&
+            const DeepCollectionEquality().equals(other._contacts, _contacts) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -238,7 +271,15 @@ class _$_Friend extends _Friend {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, id, name, nickname, icon, birthday, createdAt, updatedAt);
+      runtimeType,
+      id,
+      name,
+      nickname,
+      icon,
+      const DeepCollectionEquality().hash(_anniversaries),
+      const DeepCollectionEquality().hash(_contacts),
+      createdAt,
+      updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -260,8 +301,10 @@ abstract class _Friend extends Friend {
       required final String name,
       final String nickname,
       final String icon,
-      @DateTimeField()
-          final DateTime? birthday,
+      @JsonKey(ignore: true)
+          final List<Anniversary> anniversaries,
+      @JsonKey(ignore: true)
+          final List<Contact> contacts,
       @CreatedAtField()
       @JsonKey(name: "created_at")
           final DateTime? createdAt,
@@ -281,8 +324,11 @@ abstract class _Friend extends Friend {
   @override
   String get icon;
   @override
-  @DateTimeField()
-  DateTime? get birthday;
+  @JsonKey(ignore: true)
+  List<Anniversary> get anniversaries;
+  @override
+  @JsonKey(ignore: true)
+  List<Contact> get contacts;
   @override
   @CreatedAtField()
   @JsonKey(name: "created_at")

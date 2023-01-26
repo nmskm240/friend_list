@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:sqflite/sqflite.dart';
 
-abstract class Table {
+abstract class ITable {
   final String name;
 
-  const Table(this.name);
+  const ITable(this.name);
 
   FutureOr<void>? onConfigure(Database database);
   FutureOr<void>? onCreate(Database database, int version);

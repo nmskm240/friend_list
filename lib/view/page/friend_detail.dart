@@ -44,11 +44,12 @@ class FriendDetail extends ConsumerWidget {
                         data.nickname,
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
-                    if (data.age != null)
-                      Text(
-                        '${data.age} years old',
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
+                      //TODO: display age
+                    // if (data.age != null)
+                    //   Text(
+                    //     '${data.age} years old',
+                    //     style: Theme.of(context).textTheme.bodyLarge,
+                    //   ),
                   ],
                 ),
               ),
