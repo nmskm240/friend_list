@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -11,7 +12,7 @@ class FormBuilderCircleAvatar extends ConsumerWidget {
   final double radius;
   final String defaultIconPath;
   final String initialIcon;
-  late final StateProvider<String> circleAvatarProvider;
+  late final StateProvider<Uint8List> circleAvatarProvider;
   final void Function(String?)? onChanged;
   final void Function(String?)? onSaved;
   final void Function()? onReset;
@@ -28,7 +29,7 @@ class FormBuilderCircleAvatar extends ConsumerWidget {
     this.onReset,
     this.validator,
   }) {
-    circleAvatarProvider = StateProvider<String>((ref) => initialIcon);
+    circleAvatarProvider = StateProvider<Uint8List>((ref) => base64.decode(initialIcon));
   }
 
   @override
@@ -44,7 +45,8 @@ class FormBuilderCircleAvatar extends ConsumerWidget {
           ),
           onTap: () async {
             await _onTap(ref);
-            field.didChange(ref.read(circleAvatarProvider));
+            final bytes = ref.read(circleAvatarProvider);
+            field.didChange(base64.encode(bytes));
           },
         );
       },
@@ -58,7 +60,7 @@ class FormBuilderCircleAvatar extends ConsumerWidget {
   ImageProvider _loadIconOrDefault(WidgetRef ref) {
     return ref.watch(circleAvatarProvider).isEmpty
         ? AssetImage(defaultIconPath) as ImageProvider
-        : MemoryImage(base64.decode(ref.read(circleAvatarProvider)));
+        : MemoryImage(ref.read(circleAvatarProvider));
   }
 
   Future<void> _onTap(WidgetRef ref) async {
@@ -86,6 +88,6 @@ class FormBuilderCircleAvatar extends ConsumerWidget {
       return;
     }
     final bytes = await cropped.readAsBytes();
-    ref.read(circleAvatarProvider.notifier).state = base64.encode(bytes);
+    ref.read(circleAvatarProvider.notifier).state = bytes;
   }
 }
