@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:friend_list/component/form_builder__circle_avatar.dart';
-import 'package:friend_list/view_model/friend_basic_info_edit_view_model.dart';
+import 'package:friend_list/provider/friend_basic_info_provider.dart';
 
 class FriendBasicInfoForm extends ConsumerWidget {
   late final GlobalKey formKey;
@@ -13,7 +13,7 @@ class FriendBasicInfoForm extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final viewmodel = ref.watch(friendBasicInfoViewModelProvider.notifier);
+    final viewmodel = ref.watch(friendBasicInfoProvider.notifier);
     return FormBuilder(
       key: formKey,
       child: Column(
@@ -22,7 +22,7 @@ class FriendBasicInfoForm extends ConsumerWidget {
             child: FormBuilderCircleAvatar(
               name: "icon",
               radius: 60,
-              initialIcon: ref.watch(friendBasicInfoViewModelProvider
+              initialIcon: ref.watch(friendBasicInfoProvider
                   .select((value) => value.icon)),
               onChanged: (s) {
                 viewmodel.icon = s;

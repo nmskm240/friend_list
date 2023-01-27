@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:friend_list/component/listview_with_header.dart';
-import 'package:friend_list/view_model/registered_anniversary_list_view_model.dart';
+import 'package:friend_list/provider/registered_anniversary_list_view_model.dart';
 
 class RegisteredAnniversaryListView extends ConsumerWidget {
   const RegisteredAnniversaryListView({super.key});

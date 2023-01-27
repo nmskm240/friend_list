@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:friend_list/component/listview_with_header.dart';
-import 'package:friend_list/view_model/registered_contact_list_view_model.dart';
+import 'package:friend_list/provider/registered_contact_list_view_model_provider.dart';
 
 class RegisteredContactListView extends ConsumerWidget {
   const RegisteredContactListView({super.key});

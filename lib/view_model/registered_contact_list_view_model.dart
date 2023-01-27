@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:friend_list/component/dialog/confirm_dialog.dart';
 import 'package:friend_list/component/dialog/contact_form_dialog.dart';
 import 'package:friend_list/entity/contact.dart';
 import 'package:friend_list/model/registered_contact_list.dart';
-
-final registeredContactListProvider =
-    ChangeNotifierProvider.autoDispose<RegisteredContactListViewModel>(
-        (ref) => RegisteredContactListViewModel(const RegisteredContactList()));
 
 class RegisteredContactListViewModel extends ChangeNotifier {
   RegisteredContactList _model;

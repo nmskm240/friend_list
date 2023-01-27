@@ -1,10 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:friend_list/model/friend_basic_info.dart';
 
-final friendBasicInfoViewModelProvider = StateNotifierProvider.autoDispose<
-    FriendBasicInfoViewModel,
-    FriendBasicInfo>((ref) => FriendBasicInfoViewModel());
-
 class FriendBasicInfoViewModel extends StateNotifier<FriendBasicInfo> {
   FriendBasicInfoViewModel() : super(const FriendBasicInfo());
 

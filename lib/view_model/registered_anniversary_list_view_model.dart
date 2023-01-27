@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:friend_list/component/dialog/anniversary_form_dialog.dart';
 import 'package:friend_list/component/dialog/confirm_dialog.dart';
 import 'package:friend_list/entity/anniversary.dart';
 import 'package:friend_list/model/ragistered_anniversary_list.dart';
-
-final registeredAnniversaryListProvider = ChangeNotifierProvider
-    .autoDispose<RegisteredAnniversaryListViewModel>((ref) =>
-        RegisteredAnniversaryListViewModel(const RegisteredAnniversaryList()));
 
 class RegisteredAnniversaryListViewModel extends ChangeNotifier {
   RegisteredAnniversaryList _model;

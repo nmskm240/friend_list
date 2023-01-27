@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:friend_list/component/friend_list_tile.dart';
-import 'package:friend_list/view_model/friend_list_view_model.dart';
+import 'package:friend_list/provider/frined_list_provider.dart';
 
 class FriendListView extends ConsumerWidget {
   const FriendListView({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final viewmodel = ref.read(friendListViewModelProvider.notifier);
+    final viewmodel = ref.read(friendListProvider.notifier);
 
     return Expanded(
       child: RefreshIndicator(
         onRefresh: viewmodel.load,
-        child: ref.watch(friendListViewModelProvider).when(
+        child: ref.watch(friendListProvider).when(
               loading: CircularProgressIndicator.new,
               error: (error, stacktrace) => Text(error.toString()),
               data: (value) {
