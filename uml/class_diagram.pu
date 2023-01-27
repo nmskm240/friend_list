@@ -10,22 +10,22 @@ package view {
     package component {
         class FriendListView
         class FriendBasicInfoEditForm
-        class EditableAnniversaryTile
-        class EditableContactTile
+        class RegisteredAnniversaryListView
+        class RegisteredContactListView
     }
 }
 
 package viewModel {
     class FriendListViewModel
     class FriendBasicInfoEditViewModel
-    class EditableAnniversaryViewModel
-    class EditableContactViewModel
+    class RegisteredAnniversaryListViewModel
+    class RegisteredContactListViewModel
 }
 
 package model {
     class FriendBasicInfo<<freezed>>
-    class EditableAnniversary<<freezed>>
-    class EditableContact<<freezed>>
+    class RegisteredAnniversaryList<<freezed>>
+    class RegisteredContactList<<freezed>>
 }
 
 
@@ -55,20 +55,20 @@ FriendListView ..> FriendListViewModel
 
 FriendListPage ..> FriendListView
 FriendEditPage ..> FriendBasicInfoEditForm
-FriendEditPage ..> EditableAnniversaryTile
-FriendEditPage ..> EditableContactTile
+FriendEditPage ..> RegisteredAnniversaryListView
+FriendEditPage ..> RegisteredContactListView
 
 FriendBasicInfoEditForm ..> FriendBasicInfoEditViewModel
-EditableAnniversaryTile ..> EditableAnniversaryViewModel
-EditableContactTile ..> EditableContactViewModel
+RegisteredAnniversaryListView ..> RegisteredAnniversaryListViewModel
+RegisteredContactListView ..> RegisteredContactListViewModel
 
 FriendBasicInfoEditViewModel ..> FriendBasicInfo
-EditableAnniversaryViewModel ..> EditableAnniversary
-EditableContactViewModel ..> EditableContact
+RegisteredAnniversaryListViewModel ..> RegisteredAnniversaryList
+RegisteredContactListViewModel ..> RegisteredContactList
 
 FriendBasicInfo ..> Friend
-EditableAnniversary ..> Anniversary
-EditableContact ..> Contact
+RegisteredAnniversaryList ..> Anniversary
+RegisteredContactList ..> Contact
 
 Friend o-left- Anniversary
 Friend o- Contact

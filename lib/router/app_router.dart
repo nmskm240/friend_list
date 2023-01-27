@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:friend_list/provider/app_router_provider.dart';
 import 'package:friend_list/view/page/friend_detail.dart';
-import 'package:friend_list/view/page/friend_edit.dart';
+import 'package:friend_list/view/page/friend_edit_page.dart';
 import 'package:friend_list/view/page/navigation_bar.dart';
 
 final _navigatorKey = GlobalKey<NavigatorState>();
@@ -29,7 +29,7 @@ class AppRouter extends RouterDelegate<Empty>
             the user is now redirected to the detail screen instead of the home screen.
         */
         if (route == "/friend/detail") const MaterialPage(child: FriendDetail()),
-        if (route == "/friend/edit") const MaterialPage(child: FriendEdit()),
+        if (route == "/friend/edit") const MaterialPage(child: FriendEditPage()),
       ],
       onPopPage: (route, result) {
         provider.state = '';
