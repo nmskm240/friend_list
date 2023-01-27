@@ -41,6 +41,7 @@ class FriendBasicInfoForm extends ConsumerWidget {
                   decoration: const InputDecoration(
                     label: Text("name"),
                   ),
+                  validator: viewmodel.nameValidator,
                 ),
               ),
               ListTile(

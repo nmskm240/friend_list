@@ -15,4 +15,11 @@ class FriendBasicInfoViewModel extends StateNotifier<FriendBasicInfo> {
   set name(String? value) => state = state.copyWith(name: value ?? "");
   set nickname(String? value) => state = state.copyWith(nickname: value ?? "");
   set icon(String? value) => state = state.copyWith(icon: value ?? "");
+
+  String nameValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Enter the friend name";
+    }
+    return "";
+  }
 }
