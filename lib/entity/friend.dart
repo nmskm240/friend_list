@@ -1,8 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:friend_list/entity/anniversary.dart';
 import 'package:friend_list/entity/contact.dart';
-import 'package:friend_list/util/created_at_field.dart';
-import 'package:friend_list/util/updated_at_field.dart';
+import 'package:friend_list/util/annotation/created_at_field.dart';
+import 'package:friend_list/util/annotation/updated_at_field.dart';
 
 part 'friend.freezed.dart';
 part 'friend.g.dart';

@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:friend_list/util/datetime_field.dart';
+import 'package:friend_list/util/annotation/datetime_field.dart';
 
 part 'anniversary.freezed.dart';
 part 'anniversary.g.dart';
