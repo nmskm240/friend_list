@@ -5,7 +5,7 @@ import 'package:friend_list/component/listview_with_header.dart';
 import 'package:friend_list/provider/registered_anniversary_list_view_model.dart';
 
 class RegisteredAnniversaryListView extends ConsumerWidget {
-  final GlobalKey<FormBuilderState> formKey;
+  final GlobalKey formKey;
 
   const RegisteredAnniversaryListView({super.key, required this.formKey});
 
@@ -41,7 +41,7 @@ class RegisteredAnniversaryListView extends ConsumerWidget {
             final anniversary = viewmodel.anniversaries.elementAt(index - 1);
             return ListTile(
               title: FormBuilderDateTimePicker(
-                name: 'anniversaries.${anniversary.name}',
+                name: anniversary.name,
                 inputType: InputType.date,
                 decoration: InputDecoration(
                   label: Text(anniversary.name),

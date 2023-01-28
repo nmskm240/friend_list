@@ -5,7 +5,7 @@ import 'package:friend_list/component/listview_with_header.dart';
 import 'package:friend_list/provider/registered_contact_list_view_model_provider.dart';
 
 class RegisteredContactListView extends ConsumerWidget {
-  final GlobalKey<FormBuilderState> formKey;
+  final GlobalKey formKey;
 
   const RegisteredContactListView({super.key, required this.formKey});
 
@@ -28,7 +28,7 @@ class RegisteredContactListView extends ConsumerWidget {
           final contact = viewmodel.contacts.elementAt(index);
           return ListTile(
             title: FormBuilderTextField(
-              name: 'contacts.${contact.method.name}',
+              name: contact.method.name,
               decoration: InputDecoration(
                 label: Text(contact.method.name),
               ),
