@@ -17,7 +17,7 @@ class FriendRepositoryByLocalDatbase implements FriendRepository {
   @override
   Future<void> deleteByID(int id) async {
     final db = await _local.database;
-    await db.delete(Config.friendTableName, where: "id=?", whereArgs: [id]);
+    await db.delete(DatabaseConfig.friendTableName, where: "id=?", whereArgs: [id]);
     await _deleteAllChildElements(id);
   }
 
@@ -25,7 +25,7 @@ class FriendRepositoryByLocalDatbase implements FriendRepository {
   Future<Friend> findByID(int id) async {
     final db = await _local.database;
     final results =
-        await db.query(Config.friendTableName, where: "id=?", whereArgs: [id]);
+        await db.query(DatabaseConfig.friendTableName, where: "id=?", whereArgs: [id]);
     if (results.isEmpty) {
       throw Exception("The element with the specified ID does not exist.");
     }
@@ -35,7 +35,7 @@ class FriendRepositoryByLocalDatbase implements FriendRepository {
   @override
   Future<Iterable<Friend>> getAll() async {
     final db = await _local.database;
-    final results = await db.query(Config.friendTableName);
+    final results = await db.query(DatabaseConfig.friendTableName);
     return Future.wait(results.map((e) => _convertJsonToFriend(db, e)));
   }
 
@@ -53,8 +53,8 @@ class FriendRepositoryByLocalDatbase implements FriendRepository {
   Future<void> _deleteAllChildElements(int friendID) async {
     final db = await _local.database;
     for (final table in [
-      Config.anniversaryTableName,
-      Config.contactTableName
+      DatabaseConfig.anniversaryTableName,
+      DatabaseConfig.contactTableName
     ]) {
       await db.delete(table, where: "friend_id=?", whereArgs: [friendID]);
     }
@@ -63,7 +63,7 @@ class FriendRepositoryByLocalDatbase implements FriendRepository {
   Future<int> _update(Friend element) async {
     final db = await _local.database;
     final id = element.id!;
-    await db.update(Config.friendTableName, element.toJson(),
+    await db.update(DatabaseConfig.friendTableName, element.toJson(),
         where: "id=?", whereArgs: [id]);
     await _deleteAllChildElements(id);
     return id;
@@ -71,7 +71,7 @@ class FriendRepositoryByLocalDatbase implements FriendRepository {
 
   Future<int> _insert(Friend element) async {
     final db = await _local.database;
-    final id = await db.insert(Config.friendTableName, element.toJson());
+    final id = await db.insert(DatabaseConfig.friendTableName, element.toJson());
     await _insertAllChildElements(element.copyWith(id: id));
     return id;
   }
@@ -79,10 +79,10 @@ class FriendRepositoryByLocalDatbase implements FriendRepository {
   Future<void> _insertAllChildElements(Friend element) async {
     final anniversaries =
         element.anniversaries.map((e) => e.copyWith(friendID: element.id));
-    await _insertAll(Config.anniversaryTableName, anniversaries);
+    await _insertAll(DatabaseConfig.anniversaryTableName, anniversaries);
     final contacts =
         element.contacts.map((e) => e.copyWith(friendID: element.id));
-    await _insertAll(Config.contactTableName, contacts);
+    await _insertAll(DatabaseConfig.contactTableName, contacts);
   }
 
   Future<void> _insertAll(String table, Iterable elements) async {
@@ -95,9 +95,9 @@ class FriendRepositoryByLocalDatbase implements FriendRepository {
   Future<Friend> _convertJsonToFriend(
       Database db, Map<String, dynamic> json) async {
     final friend = Friend.fromJson(json);
-    final anniversaries = await db.query(Config.anniversaryTableName,
+    final anniversaries = await db.query(DatabaseConfig.anniversaryTableName,
         where: "friend_id=?", whereArgs: [friend.id]);
-    final contacts = await db.query(Config.contactTableName,
+    final contacts = await db.query(DatabaseConfig.contactTableName,
         where: "friend_id=?", whereArgs: [friend.id]);
     return friend.copyWith(
       anniversaries: anniversaries.map((e) => Anniversary.fromJson(e)).toList(),

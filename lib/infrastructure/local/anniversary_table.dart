@@ -5,7 +5,7 @@ import 'package:friend_list/infrastructure/local/i_table.dart';
 import 'package:sqflite/sqflite.dart';
 
 class AnniversaryTable extends ITable {
-  const AnniversaryTable() : super(Config.anniversaryTableName);
+  const AnniversaryTable() : super(DatabaseConfig.anniversaryTableName);
 
   @override
   FutureOr<void>? onConfigure(Database database) {}

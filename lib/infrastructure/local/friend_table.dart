@@ -5,7 +5,7 @@ import 'package:friend_list/infrastructure/local/i_table.dart';
 import 'package:sqflite/sqflite.dart';
 
 class FriendTable extends ITable {
-  const FriendTable() : super(Config.friendTableName);
+  const FriendTable() : super(DatabaseConfig.friendTableName);
 
   @override
   FutureOr<void>? onConfigure(Database database) {}
