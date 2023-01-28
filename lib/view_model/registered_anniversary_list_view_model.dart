@@ -12,13 +12,12 @@ class RegisteredAnniversaryListViewModel extends ChangeNotifier {
   Anniversary? get birthday => _model.birthday;
   Iterable<Anniversary> get anniversaries => _model.customs;
 
-  void updateBirthday(DateTime? value) {
+  void onSavedBirthday(DateTime? value) {
     if (value == null) {
       return;
     }
     _model =
         _model.copyWith(birthday: Anniversary(name: "birthday", date: value));
-    notifyListeners();
   }
 
   Future<void> addAnniversary(BuildContext context) async {

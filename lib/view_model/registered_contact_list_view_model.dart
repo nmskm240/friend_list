@@ -3,6 +3,7 @@ import 'package:friend_list/component/dialog/confirm_dialog.dart';
 import 'package:friend_list/component/dialog/contact_form_dialog.dart';
 import 'package:friend_list/entity/contact.dart';
 import 'package:friend_list/model/registered_contact_list.dart';
+import 'package:friend_list/util/validator/contact_validator.dart';
 
 class RegisteredContactListViewModel extends ChangeNotifier {
   RegisteredContactList _model;
@@ -10,6 +11,10 @@ class RegisteredContactListViewModel extends ChangeNotifier {
   RegisteredContactListViewModel(this._model);
 
   Iterable<Contact> get contacts => _model.contacts;
+
+  String? contactValidate(Contact value) {
+    return ContactValidator().validate(value);
+  }
 
   Future<void> createContact(BuildContext context) async {
     final json = await ContactFormDialog().show(context);

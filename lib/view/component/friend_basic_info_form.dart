@@ -5,11 +5,9 @@ import 'package:friend_list/component/form_builder__circle_avatar.dart';
 import 'package:friend_list/provider/friend_basic_info_provider.dart';
 
 class FriendBasicInfoForm extends ConsumerWidget {
-  late final GlobalKey formKey;
+  final GlobalKey formKey;
 
-  FriendBasicInfoForm({super.key}) {
-    formKey = GlobalKey<FormBuilderState>();
-  }
+  const FriendBasicInfoForm({super.key, required this.formKey});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -24,7 +22,7 @@ class FriendBasicInfoForm extends ConsumerWidget {
               radius: 60,
               initialIcon: ref.watch(friendBasicInfoProvider
                   .select((value) => value.icon)),
-              onChanged: (s) {
+              onSaved: (s) {
                 viewmodel.icon = s;
               },
             ),
@@ -35,7 +33,7 @@ class FriendBasicInfoForm extends ConsumerWidget {
                 title: FormBuilderTextField(
                   name: 'name',
                   initialValue: viewmodel.name,
-                  onSubmitted: (value) {
+                  onSaved: (value) {
                     viewmodel.name = value;
                   },
                   decoration: const InputDecoration(
@@ -48,7 +46,7 @@ class FriendBasicInfoForm extends ConsumerWidget {
                 title: FormBuilderTextField(
                   name: "nickname",
                   initialValue: viewmodel.nickname,
-                  onSubmitted: (value) {
+                  onSaved: (value) {
                     viewmodel.nickname = value;
                   },
                   decoration: const InputDecoration(

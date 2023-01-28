@@ -29,7 +29,7 @@ class AppRouter extends RouterDelegate<Empty>
             the user is now redirected to the detail screen instead of the home screen.
         */
         if (route == "/friend/detail") const MaterialPage(child: FriendDetail()),
-        if (route == "/friend/edit") const MaterialPage(child: FriendEditPage()),
+        if (route == "/friend/edit") MaterialPage(child: FriendEditPage()),
       ],
       onPopPage: (route, result) {
         provider.state = '';
