@@ -17,6 +17,7 @@ package view {
 
 package viewModel {
     class FriendListViewModel
+    class FriendEditPageViewModel
     class FriendBasicInfoEditViewModel
     class RegisteredAnniversaryListViewModel
     class RegisteredContactListViewModel
@@ -24,6 +25,7 @@ package viewModel {
 
 package model {
     class FriendBasicInfo<<freezed>>
+    class FriendEditFormState<<freezed>>
     class RegisteredAnniversaryList<<freezed>>
     class RegisteredContactList<<freezed>>
 }
@@ -58,10 +60,12 @@ FriendEditPage ..> FriendBasicInfoEditForm
 FriendEditPage ..> RegisteredAnniversaryListView
 FriendEditPage ..> RegisteredContactListView
 
+FriendEditPage ..> FriendEditPageViewModel
 FriendBasicInfoEditForm ..> FriendBasicInfoEditViewModel
 RegisteredAnniversaryListView ..> RegisteredAnniversaryListViewModel
 RegisteredContactListView ..> RegisteredContactListViewModel
 
+FriendEditPageViewModel ..> FriendEditFormState
 FriendBasicInfoEditViewModel ..> FriendBasicInfo
 RegisteredAnniversaryListViewModel ..> RegisteredAnniversaryList
 RegisteredContactListViewModel ..> RegisteredContactList
@@ -69,11 +73,12 @@ RegisteredContactListViewModel ..> RegisteredContactList
 FriendBasicInfo ..> Friend
 RegisteredAnniversaryList ..> Anniversary
 RegisteredContactList ..> Contact
+FriendEditFormState ..> Friend
 
-Friend o-left- Anniversary
-Friend o- Contact
+Friend o-- Anniversary
+Friend o-- Contact
 
-Friend <-- FriendRepository
+Friend --> FriendRepository
 
 FriendRepository <|.. FriendRepositoryByLocalDatabase
 
