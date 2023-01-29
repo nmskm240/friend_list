@@ -4,7 +4,7 @@ class EmailValidator implements IValidatable<String?> {
   @override
   String? validate(String? value) {
     if (value == null || value.isEmpty) {
-      return "Enter the friend email";
+      return "Enter the person email";
     } else if (RegExp(
             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
         .hasMatch(value)) {

@@ -37,6 +37,7 @@ class FormBuilderCircleAvatar extends ConsumerWidget {
     return FormBuilderField<String>(
       key: super.key,
       name: name,
+      initialValue: "",
       builder: (FormFieldState<String> field) {
         return GestureDetector(
           child: CircleAvatar(

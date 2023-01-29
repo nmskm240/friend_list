@@ -1,5 +1,5 @@
 class DatabaseConfig {  
   static const anniversaryTableName = "anniversaries";
   static const contactTableName = "contacts";
-  static const friendTableName = "friends";
+  static const personTableName = "persons";
 }

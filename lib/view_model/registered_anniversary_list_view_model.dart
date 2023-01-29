@@ -2,22 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:friend_list/component/dialog/anniversary_form_dialog.dart';
 import 'package:friend_list/component/dialog/confirm_dialog.dart';
 import 'package:friend_list/entity/anniversary.dart';
-import 'package:friend_list/model/ragistered_anniversary_list.dart';
+import 'package:friend_list/model/anniversary_list.dart';
 
 class RegisteredAnniversaryListViewModel extends ChangeNotifier {
-  RegisteredAnniversaryList _model;
+  AnniversaryList _model;
 
   RegisteredAnniversaryListViewModel(this._model);
 
-  Anniversary? get birthday => _model.birthday;
-  Iterable<Anniversary> get anniversaries => _model.customs;
+  DateTime? get birthdate => _model.birthdate;
+  Iterable<Anniversary> get anniversaries => _model.others;
 
   void onSavedBirthday(DateTime? value) {
     if (value == null) {
       return;
     }
-    _model =
-        _model.copyWith(birthday: Anniversary(name: "birthday", date: value));
+    _model = _model.copyWith(birthdate: value);
   }
 
   Future<void> addAnniversary(BuildContext context) async {
@@ -27,8 +26,8 @@ class RegisteredAnniversaryListViewModel extends ChangeNotifier {
     }
     final newAnniversary = Anniversary(name: json["name"], date: json["date"]);
     _model = _model.copyWith(
-      customs: [
-        ..._model.customs,
+      others: [
+        ..._model.others,
         newAnniversary,
       ],
     );
@@ -41,10 +40,10 @@ class RegisteredAnniversaryListViewModel extends ChangeNotifier {
             "Confirm", "Do you want to delete the ${anniversary.name} ?")
         .show(context);
     if (isAccept) {
-      final currentAnniversaries = List<Anniversary>.from(_model.customs);
-      currentAnniversaries.remove(anniversary);
+      final current = List<Anniversary>.from(_model.others);
+      current.remove(anniversary);
       _model = _model.copyWith(
-        customs: currentAnniversaries,
+        others: current,
       );
       notifyListeners();
     }

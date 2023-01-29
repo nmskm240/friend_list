@@ -4,7 +4,7 @@ class NameValidator implements IValidatable<String?> {
   @override
   String? validate(String? value) {
     if(value == null || value.isEmpty) {
-      return "Enter the friend name";
+      return "Enter the person name";
     }
     return null;
   }

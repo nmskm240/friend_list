@@ -5,14 +5,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:friend_list/component/listview_with_header.dart';
 import 'package:friend_list/provider/app_router_provider.dart';
-import 'package:friend_list/provider/friend_select_provider.dart';
+import 'package:friend_list/provider/person_select_provider.dart';
 
-class FriendDetail extends ConsumerWidget {
-  const FriendDetail({Key? key}) : super(key: key);
+class PersonDetailPage extends ConsumerWidget {
+  const PersonDetailPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var data = ref.watch(friendSelectProvider.notifier).state;
+    var data = ref.watch(personSelectProvider.notifier).state;
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -21,7 +21,7 @@ class FriendDetail extends ConsumerWidget {
               IconButton(
                 icon: const Icon(Icons.edit),
                 onPressed: () {
-                  ref.read(appRouteProvider.notifier).state = "/friend/edit";
+                  ref.read(appRouteProvider.notifier).state = "/person/edit";
                 },
               ),
             ],

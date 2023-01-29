@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:friend_list/infrastructure/local/anniversary_table.dart';
 import 'package:friend_list/infrastructure/local/contact_table.dart';
-import 'package:friend_list/infrastructure/local/friend_table.dart';
+import 'package:friend_list/infrastructure/local/person_table.dart';
 import 'package:friend_list/infrastructure/local/i_database_provider.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -14,7 +14,7 @@ class AppDatabase implements IDatabaseProvider {
 
   final String fileName = "app.db";
   final tables = const [
-    FriendTable(),
+    PersonTable(),
     AnniversaryTable(),
     ContactTable(),
   ];

@@ -10,7 +10,7 @@ class Contact with _$Contact {
   const factory Contact({
     required ContactMethodType method,
     required String value,
-    @JsonKey(name: "friend_id") int? friendID,
+    @JsonKey(name: "person_id") int? personID,
   }) = _Contact;
   factory Contact.fromJson(Map<String, dynamic> json) =>
       _$ContactFromJson(json);

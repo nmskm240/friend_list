@@ -9,7 +9,7 @@ class Anniversary with _$Anniversary {
   const factory Anniversary({
     required String name,
     @DateTimeField() required DateTime date,
-    @JsonKey(name: "friend_id") int? friendID,
+    @JsonKey(name: "person_id") int? personID,
   }) = _Anniversary;
   factory Anniversary.fromJson(Map<String, dynamic> json) =>
       _$AnniversaryFromJson(json);

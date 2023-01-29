@@ -2,44 +2,44 @@
 
 package view {
     package page {
-        class FriendDetail
-        class FriendEditPage
-        class FriendListPage
+        class PersonDetail
+        class PersonDataEditPage
+        class PersonListPage
     }
 
     package component {
-        class FriendListView
-        class FriendBasicInfoEditForm
+        class PersonListView
+        class PersonBasicDataForm
         class RegisteredAnniversaryListView
         class RegisteredContactListView
     }
 }
 
 package viewModel {
-    class FriendListViewModel
-    class FriendEditPageViewModel
-    class FriendBasicInfoEditViewModel
+    class PersonListViewModel
+    class PersonBasicDataEditViewModel
     class RegisteredAnniversaryListViewModel
     class RegisteredContactListViewModel
+    class PersonEditPageViewModel
 }
 
 package model {
-    class FriendBasicInfo<<freezed>>
-    class FriendEditFormState<<freezed>>
-    class RegisteredAnniversaryList<<freezed>>
-    class RegisteredContactList<<freezed>>
+    class PersonDataEditFormState<<freezed>>
+    class NameAndIcon<<freezed>>
+    class AnniversaryList<<freezed>>
+    class ContactList<<freezed>>
 }
 
 
 package repository {
-    interface FriendRepository
-    class FriendRepositoryByLocalDatabase
+    interface PersonRepository
+    class PersonRepositoryByLocalDatabase
 }
 
 package entity {
     class Anniversary<<freezed>>
     class Contact<<freezed>>
-    class Friend<<freezed>>
+    class Person<<freezed>>
 }
 
 package infrastructure {
@@ -47,46 +47,47 @@ package infrastructure {
         class AnniversaryTable
         class AppDatabase
         class ContactTable
-        class FriendTable
+        class PersonTable
         interface IDatabaseProvider
         interface ITable
     }
 }
 
-FriendListView ..> FriendListViewModel
+PersonListView ..> PersonListViewModel
 
-FriendListPage ..> FriendListView
-FriendEditPage ..> FriendBasicInfoEditForm
-FriendEditPage ..> RegisteredAnniversaryListView
-FriendEditPage ..> RegisteredContactListView
+PersonListPage ..> PersonListView
+PersonDataEditPage ..> PersonBasicDataForm
+PersonDataEditPage ..> RegisteredAnniversaryListView
+PersonDataEditPage ..> RegisteredContactListView
 
-FriendEditPage ..> FriendEditPageViewModel
-FriendBasicInfoEditForm ..> FriendBasicInfoEditViewModel
+PersonDataEditPage ..> PersonEditPageViewModel
+PersonBasicDataForm ..> PersonBasicDataEditViewModel
 RegisteredAnniversaryListView ..> RegisteredAnniversaryListViewModel
 RegisteredContactListView ..> RegisteredContactListViewModel
 
-FriendEditPageViewModel ..> FriendEditFormState
-FriendBasicInfoEditViewModel ..> FriendBasicInfo
-RegisteredAnniversaryListViewModel ..> RegisteredAnniversaryList
-RegisteredContactListViewModel ..> RegisteredContactList
+PersonEditPageViewModel ..> PersonDataEditFormState
+PersonBasicDataEditViewModel ..> NameAndIcon
+RegisteredAnniversaryListViewModel ..> AnniversaryList
+RegisteredContactListViewModel ..> ContactList
 
-FriendBasicInfo ..> Friend
-RegisteredAnniversaryList ..> Anniversary
-RegisteredContactList ..> Contact
-FriendEditFormState ..> Friend
+NameAndIcon ..> PersonDataEditFormState
+AnniversaryList ..> PersonDataEditFormState
+ContactList ..> PersonDataEditFormState
 
-Friend o-- Anniversary
-Friend o-- Contact
+PersonDataEditFormState ..> Person
 
-Friend --> FriendRepository
+Person o-- Anniversary
+Person o-- Contact
 
-FriendRepository <|.. FriendRepositoryByLocalDatabase
+Person --> PersonRepository
 
-FriendRepositoryByLocalDatabase --> IDatabaseProvider
+PersonRepository <|.. PersonRepositoryByLocalDatabase
+
+PersonRepositoryByLocalDatabase --> IDatabaseProvider
 
 ITable <|-- AnniversaryTable
 ITable <|-- ContactTable
-ITable <|-- FriendTable
+ITable <|-- PersonTable
 AppDatabase "1" o-- "*" ITable
 IDatabaseProvider <|-- AppDatabase
 

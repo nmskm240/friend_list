@@ -4,13 +4,13 @@ import 'package:friend_list/entity/contact.dart';
 import 'package:friend_list/util/annotation/created_at_field.dart';
 import 'package:friend_list/util/annotation/updated_at_field.dart';
 
-part 'friend.freezed.dart';
-part 'friend.g.dart';
+part 'person.freezed.dart';
+part 'person.g.dart';
 
 @freezed
-class Friend with _$Friend {
-  const Friend._();
-  const factory Friend({
+class Person with _$Person {
+  const Person._();
+  const factory Person({
     int? id,
     required String name,
     @Default("") String nickname,
@@ -19,6 +19,6 @@ class Friend with _$Friend {
     @Default([]) @JsonKey(ignore: true) List<Contact> contacts,
     @CreatedAtField() @JsonKey(name: "created_at") DateTime? createdAt,
     @UpdatedAtField() @JsonKey(name: "updated_at") DateTime? updatedAt,
-  }) = _Friend;
-  factory Friend.fromJson(Map<String, dynamic> json) => _$FriendFromJson(json);
+  }) = _Person;
+  factory Person.fromJson(Map<String, dynamic> json) => _$PersonFromJson(json);
 }

@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'friend.dart';
+part of 'person.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_Friend _$$_FriendFromJson(Map<String, dynamic> json) => _$_Friend(
+_$_Person _$$_PersonFromJson(Map<String, dynamic> json) => _$_Person(
       id: json['id'] as int?,
       name: json['name'] as String,
       nickname: json['nickname'] as String? ?? "",
@@ -15,7 +15,7 @@ _$_Friend _$$_FriendFromJson(Map<String, dynamic> json) => _$_Friend(
       updatedAt: const UpdatedAtField().fromJson(json['updated_at'] as String?),
     );
 
-Map<String, dynamic> _$$_FriendToJson(_$_Friend instance) => <String, dynamic>{
+Map<String, dynamic> _$$_PersonToJson(_$_Person instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'nickname': instance.nickname,

@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:friend_list/component/listview_with_header.dart';
 import 'package:friend_list/provider/app_router_provider.dart';
-import 'package:friend_list/provider/friend_edit_provider.dart';
-import 'package:friend_list/view/component/friend_basic_info_form.dart';
+import 'package:friend_list/provider/person_data_edit_provider.dart';
+import 'package:friend_list/view/component/person_basic_data_form.dart';
 import 'package:friend_list/view/component/registered_anniversary_list_view.dart';
 import 'package:friend_list/view/component/registered_contact_list_view.dart';
 
-class FriendEditPage extends ConsumerWidget {
-  const FriendEditPage({Key? key}) : super(key: key);
+class PersonDataEditPage extends ConsumerWidget {
+  const PersonDataEditPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final viewmodel = ref.watch(friendEditProvider.notifier);
+    final viewmodel = ref.watch(personDataEditProvider.notifier);
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
@@ -25,7 +25,7 @@ class FriendEditPage extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsets.all(5),
         children: <Widget>[
-          FriendBasicInfoForm(formKey: viewmodel.basicInfoFormKey),
+          PersonBasicDataForm(formKey: viewmodel.basicInfoFormKey),
           const Divider(),
           RegisteredAnniversaryListView(formKey: viewmodel.anniversaryListFormKey),
           const Divider(),

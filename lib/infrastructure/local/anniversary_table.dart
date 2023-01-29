@@ -16,7 +16,7 @@ class AnniversaryTable extends ITable {
           CREATE TABLE IF NOT EXISTS $name (
             name TEXT,
             date TEXT,
-            friend_id INTEGER
+            person_id INTEGER
           )
           ''');
   }

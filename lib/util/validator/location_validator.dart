@@ -4,7 +4,7 @@ class LocationValidator implements IValidatable<String?> {
   @override
   String? validate(String? value) {
     if (value == null || value.isEmpty) {
-      return "Enter the friend location";
+      return "Enter the person location";
     }
     return null;
   }

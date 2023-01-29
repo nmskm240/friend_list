@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:friend_list/component/dialog/confirm_dialog.dart';
 import 'package:friend_list/component/dialog/contact_form_dialog.dart';
 import 'package:friend_list/entity/contact.dart';
-import 'package:friend_list/model/registered_contact_list.dart';
+import 'package:friend_list/model/contact_list.dart';
 import 'package:friend_list/util/validator/contact_validator.dart';
 
 class RegisteredContactListViewModel extends ChangeNotifier {
-  RegisteredContactList _model;
+  ContactList _model;
 
   RegisteredContactListViewModel(this._model);
 
-  Iterable<Contact> get contacts => _model.contacts;
+  Iterable<Contact> get contacts => _model.values;
 
   String? contactValidate(Contact value) {
     return ContactValidator().validate(value);
@@ -23,8 +23,8 @@ class RegisteredContactListViewModel extends ChangeNotifier {
     }
     final newContact = Contact(method: json["method"], value: json["value"]);
     _model = _model.copyWith(
-      contacts: [
-        ..._model.contacts,
+      values: [
+        ..._model.values,
         newContact,
       ],
     );
@@ -36,10 +36,10 @@ class RegisteredContactListViewModel extends ChangeNotifier {
             "Confirm", "Do you want to delete the ${contact.method.name} ?")
         .show(context);
     if (isAccept) {
-      final contacts = List<Contact>.from(_model.contacts);
-      contacts.remove(contact);
+      final current = List<Contact>.from(_model.values);
+      current.remove(contact);
       _model = _model.copyWith(
-        contacts: contacts,
+        values: current,
       );
       notifyListeners();
     }

@@ -1,12 +1,12 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'friend_basic_info.freezed.dart';
+part 'name_and_icon.freezed.dart';
 
 @freezed
-class FriendBasicInfo with _$FriendBasicInfo {
-  const factory FriendBasicInfo({
+class NameAndIcon with _$NameAndIcon {
+  const factory NameAndIcon({
     @Default("") String name,
     @Default("") String nickname,
     @Default("") String icon,
-  }) = _FriendBasicInfo;
+  }) = _NameAndIcon;
 }

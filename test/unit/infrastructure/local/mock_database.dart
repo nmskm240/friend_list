@@ -1,6 +1,6 @@
 import 'package:friend_list/infrastructure/local/anniversary_table.dart';
 import 'package:friend_list/infrastructure/local/contact_table.dart';
-import 'package:friend_list/infrastructure/local/friend_table.dart';
+import 'package:friend_list/infrastructure/local/person_table.dart';
 import 'package:friend_list/infrastructure/local/i_database_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
@@ -8,7 +8,7 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 class MockDatabase implements IDatabaseProvider {
   Database? _database;
   final tables = const [
-    FriendTable(),
+    PersonTable(),
     AnniversaryTable(),
     ContactTable(),
   ];

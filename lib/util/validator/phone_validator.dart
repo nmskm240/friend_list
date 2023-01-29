@@ -4,7 +4,7 @@ class PhoneValidator implements IValidatable<String?> {
   @override
   String? validate(String? value) {
     if (value == null || value.isEmpty) {
-      return "Enter the friend phone number";
+      return "Enter the person phone number";
     } else if (RegExp(r"^0[-\d]{9,12}").hasMatch(value)) {
       return null;
     } else {

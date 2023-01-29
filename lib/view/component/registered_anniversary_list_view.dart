@@ -28,12 +28,12 @@ class RegisteredAnniversaryListView extends ConsumerWidget {
           if (index == 0) {
             return ListTile(
               title: FormBuilderDateTimePicker(
-                name: 'birthday',
-                initialValue: viewmodel.birthday?.date,
+                name: 'birthdate',
+                initialValue: viewmodel.birthdate,
                 inputType: InputType.date,
                 onSaved: viewmodel.onSavedBirthday,
                 decoration: const InputDecoration(
-                  label: Text("Birthday"),
+                  label: Text("Birthdate"),
                 ),
               ),
             );

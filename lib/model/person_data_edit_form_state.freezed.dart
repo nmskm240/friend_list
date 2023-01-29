@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'friend_edit_form_state.dart';
+part of 'person_data_edit_form_state.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,7 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$FriendEditFormState {
+mixin _$PersonDataEditFormState {
   GlobalObjectKey<FormBuilderState> get basicInfoFormKey =>
       throw _privateConstructorUsedError;
   GlobalObjectKey<FormBuilderState> get registeredAnniversaryListKey =>
@@ -24,15 +24,15 @@ mixin _$FriendEditFormState {
       throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $FriendEditFormStateCopyWith<FriendEditFormState> get copyWith =>
+  $PersonDataEditFormStateCopyWith<PersonDataEditFormState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $FriendEditFormStateCopyWith<$Res> {
-  factory $FriendEditFormStateCopyWith(
-          FriendEditFormState value, $Res Function(FriendEditFormState) then) =
-      _$FriendEditFormStateCopyWithImpl<$Res, FriendEditFormState>;
+abstract class $PersonDataEditFormStateCopyWith<$Res> {
+  factory $PersonDataEditFormStateCopyWith(PersonDataEditFormState value,
+          $Res Function(PersonDataEditFormState) then) =
+      _$PersonDataEditFormStateCopyWithImpl<$Res, PersonDataEditFormState>;
   @useResult
   $Res call(
       {GlobalObjectKey<FormBuilderState> basicInfoFormKey,
@@ -41,9 +41,10 @@ abstract class $FriendEditFormStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$FriendEditFormStateCopyWithImpl<$Res, $Val extends FriendEditFormState>
-    implements $FriendEditFormStateCopyWith<$Res> {
-  _$FriendEditFormStateCopyWithImpl(this._value, this._then);
+class _$PersonDataEditFormStateCopyWithImpl<$Res,
+        $Val extends PersonDataEditFormState>
+    implements $PersonDataEditFormStateCopyWith<$Res> {
+  _$PersonDataEditFormStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -75,11 +76,11 @@ class _$FriendEditFormStateCopyWithImpl<$Res, $Val extends FriendEditFormState>
 }
 
 /// @nodoc
-abstract class _$$_FriendEditFormStateCopyWith<$Res>
-    implements $FriendEditFormStateCopyWith<$Res> {
-  factory _$$_FriendEditFormStateCopyWith(_$_FriendEditFormState value,
-          $Res Function(_$_FriendEditFormState) then) =
-      __$$_FriendEditFormStateCopyWithImpl<$Res>;
+abstract class _$$_PersonDataEditFormStateCopyWith<$Res>
+    implements $PersonDataEditFormStateCopyWith<$Res> {
+  factory _$$_PersonDataEditFormStateCopyWith(_$_PersonDataEditFormState value,
+          $Res Function(_$_PersonDataEditFormState) then) =
+      __$$_PersonDataEditFormStateCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -89,11 +90,12 @@ abstract class _$$_FriendEditFormStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_FriendEditFormStateCopyWithImpl<$Res>
-    extends _$FriendEditFormStateCopyWithImpl<$Res, _$_FriendEditFormState>
-    implements _$$_FriendEditFormStateCopyWith<$Res> {
-  __$$_FriendEditFormStateCopyWithImpl(_$_FriendEditFormState _value,
-      $Res Function(_$_FriendEditFormState) _then)
+class __$$_PersonDataEditFormStateCopyWithImpl<$Res>
+    extends _$PersonDataEditFormStateCopyWithImpl<$Res,
+        _$_PersonDataEditFormState>
+    implements _$$_PersonDataEditFormStateCopyWith<$Res> {
+  __$$_PersonDataEditFormStateCopyWithImpl(_$_PersonDataEditFormState _value,
+      $Res Function(_$_PersonDataEditFormState) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -103,7 +105,7 @@ class __$$_FriendEditFormStateCopyWithImpl<$Res>
     Object? registeredAnniversaryListKey = null,
     Object? registeredContactListKey = null,
   }) {
-    return _then(_$_FriendEditFormState(
+    return _then(_$_PersonDataEditFormState(
       basicInfoFormKey: null == basicInfoFormKey
           ? _value.basicInfoFormKey
           : basicInfoFormKey // ignore: cast_nullable_to_non_nullable
@@ -122,8 +124,8 @@ class __$$_FriendEditFormStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_FriendEditFormState extends _FriendEditFormState {
-  const _$_FriendEditFormState(
+class _$_PersonDataEditFormState extends _PersonDataEditFormState {
+  const _$_PersonDataEditFormState(
       {this.basicInfoFormKey =
           const GlobalObjectKey<FormBuilderState>("basic_info"),
       this.registeredAnniversaryListKey =
@@ -145,14 +147,14 @@ class _$_FriendEditFormState extends _FriendEditFormState {
 
   @override
   String toString() {
-    return 'FriendEditFormState(basicInfoFormKey: $basicInfoFormKey, registeredAnniversaryListKey: $registeredAnniversaryListKey, registeredContactListKey: $registeredContactListKey)';
+    return 'PersonDataEditFormState(basicInfoFormKey: $basicInfoFormKey, registeredAnniversaryListKey: $registeredAnniversaryListKey, registeredContactListKey: $registeredContactListKey)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_FriendEditFormState &&
+            other is _$_PersonDataEditFormState &&
             (identical(other.basicInfoFormKey, basicInfoFormKey) ||
                 other.basicInfoFormKey == basicInfoFormKey) &&
             (identical(other.registeredAnniversaryListKey,
@@ -171,18 +173,19 @@ class _$_FriendEditFormState extends _FriendEditFormState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_FriendEditFormStateCopyWith<_$_FriendEditFormState> get copyWith =>
-      __$$_FriendEditFormStateCopyWithImpl<_$_FriendEditFormState>(
-          this, _$identity);
+  _$$_PersonDataEditFormStateCopyWith<_$_PersonDataEditFormState>
+      get copyWith =>
+          __$$_PersonDataEditFormStateCopyWithImpl<_$_PersonDataEditFormState>(
+              this, _$identity);
 }
 
-abstract class _FriendEditFormState extends FriendEditFormState {
-  const factory _FriendEditFormState(
+abstract class _PersonDataEditFormState extends PersonDataEditFormState {
+  const factory _PersonDataEditFormState(
           {final GlobalObjectKey<FormBuilderState> basicInfoFormKey,
           final GlobalObjectKey<FormBuilderState> registeredAnniversaryListKey,
           final GlobalObjectKey<FormBuilderState> registeredContactListKey}) =
-      _$_FriendEditFormState;
-  const _FriendEditFormState._() : super._();
+      _$_PersonDataEditFormState;
+  const _PersonDataEditFormState._() : super._();
 
   @override
   GlobalObjectKey<FormBuilderState> get basicInfoFormKey;
@@ -192,6 +195,6 @@ abstract class _FriendEditFormState extends FriendEditFormState {
   GlobalObjectKey<FormBuilderState> get registeredContactListKey;
   @override
   @JsonKey(ignore: true)
-  _$$_FriendEditFormStateCopyWith<_$_FriendEditFormState> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$_PersonDataEditFormStateCopyWith<_$_PersonDataEditFormState>
+      get copyWith => throw _privateConstructorUsedError;
 }

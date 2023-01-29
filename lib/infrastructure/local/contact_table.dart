@@ -16,7 +16,7 @@ class ContactTable extends ITable {
           CREATE TABLE IF NOT EXISTS $name (
             method TEXT,
             value TEXT,
-            friend_id INTEGER
+            person_id INTEGER
           )
           ''');
   }

@@ -2,15 +2,15 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:friend_list/entity/friend.dart';
+import 'package:friend_list/entity/person.dart';
 import 'package:intl/intl.dart';
 
-class FriendListTile extends ConsumerWidget {
-  Friend data;
+class PersonListTile extends ConsumerWidget {
+  Person data;
   Function()? onTap;
   Function()? onLongPress;
 
-  FriendListTile({Key? key, required this.data, this.onTap, this.onLongPress})
+  PersonListTile({Key? key, required this.data, this.onTap, this.onLongPress})
       : super(key: key);
 
   @override
