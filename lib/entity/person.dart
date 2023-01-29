@@ -1,3 +1,4 @@
+import 'package:age_calculator/age_calculator.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:friend_list/entity/anniversary.dart';
 import 'package:friend_list/entity/contact.dart';
@@ -21,4 +22,20 @@ class Person with _$Person {
     @UpdatedAtField() @JsonKey(name: "updated_at") DateTime? updatedAt,
   }) = _Person;
   factory Person.fromJson(Map<String, dynamic> json) => _$PersonFromJson(json);
+
+  Anniversary? get birthdate {
+    try {
+      return anniversaries.firstWhere((element) => element.name == "birthdate");
+    } catch (e) {
+      return null;
+    }
+  }
+
+  int? get age {
+    try {
+      return AgeCalculator.age(birthdate!.date).years;
+    } catch (e) {
+      return null;
+    }
+  }
 }

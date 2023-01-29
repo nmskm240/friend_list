@@ -7,11 +7,11 @@ import 'package:friend_list/provider/defaultIconProvider.dart';
 import 'package:intl/intl.dart';
 
 class PersonListTile extends ConsumerWidget {
-  Person data;
-  Function()? onTap;
-  Function()? onLongPress;
+  final Person data;
+  final Function()? onTap;
+  final Function()? onLongPress;
 
-  PersonListTile({Key? key, required this.data, this.onTap, this.onLongPress})
+  const PersonListTile({Key? key, required this.data, this.onTap, this.onLongPress})
       : super(key: key);
 
   @override
@@ -29,11 +29,10 @@ class PersonListTile extends ConsumerWidget {
       trailing: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          //TODO: display age
-          // Text(data.birthday == null
-          //     ? "unknown birthday"
-          //     : DateFormat("yyyy/MM/dd").format(data.birthday!)),
-          // Text('${data.age ?? "?"} years old'),
+          Text(data.birthdate == null
+              ? "unknown birthday"
+              : DateFormat("yyyy/MM/dd").format(data.birthdate!.date)),
+          Text('${data.age ?? "?"} years old'),
         ],
       ),
       onTap: onTap,

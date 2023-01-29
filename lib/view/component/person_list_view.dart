@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:friend_list/component/person_list_tile.dart';
+import 'package:friend_list/view/component/person_list_tile.dart';
 import 'package:friend_list/provider/person_list_provider.dart';
 
 class PersonListView extends ConsumerWidget {

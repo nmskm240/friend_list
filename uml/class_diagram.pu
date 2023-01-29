@@ -53,13 +53,12 @@ package infrastructure {
     }
 }
 
-PersonListView ..> PersonListViewModel
-
 PersonListPage ..> PersonListView
 PersonDataEditPage ..> PersonBasicDataForm
 PersonDataEditPage ..> RegisteredAnniversaryListView
 PersonDataEditPage ..> RegisteredContactListView
 
+PersonListView ..> PersonListViewModel
 PersonDataEditPage ..> PersonEditPageViewModel
 PersonBasicDataForm ..> PersonBasicDataEditViewModel
 RegisteredAnniversaryListView ..> RegisteredAnniversaryListViewModel
