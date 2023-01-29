@@ -24,7 +24,7 @@ package viewModel {
 }
 
 package model {
-    class PersonDataEditFormState<<freezed>>
+    class PersonDataEditForm<<freezed>>
     class NameAndIcon<<freezed>>
     class AnniversaryList<<freezed>>
     class ContactList<<freezed>>
@@ -65,16 +65,16 @@ PersonBasicDataForm ..> PersonBasicDataEditViewModel
 RegisteredAnniversaryListView ..> RegisteredAnniversaryListViewModel
 RegisteredContactListView ..> RegisteredContactListViewModel
 
-PersonEditPageViewModel ..> PersonDataEditFormState
+PersonEditPageViewModel ..> PersonDataEditForm
 PersonBasicDataEditViewModel ..> NameAndIcon
 RegisteredAnniversaryListViewModel ..> AnniversaryList
 RegisteredContactListViewModel ..> ContactList
 
-NameAndIcon ..> PersonDataEditFormState
-AnniversaryList ..> PersonDataEditFormState
-ContactList ..> PersonDataEditFormState
+NameAndIcon ..> PersonDataEditForm
+AnniversaryList ..> PersonDataEditForm
+ContactList ..> PersonDataEditForm
 
-PersonDataEditFormState ..> Person
+PersonDataEditForm ..> Person
 
 Person o-- Anniversary
 Person o-- Contact

@@ -6,48 +6,47 @@ import 'package:friend_list/entity/contact.dart';
 import 'package:friend_list/entity/person.dart';
 import 'package:friend_list/repository/person_repository_by_local_database.dart';
 
-part 'person_data_edit_form_state.freezed.dart';
+part 'person_data_edit_form.freezed.dart';
 
 @freezed
-class PersonDataEditFormState with _$PersonDataEditFormState {
-  const PersonDataEditFormState._();
-  const factory PersonDataEditFormState({
-    @Default(GlobalObjectKey<FormBuilderState>("basic_info"))
-        GlobalObjectKey<FormBuilderState> basicInfoFormKey,
-    @Default(GlobalObjectKey<FormBuilderState>("registered_anniversary_list"))
-        GlobalObjectKey<FormBuilderState> registeredAnniversaryListKey,
-    @Default(GlobalObjectKey<FormBuilderState>("registered_contact_list"))
-        GlobalObjectKey<FormBuilderState> registeredContactListKey,
+class PersonDataEditForm with _$PersonDataEditForm {
+  const PersonDataEditForm._();
+  const factory PersonDataEditForm({
+    @Default(GlobalObjectKey<FormBuilderState>("basic_data"))
+        GlobalObjectKey<FormBuilderState> nameAndIconKey,
+    @Default(GlobalObjectKey<FormBuilderState>("anniversary_list"))
+        GlobalObjectKey<FormBuilderState> anniversaryListKey,
+    @Default(GlobalObjectKey<FormBuilderState>("contact_list"))
+        GlobalObjectKey<FormBuilderState> contactListKey,
   }) = _PersonDataEditFormState;
 
   bool get isValidated {
     return [
-      basicInfoFormKey,
-      registeredAnniversaryListKey,
-      registeredContactListKey,
+      nameAndIconKey,
+      anniversaryListKey,
+      contactListKey,
     ].every((element) => element.currentState!.validate());
   }
 
   Future<void> save() async {
-    basicInfoFormKey.currentState!.save();
-    registeredAnniversaryListKey.currentState!.save();
-    registeredContactListKey.currentState!.save();
-    final entiry = toEntity();
-    debugPrint(entiry.toString());
-    await PersonRepositoryByLocalDatbase().save(entiry);
+    nameAndIconKey.currentState!.save();
+    anniversaryListKey.currentState!.save();
+    contactListKey.currentState!.save();
+    final entity = toEntity();
+    await PersonRepositoryByLocalDatbase().save(entity);
   }
 
   Person toEntity() {
-    final basicInfo = basicInfoFormKey.currentState!.fields;
+    final basicInfo = nameAndIconKey.currentState!.fields;
     final anniversaries =
-        registeredAnniversaryListKey.currentState!.fields.entries
+        anniversaryListKey.currentState!.fields.entries
             .where((e) => e.value.value != null)
             .map((e) => Anniversary(
                   name: e.key,
                   date: DateTime.parse(e.value.value),
                 ))
             .toList();
-    final contacts = registeredContactListKey.currentState!.fields.entries
+    final contacts = contactListKey.currentState!.fields.entries
         .map((e) => Contact(
               method: ContactMethodType.values.byName(e.key),
               value: e.value.value,

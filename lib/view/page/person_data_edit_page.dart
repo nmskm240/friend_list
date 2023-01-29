@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:friend_list/component/listview_with_header.dart';
 import 'package:friend_list/provider/app_router_provider.dart';
-import 'package:friend_list/provider/person_data_edit_provider.dart';
+import 'package:friend_list/provider/editing_person_data_provider.dart';
 import 'package:friend_list/view/component/person_basic_data_form.dart';
 import 'package:friend_list/view/component/registered_anniversary_list_view.dart';
 import 'package:friend_list/view/component/registered_contact_list_view.dart';
@@ -12,7 +12,7 @@ class PersonDataEditPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final viewmodel = ref.watch(personDataEditProvider.notifier);
+    final viewmodel = ref.watch(editingPersonDataProvider.notifier);
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
