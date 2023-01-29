@@ -4,13 +4,13 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:friend_list/provider/defaultIconProvider.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 class FormBuilderCircleAvatar extends ConsumerWidget {
   final String name;
   final double radius;
-  final String defaultIconPath;
   final String initialIcon;
   late final StateProvider<Uint8List> circleAvatarProvider;
   final void Function(String?)? onChanged;
@@ -22,18 +22,20 @@ class FormBuilderCircleAvatar extends ConsumerWidget {
     super.key,
     required this.name,
     this.radius = 60,
-    this.defaultIconPath = "assets/images/default_avatar.png",
     this.initialIcon = "",
     this.onChanged,
     this.onSaved,
     this.onReset,
     this.validator,
   }) {
-    circleAvatarProvider = StateProvider<Uint8List>((ref) => base64.decode(initialIcon));
+    circleAvatarProvider =
+        StateProvider<Uint8List>((ref) => base64.decode(initialIcon));
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final bytes = ref.watch(circleAvatarProvider);
+    final defaultIcon = ref.watch(defaultIconProvider);
     return FormBuilderField<String>(
       key: super.key,
       name: name,
@@ -41,12 +43,13 @@ class FormBuilderCircleAvatar extends ConsumerWidget {
       builder: (FormFieldState<String> field) {
         return GestureDetector(
           child: CircleAvatar(
-            backgroundImage: _loadIconOrDefault(ref),
+            backgroundImage: bytes.isEmpty
+                ? AssetImage(defaultIcon) as ImageProvider
+                : MemoryImage(bytes),
             radius: radius,
           ),
           onTap: () async {
             await _onTap(ref);
-            final bytes = ref.read(circleAvatarProvider);
             field.didChange(base64.encode(bytes));
           },
         );
@@ -56,12 +59,6 @@ class FormBuilderCircleAvatar extends ConsumerWidget {
       onReset: onReset,
       validator: validator,
     );
-  }
-
-  ImageProvider _loadIconOrDefault(WidgetRef ref) {
-    return ref.watch(circleAvatarProvider).isEmpty
-        ? AssetImage(defaultIconPath) as ImageProvider
-        : MemoryImage(ref.read(circleAvatarProvider));
   }
 
   Future<void> _onTap(WidgetRef ref) async {
@@ -89,6 +86,6 @@ class FormBuilderCircleAvatar extends ConsumerWidget {
       return;
     }
     final bytes = await cropped.readAsBytes();
-    ref.read(circleAvatarProvider.notifier).state = bytes;
+    ref.watch(circleAvatarProvider.notifier).state = bytes;
   }
 }
