@@ -18,7 +18,7 @@ class NavigatorBar extends ConsumerWidget {
             icon: Icon(
               Icons.person,
             ),
-            label: "Friend",
+            label: "Person",
           ),
           BottomNavigationBarItem(
             icon: Icon(

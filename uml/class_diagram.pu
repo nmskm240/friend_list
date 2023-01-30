@@ -1,0 +1,93 @@
+@startuml
+
+package view {
+    package page {
+        class PersonDetail
+        class PersonDataEditPage
+        class PersonListPage
+    }
+
+    package component {
+        class PersonListView
+        class PersonBasicDataForm
+        class RegisteredAnniversaryListView
+        class RegisteredContactListView
+    }
+}
+
+package viewModel {
+    class PersonListViewModel
+    class PersonBasicDataEditViewModel
+    class RegisteredAnniversaryListViewModel
+    class RegisteredContactListViewModel
+    class PersonEditPageViewModel
+}
+
+package model {
+    class PersonDataEditForm<<freezed>>
+    class NameAndIcon<<freezed>>
+    class AnniversaryList<<freezed>>
+    class ContactList<<freezed>>
+}
+
+
+package repository {
+    interface PersonRepository
+    class PersonRepositoryByLocalDatabase
+}
+
+package entity {
+    class Anniversary<<freezed>>
+    class Contact<<freezed>>
+    class Person<<freezed>>
+}
+
+package infrastructure {
+    package local {
+        class AnniversaryTable
+        class AppDatabase
+        class ContactTable
+        class PersonTable
+        interface IDatabaseProvider
+        interface ITable
+    }
+}
+
+PersonListPage ..> PersonListView
+PersonDataEditPage ..> PersonBasicDataForm
+PersonDataEditPage ..> RegisteredAnniversaryListView
+PersonDataEditPage ..> RegisteredContactListView
+
+PersonListView ..> PersonListViewModel
+PersonDataEditPage ..> PersonEditPageViewModel
+PersonBasicDataForm ..> PersonBasicDataEditViewModel
+RegisteredAnniversaryListView ..> RegisteredAnniversaryListViewModel
+RegisteredContactListView ..> RegisteredContactListViewModel
+
+PersonEditPageViewModel ..> PersonDataEditForm
+PersonBasicDataEditViewModel ..> NameAndIcon
+RegisteredAnniversaryListViewModel ..> AnniversaryList
+RegisteredContactListViewModel ..> ContactList
+
+NameAndIcon ..> PersonDataEditForm
+AnniversaryList ..> PersonDataEditForm
+ContactList ..> PersonDataEditForm
+
+PersonDataEditForm ..> Person
+
+Person o-- Anniversary
+Person o-- Contact
+
+Person --> PersonRepository
+
+PersonRepository <|.. PersonRepositoryByLocalDatabase
+
+PersonRepositoryByLocalDatabase --> IDatabaseProvider
+
+ITable <|-- AnniversaryTable
+ITable <|-- ContactTable
+ITable <|-- PersonTable
+AppDatabase "1" o-- "*" ITable
+IDatabaseProvider <|-- AppDatabase
+
+@enduml

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:friend_list/provider/app_router_provider.dart';
-import 'package:friend_list/view/friend_detail.dart';
-import 'package:friend_list/view/friend_edit.dart';
-import 'package:friend_list/view/navigation_bar.dart';
+import 'package:friend_list/view/page/person_detail_page.dart';
+import 'package:friend_list/view/page/person_data_edit_page.dart';
+import 'package:friend_list/view/page/navigation_bar.dart';
 
 final _navigatorKey = GlobalKey<NavigatorState>();
 
@@ -28,8 +28,8 @@ class AppRouter extends RouterDelegate<Empty>
             when the user returns to the edit screen, 
             the user is now redirected to the detail screen instead of the home screen.
         */
-        if (route == "/friend/detail") const MaterialPage(child: FriendDetail()),
-        if (route == "/friend/edit") const MaterialPage(child: FriendEdit()),
+        if (route == "/person/detail") const MaterialPage(child: PersonDetailPage()),
+        if (route == "/person/edit") const MaterialPage(child: PersonDataEditPage()),
       ],
       onPopPage: (route, result) {
         provider.state = '';

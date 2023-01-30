@@ -1,14 +1,18 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:friend_list/component/listview_with_header.dart';
 import 'package:friend_list/provider/app_router_provider.dart';
+import 'package:friend_list/provider/person_select_provider.dart';
 
-class FriendDetail extends ConsumerWidget {
-  const FriendDetail({Key? key}) : super(key: key);
+class PersonDetailPage extends ConsumerWidget {
+  const PersonDetailPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    var data = ref.watch(personSelectProvider.notifier).state;
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -17,8 +21,7 @@ class FriendDetail extends ConsumerWidget {
               IconButton(
                 icon: const Icon(Icons.edit),
                 onPressed: () {
-                  // TODO: edit process
-                  ref.read(appRouteProvider.notifier).state = "/friend/edit";
+                  ref.read(appRouteProvider.notifier).state = "/person/edit";
                 },
               ),
             ],
@@ -28,23 +31,25 @@ class FriendDetail extends ConsumerWidget {
                 padding: const EdgeInsets.all(20),
                 child: Column(
                   children: <Widget>[
-                    const CircleAvatar(
+                    CircleAvatar(
                       radius: 70,
-                      backgroundImage:
-                          AssetImage("assets/demo/images/face_001.png"),
+                      backgroundImage: MemoryImage(base64Decode(data!.icon)),
                     ),
                     Text(
-                      "Test Friend",
+                      data.name,
                       style: Theme.of(context).textTheme.headlineMedium,
                     ),
-                    Text(
-                      "nickname",
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
-                    Text(
-                      "XX years old",
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
+                    if (data.nickname.isNotEmpty)
+                      Text(
+                        data.nickname,
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                      //TODO: display age
+                    // if (data.age != null)
+                    //   Text(
+                    //     '${data.age} years old',
+                    //     style: Theme.of(context).textTheme.bodyLarge,
+                    //   ),
                   ],
                 ),
               ),
@@ -53,55 +58,22 @@ class FriendDetail extends ConsumerWidget {
           SliverList(
             delegate: SliverChildListDelegate(
               [
-                Card(
-                  child: ListTile(
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        IconButton(
-                          icon: const FaIcon(
-                            FontAwesomeIcons.phone,
-                          ),
-                          onPressed: () {
-                            // TODO: other app open
-                          },
-                        ),
-                        IconButton(
-                          icon: const FaIcon(
-                            FontAwesomeIcons.mapLocation,
-                          ),
-                          onPressed: () {
-                            // TODO: other app open
-                          },
-                        ),
-                        IconButton(
-                          icon: const FaIcon(
-                            FontAwesomeIcons.facebook,
-                          ),
-                          onPressed: () {
-                            // TODO: other app open
-                          },
-                        ),
-                        IconButton(
-                          icon: const FaIcon(
-                            FontAwesomeIcons.instagram,
-                          ),
-                          onPressed: () {
-                            // TODO: other app open
-                          },
-                        ),
-                        IconButton(
-                          icon: const FaIcon(
-                            FontAwesomeIcons.twitter,
-                          ),
-                          onPressed: () {
-                            // TODO: other app open
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                // Card(
+                //   child: ListView.builder(
+                //     scrollDirection: Axis.horizontal,
+                //     itemCount: data.contacts?.length ?? 0,
+                //     itemBuilder: (context, index) {
+                //       return IconButton(
+                //         icon: FaIcon(
+                //           data.contacts!.elementAt(index).method.icon,
+                //         ),
+                //         onPressed: () {
+                //           // TODO: other app open
+                //         },
+                //       );
+                //     },
+                //   ),
+                // ),
                 Card(
                   child: ListViewWithHeader(
                     title: "Anniversary",
