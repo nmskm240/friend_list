@@ -1,4 +1,4 @@
-import 'package:friend_list/util/validator/i_validatable.dart';
+import 'package:friend_list/common/validator/i_validatable.dart';
 
 class LocationValidator implements IValidatable<String?> {
   @override

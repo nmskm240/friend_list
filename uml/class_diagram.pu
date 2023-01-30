@@ -1,93 +1,104 @@
 @startuml
 
-package view {
-    package page {
-        class PersonDetail
-        class PersonDataEditPage
-        class PersonListPage
-    }
-
-    package component {
-        class PersonListView
-        class PersonBasicDataForm
-        class RegisteredAnniversaryListView
-        class RegisteredContactListView
+package presentation {
+    package view {
+        package page {
+            class CustomPage
+        }
+        package widget {
+            class CustomWidget
+        }
     }
 }
 
-package viewModel {
-    class PersonListViewModel
-    class PersonBasicDataEditViewModel
-    class RegisteredAnniversaryListViewModel
-    class RegisteredContactListViewModel
-    class PersonEditPageViewModel
+package notifyer {
+    class CustomNotifyer
 }
 
-package model {
-    class PersonDataEditForm<<freezed>>
-    class NameAndIcon<<freezed>>
-    class AnniversaryList<<freezed>>
-    class ContactList<<freezed>>
+package application {
+    package model {
+        class CustomModel<<freezed>>
+    }
+    class AnniversaryAppService
+    class ContactAppService
+    class PersonAppService
 }
 
-
-package repository {
-    interface PersonRepository
-    class PersonRepositoryByLocalDatabase
-}
-
-package entity {
-    class Anniversary<<freezed>>
-    class Contact<<freezed>>
-    class Person<<freezed>>
+package domain {
+    package anniversary {
+        class Anniversary
+        class AnniversaryService
+        interface IAnniversaryFactory
+        interface IAnniversaryRepository
+    }
+    package contact {
+        class Contact
+        class ContactService
+        interface IContactFactory
+        interface IContactRepository
+    }
+    package person {
+        class Person
+        class PersonService
+        interface IPersonFactory
+        interface IPersonRepository
+    }
 }
 
 package infrastructure {
-    package local {
-        class AnniversaryTable
-        class AppDatabase
-        class ContactTable
-        class PersonTable
-        interface IDatabaseProvider
-        interface ITable
+    package "anniversary " {
+        class AnniversaryFactory
+        class AnniversaryRepository
     }
+    package "contact " {
+        class ContactFactory
+        class ContactRepository
+    }
+    package "person " {
+        class PersonFactory
+        class PersonRepository
+    }
+    class AppDatabase
 }
 
-PersonListPage ..> PersonListView
-PersonDataEditPage ..> PersonBasicDataForm
-PersonDataEditPage ..> RegisteredAnniversaryListView
-PersonDataEditPage ..> RegisteredContactListView
+' view
+CustomPage -- CustomWidget
 
-PersonListView ..> PersonListViewModel
-PersonDataEditPage ..> PersonEditPageViewModel
-PersonBasicDataForm ..> PersonBasicDataEditViewModel
-RegisteredAnniversaryListView ..> RegisteredAnniversaryListViewModel
-RegisteredContactListView ..> RegisteredContactListViewModel
+' view - notifyer
+CustomWidget ..> CustomNotifyer
 
-PersonEditPageViewModel ..> PersonDataEditForm
-PersonBasicDataEditViewModel ..> NameAndIcon
-RegisteredAnniversaryListViewModel ..> AnniversaryList
-RegisteredContactListViewModel ..> ContactList
+' notifyer - application
+CustomNotifyer ..> CustomModel
 
-NameAndIcon ..> PersonDataEditForm
-AnniversaryList ..> PersonDataEditForm
-ContactList ..> PersonDataEditForm
+' application
+CustomModel <-- AnniversaryAppService : create
+CustomModel <-- ContactAppService : create
+CustomModel <-- PersonAppService : create
 
-PersonDataEditForm ..> Person
+' application - domain
+AnniversaryAppService ..> AnniversaryService
+AnniversaryAppService ..> IAnniversaryFactory
+AnniversaryAppService ..> IAnniversaryRepository
+ContactAppService ..> ContactService
+ContactAppService ..> IContactFactory
+ContactAppService ..> IContactRepository
+PersonAppService ..> PersonService
+PersonAppService ..> IPersonFactory
+PersonAppService ..> IPersonRepository
 
-Person o-- Anniversary
-Person o-- Contact
+' domain
 
-Person --> PersonRepository
+' domain - infrastructure
+IAnniversaryRepository <|.. AnniversaryRepository
+IAnniversaryFactory <|.. AnniversaryFactory
+IContactRepository <|.. ContactRepository
+IContactFactory <|.. ContactFactory
+IPersonRepository <|.. PersonRepository
+IPersonFactory <|.. PersonFactory
 
-PersonRepository <|.. PersonRepositoryByLocalDatabase
-
-PersonRepositoryByLocalDatabase --> IDatabaseProvider
-
-ITable <|-- AnniversaryTable
-ITable <|-- ContactTable
-ITable <|-- PersonTable
-AppDatabase "1" o-- "*" ITable
-IDatabaseProvider <|-- AppDatabase
+' infrastructure
+AnniversaryRepository ..> AppDatabase
+ContactRepository ..> AppDatabase
+PersonRepository ..> AppDatabase
 
 @enduml
