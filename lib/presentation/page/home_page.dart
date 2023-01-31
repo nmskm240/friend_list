@@ -22,13 +22,16 @@ class HomePage extends StatelessWidget {
       ),
       body: ListView.builder(
         itemBuilder: (context, index) {
-          return const ListTile(
-            title: Text("Test Person"),
-            subtitle: Text("nickname"),
-            leading: CircleAvatar(
+          return ListTile(
+            title: const Text("Test Person"),
+            subtitle: const Text("nickname"),
+            leading: const CircleAvatar(
               backgroundImage: AssetImage("assets/images/default_avatar.png"),
             ),
-            trailing: Text("XX years old"),
+            trailing: const Text("XX years old"),
+            onTap: () {
+              Navigator.of(context).pushNamed("/detail");
+            },
           );
         },
         itemCount: 20,
