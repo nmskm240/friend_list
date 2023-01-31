@@ -125,7 +125,7 @@ class PersonInfoDetailPage extends StatelessWidget {
                   subtitle: const Text("YY/ZZ (? days later)"),
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () {
-                    //TODO: moves to the anniversary notification settings screen
+                    Navigator.pushNamed(context, "/anniversary/detail");
                   },
                 );
               },
