@@ -12,7 +12,8 @@ class AnniversaryDetailPage extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.edit),
             onPressed: () {
-              //TODO: show anniversay edit page and set this data
+              Navigator.of(context).pushNamed("/anniversary/edit");
+              //TODO: set this data to editor
             },
           ),
         ],

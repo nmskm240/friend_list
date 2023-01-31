@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:friend_list/presentation/common/always_disabled_focus_node.dart';
 import 'package:friend_list/presentation/widget/list_view_with_header.dart';
 
 class PersonInfoEditPage extends StatelessWidget {
@@ -53,12 +54,17 @@ class PersonInfoEditPage extends StatelessWidget {
             ),
             children: <Widget>[
               TextField(
+                focusNode: AlwaysDisabledFocusNode(),
                 decoration: const InputDecoration(
                   label: Text("birthdate"),
                 ),
                 controller: TextEditingController(text: "XXXX/YY/ZZ"),
+                onTap: () {
+                  Navigator.of(context).pushNamed("/anniversary/edit");
+                },
               ),
               TextField(
+                focusNode: AlwaysDisabledFocusNode(),
                 decoration: InputDecoration(
                   label: const Text("custom anniversary"),
                   suffixIcon: IconButton(
@@ -69,6 +75,9 @@ class PersonInfoEditPage extends StatelessWidget {
                   ),
                 ),
                 controller: TextEditingController(text: "XXXX/YY/ZZ"),
+                onTap: () {
+                  Navigator.of(context).pushNamed("/anniversary/edit");
+                },
               ),
             ],
           ),
