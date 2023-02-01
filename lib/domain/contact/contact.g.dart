@@ -10,6 +10,7 @@ _$_Contact _$$_ContactFromJson(Map<String, dynamic> json) => _$_Contact(
       id: json['id'] as int?,
       method: $enumDecode(_$ContactMethodEnumMap, json['method']),
       value: json['value'] as String,
+      personId: json['person_id'] as int,
     );
 
 Map<String, dynamic> _$$_ContactToJson(_$_Contact instance) =>
@@ -17,6 +18,7 @@ Map<String, dynamic> _$$_ContactToJson(_$_Contact instance) =>
       'id': instance.id,
       'method': _$ContactMethodEnumMap[instance.method]!,
       'value': instance.value,
+      'person_id': instance.personId,
     };
 
 const _$ContactMethodEnumMap = {

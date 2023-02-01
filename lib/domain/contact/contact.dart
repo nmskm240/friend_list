@@ -10,6 +10,7 @@ class Contact with _$Contact {
     int? id,
     required ContactMethod method,
     required String value,
+    @JsonKey(name: "person_id") required int personId,
   }) = _Contact;
   factory Contact.fromJson(Map<String, Object> json) => _$ContactFromJson(json);
 }
