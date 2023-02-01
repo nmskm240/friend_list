@@ -21,6 +21,7 @@ package application {
     }
     class AnniversaryAppService
     class ContactAppService
+    class TagAppService
     class PersonAppService
 }
 
@@ -35,6 +36,11 @@ package domain {
         class ContactService
         interface IContactRepository
     }
+    package tag {
+        class Tag
+        class TagService
+        interface ITagRepository
+    }
     package person {
         class Person
         class PersonService
@@ -48,6 +54,9 @@ package infrastructure {
     }
     package "contact " {
         class ContactRepository
+    }
+    package "tag " {
+        class TagRepository
     }
     package "person " {
         class PersonRepository
@@ -67,11 +76,13 @@ CustomNotifyer ..> CustomModel
 ' application
 CustomModel <-- AnniversaryAppService : create
 CustomModel <-- ContactAppService : create
+CustomModel <-- TagAppService : create
 CustomModel <-- PersonAppService : create
 
 ' application - domain
 AnniversaryAppService ..> AnniversaryService
 ContactAppService ..> ContactService
+TagAppService ..> TagService
 PersonAppService ..> PersonService
 
 ' domain
@@ -79,17 +90,21 @@ AnniversaryService ..> Anniversary
 AnniversaryService ..> IAnniversaryRepository
 ContactService ..> Contact
 ContactService ..> IContactRepository
+TagService ..> Tag
+TagService ..> ITagRepository
 PersonService ..> Person
 PersonService ..> IPersonRepository
 
 ' domain - infrastructure
 IAnniversaryRepository <|.. AnniversaryRepository
 IContactRepository <|.. ContactRepository
+ITagRepository <|.. TagRepository
 IPersonRepository <|.. PersonRepository
 
 ' infrastructure
 AnniversaryRepository ..> AppDatabase
 ContactRepository ..> AppDatabase
+TagRepository ..> AppDatabase
 PersonRepository ..> AppDatabase
 
 @enduml
