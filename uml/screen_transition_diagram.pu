@@ -1,0 +1,24 @@
+@startuml
+hide empty description
+
+state AnniversaryDetailPage
+state AnniversaryEditPage
+state ContactEditPage
+state PersonDetailPage
+state PersonEditPage
+state PersonListPage
+state TagEditPage
+state TagSelectPage
+
+[*] --> PersonListPage
+PersonListPage --> PersonEditPage
+PersonListPage --> PersonDetailPage
+PersonDetailPage --> PersonEditPage
+PersonDetailPage --> AnniversaryDetailPage
+PersonEditPage --> AnniversaryEditPage
+PersonEditPage --> ContactEditPage
+PersonEditPage --> TagSelectPage
+AnniversaryDetailPage --> AnniversaryEditPage
+TagSelectPage --> TagEditPage
+
+@enduml
