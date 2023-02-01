@@ -21,6 +21,7 @@ package application {
     }
     class AnniversaryAppService
     class ContactAppService
+    class TagAppService
     class PersonAppService
 }
 
@@ -28,34 +29,36 @@ package domain {
     package anniversary {
         class Anniversary
         class AnniversaryService
-        interface IAnniversaryFactory
         interface IAnniversaryRepository
     }
     package contact {
         class Contact
         class ContactService
-        interface IContactFactory
         interface IContactRepository
+    }
+    package tag {
+        class Tag
+        class TagService
+        interface ITagRepository
     }
     package person {
         class Person
         class PersonService
-        interface IPersonFactory
         interface IPersonRepository
     }
 }
 
 package infrastructure {
     package "anniversary " {
-        class AnniversaryFactory
         class AnniversaryRepository
     }
     package "contact " {
-        class ContactFactory
         class ContactRepository
     }
+    package "tag " {
+        class TagRepository
+    }
     package "person " {
-        class PersonFactory
         class PersonRepository
     }
     class AppDatabase
@@ -73,32 +76,35 @@ CustomNotifyer ..> CustomModel
 ' application
 CustomModel <-- AnniversaryAppService : create
 CustomModel <-- ContactAppService : create
+CustomModel <-- TagAppService : create
 CustomModel <-- PersonAppService : create
 
 ' application - domain
 AnniversaryAppService ..> AnniversaryService
-AnniversaryAppService ..> IAnniversaryFactory
-AnniversaryAppService ..> IAnniversaryRepository
 ContactAppService ..> ContactService
-ContactAppService ..> IContactFactory
-ContactAppService ..> IContactRepository
+TagAppService ..> TagService
 PersonAppService ..> PersonService
-PersonAppService ..> IPersonFactory
-PersonAppService ..> IPersonRepository
 
 ' domain
+AnniversaryService ..> Anniversary
+AnniversaryService ..> IAnniversaryRepository
+ContactService ..> Contact
+ContactService ..> IContactRepository
+TagService ..> Tag
+TagService ..> ITagRepository
+PersonService ..> Person
+PersonService ..> IPersonRepository
 
 ' domain - infrastructure
 IAnniversaryRepository <|.. AnniversaryRepository
-IAnniversaryFactory <|.. AnniversaryFactory
 IContactRepository <|.. ContactRepository
-IContactFactory <|.. ContactFactory
+ITagRepository <|.. TagRepository
 IPersonRepository <|.. PersonRepository
-IPersonFactory <|.. PersonFactory
 
 ' infrastructure
 AnniversaryRepository ..> AppDatabase
 ContactRepository ..> AppDatabase
+TagRepository ..> AppDatabase
 PersonRepository ..> AppDatabase
 
 @enduml
