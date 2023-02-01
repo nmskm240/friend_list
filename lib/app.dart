@@ -6,6 +6,7 @@ import 'package:friend_list/presentation/page/contact_edit_page.dart';
 import 'package:friend_list/presentation/page/home_page.dart';
 import 'package:friend_list/presentation/page/person_info_detail_page.dart';
 import 'package:friend_list/presentation/page/person_info_edit_page.dart';
+import 'package:friend_list/presentation/page/tag_select_page.dart';
 
 class App extends ConsumerWidget {
   const App({Key? key}) : super(key: key);
@@ -22,6 +23,7 @@ class App extends ConsumerWidget {
         "/anniversary/detail":(context) => const AnniversaryDetailPage(),
         "/anniversary/edit":(context) => const AnniversaryEditPage(),
         "/contact/edit":(context) => const ContactEditPage(),
+        "/tag/select":(context) => const TagSelectPage(),
       },
       initialRoute: "/",
     );

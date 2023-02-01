@@ -117,7 +117,7 @@ class PersonInfoEditPage extends StatelessWidget {
             leading: const Text("Tag"),
             action: IconButton(
               onPressed: () {
-                //TODO: create or select tag
+                Navigator.of(context).pushNamed("/tag/select");
               },
               icon: const Icon(Icons.add),
             ),
