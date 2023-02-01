@@ -40,7 +40,7 @@ class TagSelectPage extends StatelessWidget {
               ),
             ),
             onTap: () {
-              //TODO: show tag edit page
+              Navigator.of(context).pushNamed("/tag/edit");
             },
           ),
           Expanded(
