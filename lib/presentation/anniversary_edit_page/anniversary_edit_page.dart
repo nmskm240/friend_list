@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:friend_list/presentation/common/always_disabled_focus_node.dart';
-import 'package:friend_list/presentation/widget/list_view_with_header.dart';
+import 'package:friend_list/presentation/common/widget/list_view_with_header.dart';
 
 class AnniversaryEditPage extends StatelessWidget {
   const AnniversaryEditPage({super.key});
