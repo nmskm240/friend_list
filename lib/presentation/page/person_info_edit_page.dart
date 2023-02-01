@@ -87,12 +87,13 @@ class PersonInfoEditPage extends StatelessWidget {
             leading: const Text("Contact"),
             action: IconButton(
               onPressed: () {
-                //TODO: create new contact
+                Navigator.of(context).pushNamed("/contact/edit");
               },
               icon: const Icon(Icons.add),
             ),
             children: <Widget>[
               TextField(
+                focusNode: AlwaysDisabledFocusNode(),
                 decoration: InputDecoration(
                   label: const Text("phone"),
                   suffixIcon: IconButton(
@@ -103,6 +104,10 @@ class PersonInfoEditPage extends StatelessWidget {
                   ),
                 ),
                 controller: TextEditingController(text: "000-0000-0000"),
+                onTap: () {
+                  //TODO: set this data to edit page
+                  Navigator.of(context).pushNamed("/contact/edit");
+                },
               ),
             ],
           ),
