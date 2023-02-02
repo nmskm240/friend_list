@@ -20,7 +20,7 @@ Person _$PersonFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Person {
-  int? get id => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get nickname => throw _privateConstructorUsedError;
   String get icon => throw _privateConstructorUsedError;
@@ -42,7 +42,7 @@ abstract class $PersonCopyWith<$Res> {
       _$PersonCopyWithImpl<$Res, Person>;
   @useResult
   $Res call(
-      {int? id,
+      {String id,
       String name,
       String nickname,
       String icon,
@@ -63,7 +63,7 @@ class _$PersonCopyWithImpl<$Res, $Val extends Person>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
+    Object? id = null,
     Object? name = null,
     Object? nickname = null,
     Object? icon = null,
@@ -71,10 +71,10 @@ class _$PersonCopyWithImpl<$Res, $Val extends Person>
     Object? updatedAt = freezed,
   }) {
     return _then(_value.copyWith(
-      id: freezed == id
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -106,7 +106,7 @@ abstract class _$$_PersonCopyWith<$Res> implements $PersonCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {int? id,
+      {String id,
       String name,
       String nickname,
       String icon,
@@ -124,7 +124,7 @@ class __$$_PersonCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
+    Object? id = null,
     Object? name = null,
     Object? nickname = null,
     Object? icon = null,
@@ -132,27 +132,27 @@ class __$$_PersonCopyWithImpl<$Res>
     Object? updatedAt = freezed,
   }) {
     return _then(_$_Person(
-      id: freezed == id
+      null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int?,
-      name: null == name
+              as String,
+      null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      nickname: null == nickname
+      null == nickname
           ? _value.nickname
           : nickname // ignore: cast_nullable_to_non_nullable
               as String,
-      icon: null == icon
+      null == icon
           ? _value.icon
           : icon // ignore: cast_nullable_to_non_nullable
               as String,
-      createdAt: freezed == createdAt
+      freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      updatedAt: freezed == updatedAt
+      freezed == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
@@ -164,25 +164,23 @@ class __$$_PersonCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Person implements _Person {
   const _$_Person(
-      {this.id,
-      required this.name,
-      this.nickname = "",
-      this.icon = "",
+      this.id,
+      this.name,
+      this.nickname,
+      this.icon,
       @CreatedAtField() @JsonKey(name: "created_at") this.createdAt,
-      @UpdatedAtField() @JsonKey(name: "updated_at") this.updatedAt});
+      @UpdatedAtField() @JsonKey(name: "updated_at") this.updatedAt);
 
   factory _$_Person.fromJson(Map<String, dynamic> json) =>
       _$$_PersonFromJson(json);
 
   @override
-  final int? id;
+  final String id;
   @override
   final String name;
   @override
-  @JsonKey()
   final String nickname;
   @override
-  @JsonKey()
   final String icon;
   @override
   @CreatedAtField()
@@ -235,8 +233,8 @@ class _$_Person implements _Person {
 
 abstract class _Person implements Person {
   const factory _Person(
-      {final int? id,
-      required final String name,
+      final String id,
+      final String name,
       final String nickname,
       final String icon,
       @CreatedAtField()
@@ -244,12 +242,12 @@ abstract class _Person implements Person {
           final DateTime? createdAt,
       @UpdatedAtField()
       @JsonKey(name: "updated_at")
-          final DateTime? updatedAt}) = _$_Person;
+          final DateTime? updatedAt) = _$_Person;
 
   factory _Person.fromJson(Map<String, dynamic> json) = _$_Person.fromJson;
 
   @override
-  int? get id;
+  String get id;
   @override
   String get name;
   @override

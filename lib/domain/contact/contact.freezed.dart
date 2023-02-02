@@ -20,12 +20,12 @@ Contact _$ContactFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Contact {
-  int? get id => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   ContactMethod get method => throw _privateConstructorUsedError;
   String get value => throw _privateConstructorUsedError;
   @JsonKey(name: "person_id")
-  int get personId => throw _privateConstructorUsedError;
+  String get personId => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -38,11 +38,11 @@ abstract class $ContactCopyWith<$Res> {
       _$ContactCopyWithImpl<$Res, Contact>;
   @useResult
   $Res call(
-      {int? id,
+      {String id,
       String name,
       ContactMethod method,
       String value,
-      @JsonKey(name: "person_id") int personId});
+      @JsonKey(name: "person_id") String personId});
 }
 
 /// @nodoc
@@ -58,17 +58,17 @@ class _$ContactCopyWithImpl<$Res, $Val extends Contact>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
+    Object? id = null,
     Object? name = null,
     Object? method = null,
     Object? value = null,
     Object? personId = null,
   }) {
     return _then(_value.copyWith(
-      id: freezed == id
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -84,7 +84,7 @@ class _$ContactCopyWithImpl<$Res, $Val extends Contact>
       personId: null == personId
           ? _value.personId
           : personId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
     ) as $Val);
   }
 }
@@ -97,11 +97,11 @@ abstract class _$$_ContactCopyWith<$Res> implements $ContactCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {int? id,
+      {String id,
       String name,
       ContactMethod method,
       String value,
-      @JsonKey(name: "person_id") int personId});
+      @JsonKey(name: "person_id") String personId});
 }
 
 /// @nodoc
@@ -114,33 +114,33 @@ class __$$_ContactCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
+    Object? id = null,
     Object? name = null,
     Object? method = null,
     Object? value = null,
     Object? personId = null,
   }) {
     return _then(_$_Contact(
-      id: freezed == id
+      null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int?,
-      name: null == name
+              as String,
+      null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      method: null == method
+      null == method
           ? _value.method
           : method // ignore: cast_nullable_to_non_nullable
               as ContactMethod,
-      value: null == value
+      null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
               as String,
-      personId: null == personId
+      null == personId
           ? _value.personId
           : personId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
     ));
   }
 }
@@ -148,18 +148,14 @@ class __$$_ContactCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_Contact implements _Contact {
-  const _$_Contact(
-      {this.id,
-      required this.name,
-      required this.method,
-      required this.value,
-      @JsonKey(name: "person_id") required this.personId});
+  const _$_Contact(this.id, this.name, this.method, this.value,
+      @JsonKey(name: "person_id") this.personId);
 
   factory _$_Contact.fromJson(Map<String, dynamic> json) =>
       _$$_ContactFromJson(json);
 
   @override
-  final int? id;
+  final String id;
   @override
   final String name;
   @override
@@ -168,7 +164,7 @@ class _$_Contact implements _Contact {
   final String value;
   @override
   @JsonKey(name: "person_id")
-  final int personId;
+  final String personId;
 
   @override
   String toString() {
@@ -209,16 +205,16 @@ class _$_Contact implements _Contact {
 
 abstract class _Contact implements Contact {
   const factory _Contact(
-      {final int? id,
-      required final String name,
-      required final ContactMethod method,
-      required final String value,
-      @JsonKey(name: "person_id") required final int personId}) = _$_Contact;
+      final String id,
+      final String name,
+      final ContactMethod method,
+      final String value,
+      @JsonKey(name: "person_id") final String personId) = _$_Contact;
 
   factory _Contact.fromJson(Map<String, dynamic> json) = _$_Contact.fromJson;
 
   @override
-  int? get id;
+  String get id;
   @override
   String get name;
   @override
@@ -227,7 +223,7 @@ abstract class _Contact implements Contact {
   String get value;
   @override
   @JsonKey(name: "person_id")
-  int get personId;
+  String get personId;
   @override
   @JsonKey(ignore: true)
   _$$_ContactCopyWith<_$_Contact> get copyWith =>

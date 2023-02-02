@@ -6,12 +6,12 @@ part 'contact.g.dart';
 
 @freezed
 class Contact with _$Contact {
-  const factory Contact({
-    int? id,
-    required String name,
-    required ContactMethod method,
-    required String value,
-    @JsonKey(name: "person_id") required int personId,
-  }) = _Contact;
+  const factory Contact(
+    String id,
+    String name,
+    ContactMethod method,
+    String value,
+    @JsonKey(name: "person_id") String personId,
+  ) = _Contact;
   factory Contact.fromJson(Map<String, Object> json) => _$ContactFromJson(json);
 }

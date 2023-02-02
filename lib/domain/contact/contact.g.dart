@@ -7,11 +7,11 @@ part of 'contact.dart';
 // **************************************************************************
 
 _$_Contact _$$_ContactFromJson(Map<String, dynamic> json) => _$_Contact(
-      id: json['id'] as int?,
-      name: json['name'] as String,
-      method: $enumDecode(_$ContactMethodEnumMap, json['method']),
-      value: json['value'] as String,
-      personId: json['person_id'] as int,
+      json['id'] as String,
+      json['name'] as String,
+      $enumDecode(_$ContactMethodEnumMap, json['method']),
+      json['value'] as String,
+      json['person_id'] as String,
     );
 
 Map<String, dynamic> _$$_ContactToJson(_$_Contact instance) =>

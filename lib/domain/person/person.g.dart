@@ -7,12 +7,12 @@ part of 'person.dart';
 // **************************************************************************
 
 _$_Person _$$_PersonFromJson(Map<String, dynamic> json) => _$_Person(
-      id: json['id'] as int?,
-      name: json['name'] as String,
-      nickname: json['nickname'] as String? ?? "",
-      icon: json['icon'] as String? ?? "",
-      createdAt: const CreatedAtField().fromJson(json['created_at'] as String?),
-      updatedAt: const UpdatedAtField().fromJson(json['updated_at'] as String?),
+      json['id'] as String,
+      json['name'] as String,
+      json['nickname'] as String,
+      json['icon'] as String,
+      const CreatedAtField().fromJson(json['created_at'] as String?),
+      const UpdatedAtField().fromJson(json['updated_at'] as String?),
     );
 
 Map<String, dynamic> _$$_PersonToJson(_$_Person instance) => <String, dynamic>{

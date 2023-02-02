@@ -6,12 +6,12 @@ part 'anniversary.g.dart';
 
 @freezed
 class Anniversary with _$Anniversary {
-  const factory Anniversary({
-    int? id,
-    required String name,
-    @DateTimeField() required DateTime date,
-    @JsonKey(name: "person_id") required int personId,
-  }) = _Anniversary;
+  const factory Anniversary(
+    String id,
+    String name,
+    @DateTimeField() DateTime date,
+    @JsonKey(name: "person_id") String personId,
+  ) = _Anniversary;
   factory Anniversary.fromJson(Map<String, dynamic> json) =>
       _$AnniversaryFromJson(json);
 }

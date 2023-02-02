@@ -7,13 +7,13 @@ part 'person.g.dart';
 
 @freezed
 class Person with _$Person {
-  const factory Person({
-    int? id,
-    required String name,
-    @Default("") String nickname,
-    @Default("") String icon,
+  const factory Person(
+    String id,
+    String name,
+    String nickname,
+    String icon,
     @CreatedAtField() @JsonKey(name: "created_at") DateTime? createdAt,
     @UpdatedAtField() @JsonKey(name: "updated_at") DateTime? updatedAt,
-  }) = _Person;
+  ) = _Person;
   factory Person.fromJson(Map<String, dynamic> json) => _$PersonFromJson(json);
 }
