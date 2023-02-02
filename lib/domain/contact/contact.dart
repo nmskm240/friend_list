@@ -8,6 +8,7 @@ part 'contact.g.dart';
 class Contact with _$Contact {
   const factory Contact({
     int? id,
+    required String name,
     required ContactMethod method,
     required String value,
     @JsonKey(name: "person_id") required int personId,

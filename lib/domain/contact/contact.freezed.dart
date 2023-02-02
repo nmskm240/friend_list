@@ -21,6 +21,7 @@ Contact _$ContactFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Contact {
   int? get id => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
   ContactMethod get method => throw _privateConstructorUsedError;
   String get value => throw _privateConstructorUsedError;
   @JsonKey(name: "person_id")
@@ -38,6 +39,7 @@ abstract class $ContactCopyWith<$Res> {
   @useResult
   $Res call(
       {int? id,
+      String name,
       ContactMethod method,
       String value,
       @JsonKey(name: "person_id") int personId});
@@ -57,6 +59,7 @@ class _$ContactCopyWithImpl<$Res, $Val extends Contact>
   @override
   $Res call({
     Object? id = freezed,
+    Object? name = null,
     Object? method = null,
     Object? value = null,
     Object? personId = null,
@@ -66,6 +69,10 @@ class _$ContactCopyWithImpl<$Res, $Val extends Contact>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int?,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
       method: null == method
           ? _value.method
           : method // ignore: cast_nullable_to_non_nullable
@@ -91,6 +98,7 @@ abstract class _$$_ContactCopyWith<$Res> implements $ContactCopyWith<$Res> {
   @useResult
   $Res call(
       {int? id,
+      String name,
       ContactMethod method,
       String value,
       @JsonKey(name: "person_id") int personId});
@@ -107,6 +115,7 @@ class __$$_ContactCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
+    Object? name = null,
     Object? method = null,
     Object? value = null,
     Object? personId = null,
@@ -116,6 +125,10 @@ class __$$_ContactCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int?,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
       method: null == method
           ? _value.method
           : method // ignore: cast_nullable_to_non_nullable
@@ -137,6 +150,7 @@ class __$$_ContactCopyWithImpl<$Res>
 class _$_Contact implements _Contact {
   const _$_Contact(
       {this.id,
+      required this.name,
       required this.method,
       required this.value,
       @JsonKey(name: "person_id") required this.personId});
@@ -147,6 +161,8 @@ class _$_Contact implements _Contact {
   @override
   final int? id;
   @override
+  final String name;
+  @override
   final ContactMethod method;
   @override
   final String value;
@@ -156,7 +172,7 @@ class _$_Contact implements _Contact {
 
   @override
   String toString() {
-    return 'Contact(id: $id, method: $method, value: $value, personId: $personId)';
+    return 'Contact(id: $id, name: $name, method: $method, value: $value, personId: $personId)';
   }
 
   @override
@@ -165,6 +181,7 @@ class _$_Contact implements _Contact {
         (other.runtimeType == runtimeType &&
             other is _$_Contact &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
             (identical(other.method, method) || other.method == method) &&
             (identical(other.value, value) || other.value == value) &&
             (identical(other.personId, personId) ||
@@ -173,7 +190,8 @@ class _$_Contact implements _Contact {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, method, value, personId);
+  int get hashCode =>
+      Object.hash(runtimeType, id, name, method, value, personId);
 
   @JsonKey(ignore: true)
   @override
@@ -192,6 +210,7 @@ class _$_Contact implements _Contact {
 abstract class _Contact implements Contact {
   const factory _Contact(
       {final int? id,
+      required final String name,
       required final ContactMethod method,
       required final String value,
       @JsonKey(name: "person_id") required final int personId}) = _$_Contact;
@@ -200,6 +219,8 @@ abstract class _Contact implements Contact {
 
   @override
   int? get id;
+  @override
+  String get name;
   @override
   ContactMethod get method;
   @override
