@@ -70,6 +70,13 @@ package infrastructure {
         class PersonRepository
     }
     class AppDatabase
+    class AnniversaryTable
+    class ContactTable
+    class TagTable
+    class PersonTable
+    class RegistedTagTable
+    abstract DatabaseWrapper
+    interface ITable
 }
 
 ' view
@@ -118,9 +125,16 @@ IPersonFactory <|.. PersonFactory
 IPersonRepository <|.. PersonRepository
 
 ' infrastructure
-AnniversaryRepository ..> AppDatabase
-ContactRepository ..> AppDatabase
-TagRepository ..> AppDatabase
-PersonRepository ..> AppDatabase
+AnniversaryRepository ..> DatabaseWrapper
+ContactRepository ..> DatabaseWrapper
+TagRepository ..> DatabaseWrapper
+PersonRepository ..> DatabaseWrapper
+DatabaseWrapper <|-- AppDatabase
+DatabaseWrapper "1" *..> "*" ITable
+ITable <|.. AnniversaryTable
+ITable <|.. ContactTable
+ITable <|.. TagTable
+ITable <|.. PersonTable
+ITable <|.. RegistedTagTable
 
 @enduml
