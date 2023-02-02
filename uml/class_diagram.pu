@@ -69,6 +69,10 @@ package infrastructure {
         class PersonFactory
         class PersonRepository
     }
+    interface LocalDataSource
+}
+
+package datasource {
     class AppDatabase
     class AnniversaryTable
     class ContactTable
@@ -125,10 +129,15 @@ IPersonFactory <|.. PersonFactory
 IPersonRepository <|.. PersonRepository
 
 ' infrastructure
-AnniversaryRepository ..> DatabaseWrapper
-ContactRepository ..> DatabaseWrapper
-TagRepository ..> DatabaseWrapper
-PersonRepository ..> DatabaseWrapper
+AnniversaryRepository ..> LocalDataSource
+ContactRepository ..> LocalDataSource
+TagRepository ..> LocalDataSource
+PersonRepository ..> LocalDataSource
+
+' infrastructure - datasource
+LocalDataSource <|-- DatabaseWrapper
+
+' datasource
 DatabaseWrapper <|-- AppDatabase
 DatabaseWrapper "1" *..> "*" ITable
 ITable <|.. AnniversaryTable
