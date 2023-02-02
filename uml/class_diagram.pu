@@ -29,36 +29,44 @@ package domain {
     package anniversary {
         class Anniversary
         class AnniversaryService
+        interface IAnniversaryFactory
         interface IAnniversaryRepository
     }
     package contact {
         class Contact
         class ContactService
+        interface IContactFactory
         interface IContactRepository
     }
     package tag {
         class Tag
         class TagService
+        interface ITagFactory
         interface ITagRepository
     }
     package person {
         class Person
         class PersonService
+        interface IPersonFactory
         interface IPersonRepository
     }
 }
 
 package infrastructure {
     package "anniversary " {
+        class AnniversaryFactory
         class AnniversaryRepository
     }
     package "contact " {
+        class ContactFactory
         class ContactRepository
     }
     package "tag " {
+        class TagFacotory
         class TagRepository
     }
     package "person " {
+        class PersonFactory
         class PersonRepository
     }
     class AppDatabase
@@ -87,18 +95,26 @@ PersonAppService ..> PersonService
 
 ' domain
 AnniversaryService ..> Anniversary
+AnniversaryService ..> IAnniversaryFactory
 AnniversaryService ..> IAnniversaryRepository
 ContactService ..> Contact
+ContactService ..> IContactFactory
 ContactService ..> IContactRepository
 TagService ..> Tag
+TagService ..> ITagFactory
 TagService ..> ITagRepository
 PersonService ..> Person
 PersonService ..> IPersonRepository
+PersonService ..> IPersonFactory
 
 ' domain - infrastructure
 IAnniversaryRepository <|.. AnniversaryRepository
+IAnniversaryFactory <|.. AnniversaryFactory
+IContactFactory <|.. ContactFactory
 IContactRepository <|.. ContactRepository
+ITagFactory <|.. TagFacotory
 ITagRepository <|.. TagRepository
+IPersonFactory <|.. PersonFactory
 IPersonRepository <|.. PersonRepository
 
 ' infrastructure
