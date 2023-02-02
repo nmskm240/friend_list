@@ -1,0 +1,104 @@
+@startuml
+
+package presentation {
+    package view {
+        package page {
+            class CustomPage
+        }
+        package widget {
+            class CustomWidget
+        }
+    }
+}
+
+package notifyer {
+    class CustomNotifyer
+}
+
+package application {
+    package model {
+        class CustomModel<<freezed>>
+    }
+    class AnniversaryAppService
+    class ContactAppService
+    class PersonAppService
+}
+
+package domain {
+    package anniversary {
+        class Anniversary
+        class AnniversaryService
+        interface IAnniversaryFactory
+        interface IAnniversaryRepository
+    }
+    package contact {
+        class Contact
+        class ContactService
+        interface IContactFactory
+        interface IContactRepository
+    }
+    package person {
+        class Person
+        class PersonService
+        interface IPersonFactory
+        interface IPersonRepository
+    }
+}
+
+package infrastructure {
+    package "anniversary " {
+        class AnniversaryFactory
+        class AnniversaryRepository
+    }
+    package "contact " {
+        class ContactFactory
+        class ContactRepository
+    }
+    package "person " {
+        class PersonFactory
+        class PersonRepository
+    }
+    class AppDatabase
+}
+
+' view
+CustomPage -- CustomWidget
+
+' view - notifyer
+CustomWidget ..> CustomNotifyer
+
+' notifyer - application
+CustomNotifyer ..> CustomModel
+
+' application
+CustomModel <-- AnniversaryAppService : create
+CustomModel <-- ContactAppService : create
+CustomModel <-- PersonAppService : create
+
+' application - domain
+AnniversaryAppService ..> AnniversaryService
+AnniversaryAppService ..> IAnniversaryFactory
+AnniversaryAppService ..> IAnniversaryRepository
+ContactAppService ..> ContactService
+ContactAppService ..> IContactFactory
+ContactAppService ..> IContactRepository
+PersonAppService ..> PersonService
+PersonAppService ..> IPersonFactory
+PersonAppService ..> IPersonRepository
+
+' domain
+
+' domain - infrastructure
+IAnniversaryRepository <|.. AnniversaryRepository
+IAnniversaryFactory <|.. AnniversaryFactory
+IContactRepository <|.. ContactRepository
+IContactFactory <|.. ContactFactory
+IPersonRepository <|.. PersonRepository
+IPersonFactory <|.. PersonFactory
+
+' infrastructure
+AnniversaryRepository ..> AppDatabase
+ContactRepository ..> AppDatabase
+PersonRepository ..> AppDatabase
+
+@enduml

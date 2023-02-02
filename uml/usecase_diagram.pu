@@ -1,0 +1,37 @@
+@startuml
+left to right direction
+
+actor ユーザー
+rectangle アプリ {
+    usecase 人物情報の登録
+    usecase 人物情報の削除
+    usecase 人物情報の編集
+    usecase 人物情報の表示
+    usecase 記念日の登録
+    usecase 記念日の削除
+    usecase 記念日の編集
+    usecase 記念日の表示
+    usecase 記念日のリマインド
+    usecase 記念日のリマインド設定
+    usecase 連絡先の登録
+    usecase 連絡先の削除
+    usecase 連絡先の編集
+    usecase 連絡先の表示
+}
+
+ユーザー --> 人物情報の登録
+ユーザー --> 人物情報の削除
+ユーザー --> 人物情報の表示
+ユーザー <-- 人物情報の編集
+ユーザー --> 記念日のリマインド設定
+ユーザー <-- 記念日のリマインド
+人物情報の登録 -- 記念日の登録 : <<include>>
+人物情報の登録 -- 連絡先の登録 : <<include>>
+人物情報の削除 -- 記念日の削除 : <<include>>
+人物情報の削除 -- 連絡先の削除 : <<include>>
+人物情報の編集 -- 記念日の編集 : <<include>>
+人物情報の編集 -- 連絡先の編集 : <<include>>
+人物情報の表示 -- 記念日の表示 : <<include>>
+人物情報の表示 -- 連絡先の表示 : <<include>>
+
+@enduml
