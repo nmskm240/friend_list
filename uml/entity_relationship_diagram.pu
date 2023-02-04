@@ -2,30 +2,41 @@
 hide circle
 
 json anniversaries {
-    "PK": "anniversary_id",
-    "FK": "person_id",
-    "": ["name", "date"]
+    "PK|FK": "person_id",
+    "PK": "name",
+    "": "date"
 }
 json contacts {
-    "PK": "contact_id",
-    "FK": "person_id",
-    "": ["name", "method", "value"]
-}
-json tags {
-    "PK": "tag_id",
-    "": "name"
+    "PK|FK": "person_id",
+    "PK": [
+        "name",
+        "method"
+    ],
+    "": "value"
 }
 json persons {
     "PK": "person_id",
-    "": ["name", "nickname", "icon", "created_at", "updated_at"]
+    "": [
+        "name",
+        "nickname",
+        "icon",
+        "created_at",
+        "updated_at"
+    ]
 }
 json registed_tags {
-    "FK": ["person_id", "tag_id"]
+    "PK|FK": [
+        "person_id",
+        "tag_name"
+    ]
+}
+json tags {
+    "PK": "name"
 }
 
-persons ||--o{ anniversaries
-persons ||--o{ contacts
-persons ||--o{ registed_tags
+persons ||--o{anniversaries
+persons ||--o{contacts
+persons ||--o{registed_tags
 registed_tags ||--|| tags
 
 @enduml
