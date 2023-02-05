@@ -2,8 +2,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:friend_list/domain/anniversary/anniversary.dart';
 import 'package:friend_list/domain/anniversary/anniversary_service.dart';
 
-import 'auto_increment_anniversary_factory.dart';
-import 'in_memoty_anniversary_repository.dart';
+import '../../infrastructure/anniversary/auto_increment_anniversary_factory.dart';
+import '../../infrastructure/anniversary/in_memoty_anniversary_repository.dart';
 
 void main() {
   group("is duplicated test", () {

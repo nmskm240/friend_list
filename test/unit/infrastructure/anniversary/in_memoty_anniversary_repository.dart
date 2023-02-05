@@ -6,6 +6,11 @@ class InMemoryAnniversaryRepository implements IAnniversaryRepository {
 
   const InMemoryAnniversaryRepository(this.anniversaries);
 
+  @override 
+  Future<void> deleteAll() async {
+    anniversaries.clear();
+  }
+
   @override
   Future<void> deleteAllByPersonID(String personId) async {
     anniversaries.removeWhere((element) => element.personId == personId);

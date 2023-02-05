@@ -9,7 +9,7 @@ class ContactService {
   const ContactService(this.factroy, this.repository);
 
   Future<bool> isDuplicated(Contact contact) async {
-    final searched = await repository.findByPersonID(contact.personId);
+    final searched = await repository.findAllByPersonID(contact.personId);
     return searched.any((element) =>
         element.method == contact.method && element.value == contact.value);
   }

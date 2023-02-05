@@ -1,4 +1,3 @@
-import 'package:friend_list/domain/contact/contact.dart';
 import 'package:friend_list/domain/tag/i_tag_repository.dart';
 import 'package:friend_list/domain/tag/tag.dart';
 
@@ -6,6 +5,11 @@ class InMemoryTagRepository implements ITagRepository {
   final List<Tag> tags;
 
   const InMemoryTagRepository(this.tags);
+
+  @override 
+  Future<void> deleteAll() async {
+    tags.clear();
+  }
   
   @override
   Future<void> deleteByID(String id) async {

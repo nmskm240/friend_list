@@ -20,6 +20,7 @@ Tag _$TagFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Tag {
+  @JsonKey(name: "tag_id")
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
 
@@ -33,7 +34,7 @@ abstract class $TagCopyWith<$Res> {
   factory $TagCopyWith(Tag value, $Res Function(Tag) then) =
       _$TagCopyWithImpl<$Res, Tag>;
   @useResult
-  $Res call({String id, String name});
+  $Res call({@JsonKey(name: "tag_id") String id, String name});
 }
 
 /// @nodoc
@@ -70,7 +71,7 @@ abstract class _$$_TagCopyWith<$Res> implements $TagCopyWith<$Res> {
       __$$_TagCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String name});
+  $Res call({@JsonKey(name: "tag_id") String id, String name});
 }
 
 /// @nodoc
@@ -101,11 +102,12 @@ class __$$_TagCopyWithImpl<$Res> extends _$TagCopyWithImpl<$Res, _$_Tag>
 /// @nodoc
 @JsonSerializable()
 class _$_Tag implements _Tag {
-  const _$_Tag(this.id, this.name);
+  const _$_Tag(@JsonKey(name: "tag_id") this.id, this.name);
 
   factory _$_Tag.fromJson(Map<String, dynamic> json) => _$$_TagFromJson(json);
 
   @override
+  @JsonKey(name: "tag_id")
   final String id;
   @override
   final String name;
@@ -143,11 +145,13 @@ class _$_Tag implements _Tag {
 }
 
 abstract class _Tag implements Tag {
-  const factory _Tag(final String id, final String name) = _$_Tag;
+  const factory _Tag(
+      @JsonKey(name: "tag_id") final String id, final String name) = _$_Tag;
 
   factory _Tag.fromJson(Map<String, dynamic> json) = _$_Tag.fromJson;
 
   @override
+  @JsonKey(name: "tag_id")
   String get id;
   @override
   String get name;

@@ -7,11 +7,11 @@ part 'contact.g.dart';
 @freezed
 class Contact with _$Contact {
   const factory Contact(
-    String id,
+    @JsonKey(name: "contact_id") String id,
     String name,
     ContactMethod method,
     String value,
     @JsonKey(name: "person_id") String personId,
   ) = _Contact;
-  factory Contact.fromJson(Map<String, Object> json) => _$ContactFromJson(json);
+  factory Contact.fromJson(Map<String, dynamic> json) => _$ContactFromJson(json);
 }

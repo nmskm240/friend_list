@@ -6,8 +6,8 @@ part 'tag.g.dart';
 @freezed
 class Tag with _$Tag {
   const factory Tag(
-    String id,
+    @JsonKey(name: "tag_id") String id,
     String name,
   ) = _Tag;
-  factory Tag.fromJson(Map<String, Object> json) => _$TagFromJson(json);
+  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 }

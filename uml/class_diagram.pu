@@ -129,6 +129,7 @@ IPersonFactory <|.. PersonFactory
 IPersonRepository <|.. PersonRepository
 
 ' infrastructure
+<<<<<<< HEAD
 AnniversaryRepository ..> LocalDataSource
 ContactRepository ..> LocalDataSource
 TagRepository ..> LocalDataSource
@@ -145,5 +146,11 @@ ITable <|.. ContactTable
 ITable <|.. TagTable
 ITable <|.. PersonTable
 ITable <|.. RegistedTagTable
+=======
+AnniversaryRepository ..> AppDatabase
+ContactRepository ..> AppDatabase
+TagRepository ..> AppDatabase
+PersonRepository ..> AppDatabase
+>>>>>>> origin/feature/infrastructure
 
 @enduml

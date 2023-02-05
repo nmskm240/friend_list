@@ -3,8 +3,8 @@ import 'package:friend_list/common/constant/contact_method.dart';
 import 'package:friend_list/domain/contact/contact.dart';
 import 'package:friend_list/domain/contact/contact_service.dart';
 
-import 'auto_increment_contact_factory.dart';
-import 'in_memory_contact_repository.dart';
+import '../../infrastructure/contact/auto_increment_contact_factory.dart';
+import '../../infrastructure/contact/in_memory_contact_repository.dart';
 
 void main() {
   group("is duplicated test", () {

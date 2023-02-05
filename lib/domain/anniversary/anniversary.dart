@@ -7,7 +7,7 @@ part 'anniversary.g.dart';
 @freezed
 class Anniversary with _$Anniversary {
   const factory Anniversary(
-    String id,
+    @JsonKey(name: "anniversary_id") String id,
     String name,
     @DateTimeField() DateTime date,
     @JsonKey(name: "person_id") String personId,

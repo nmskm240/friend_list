@@ -8,7 +8,7 @@ part of 'anniversary.dart';
 
 _$_Anniversary _$$_AnniversaryFromJson(Map<String, dynamic> json) =>
     _$_Anniversary(
-      json['id'] as String,
+      json['anniversary_id'] as String,
       json['name'] as String,
       DateTime.parse(json['date'] as String),
       json['person_id'] as String,
@@ -16,7 +16,7 @@ _$_Anniversary _$$_AnniversaryFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$_AnniversaryToJson(_$_Anniversary instance) =>
     <String, dynamic>{
-      'id': instance.id,
+      'anniversary_id': instance.id,
       'name': instance.name,
       'date': instance.date.toIso8601String(),
       'person_id': instance.personId,

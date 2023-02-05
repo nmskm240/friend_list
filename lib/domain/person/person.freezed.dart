@@ -20,6 +20,7 @@ Person _$PersonFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Person {
+  @JsonKey(name: "person_id")
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get nickname => throw _privateConstructorUsedError;
@@ -42,7 +43,7 @@ abstract class $PersonCopyWith<$Res> {
       _$PersonCopyWithImpl<$Res, Person>;
   @useResult
   $Res call(
-      {String id,
+      {@JsonKey(name: "person_id") String id,
       String name,
       String nickname,
       String icon,
@@ -106,7 +107,7 @@ abstract class _$$_PersonCopyWith<$Res> implements $PersonCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String id,
+      {@JsonKey(name: "person_id") String id,
       String name,
       String nickname,
       String icon,
@@ -164,7 +165,7 @@ class __$$_PersonCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Person implements _Person {
   const _$_Person(
-      this.id,
+      @JsonKey(name: "person_id") this.id,
       this.name,
       this.nickname,
       this.icon,
@@ -175,6 +176,7 @@ class _$_Person implements _Person {
       _$$_PersonFromJson(json);
 
   @override
+  @JsonKey(name: "person_id")
   final String id;
   @override
   final String name;
@@ -233,7 +235,8 @@ class _$_Person implements _Person {
 
 abstract class _Person implements Person {
   const factory _Person(
-      final String id,
+      @JsonKey(name: "person_id")
+          final String id,
       final String name,
       final String nickname,
       final String icon,
@@ -247,6 +250,7 @@ abstract class _Person implements Person {
   factory _Person.fromJson(Map<String, dynamic> json) = _$_Person.fromJson;
 
   @override
+  @JsonKey(name: "person_id")
   String get id;
   @override
   String get name;

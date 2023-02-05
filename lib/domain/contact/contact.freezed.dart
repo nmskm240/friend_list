@@ -20,6 +20,7 @@ Contact _$ContactFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Contact {
+  @JsonKey(name: "contact_id")
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   ContactMethod get method => throw _privateConstructorUsedError;
@@ -38,7 +39,7 @@ abstract class $ContactCopyWith<$Res> {
       _$ContactCopyWithImpl<$Res, Contact>;
   @useResult
   $Res call(
-      {String id,
+      {@JsonKey(name: "contact_id") String id,
       String name,
       ContactMethod method,
       String value,
@@ -97,7 +98,7 @@ abstract class _$$_ContactCopyWith<$Res> implements $ContactCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String id,
+      {@JsonKey(name: "contact_id") String id,
       String name,
       ContactMethod method,
       String value,
@@ -148,13 +149,14 @@ class __$$_ContactCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_Contact implements _Contact {
-  const _$_Contact(this.id, this.name, this.method, this.value,
-      @JsonKey(name: "person_id") this.personId);
+  const _$_Contact(@JsonKey(name: "contact_id") this.id, this.name, this.method,
+      this.value, @JsonKey(name: "person_id") this.personId);
 
   factory _$_Contact.fromJson(Map<String, dynamic> json) =>
       _$$_ContactFromJson(json);
 
   @override
+  @JsonKey(name: "contact_id")
   final String id;
   @override
   final String name;
@@ -205,7 +207,7 @@ class _$_Contact implements _Contact {
 
 abstract class _Contact implements Contact {
   const factory _Contact(
-      final String id,
+      @JsonKey(name: "contact_id") final String id,
       final String name,
       final ContactMethod method,
       final String value,
@@ -214,6 +216,7 @@ abstract class _Contact implements Contact {
   factory _Contact.fromJson(Map<String, dynamic> json) = _$_Contact.fromJson;
 
   @override
+  @JsonKey(name: "contact_id")
   String get id;
   @override
   String get name;

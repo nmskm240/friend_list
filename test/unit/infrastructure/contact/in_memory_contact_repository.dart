@@ -6,6 +6,11 @@ class InMemoryContactRepository implements IContactRepository {
 
   const InMemoryContactRepository(this.contacts);
 
+  @override 
+  Future<void> deleteAll() async {
+    contacts.clear();
+  }
+
   @override
   Future<void> deleteAllByPersonID(String personId) async {
     contacts.removeWhere((element) => element.personId == personId);
@@ -17,7 +22,13 @@ class InMemoryContactRepository implements IContactRepository {
   }
 
   @override
-  Future<Iterable<Contact>> findByPersonID(String personId) async {
+  Future<Contact?> findByID(String id) async {
+    final results = contacts.where((element) => element.id == id);
+    return results.isEmpty ? null : results.first;
+  }
+
+  @override
+  Future<Iterable<Contact>> findAllByPersonID(String personId) async {
     return contacts.where((element) => element.personId == personId);
   }
 

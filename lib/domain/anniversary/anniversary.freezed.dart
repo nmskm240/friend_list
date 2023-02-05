@@ -20,6 +20,7 @@ Anniversary _$AnniversaryFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Anniversary {
+  @JsonKey(name: "anniversary_id")
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   @DateTimeField()
@@ -40,7 +41,7 @@ abstract class $AnniversaryCopyWith<$Res> {
       _$AnniversaryCopyWithImpl<$Res, Anniversary>;
   @useResult
   $Res call(
-      {String id,
+      {@JsonKey(name: "anniversary_id") String id,
       String name,
       @DateTimeField() DateTime date,
       @JsonKey(name: "person_id") String personId});
@@ -94,7 +95,7 @@ abstract class _$$_AnniversaryCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String id,
+      {@JsonKey(name: "anniversary_id") String id,
       String name,
       @DateTimeField() DateTime date,
       @JsonKey(name: "person_id") String personId});
@@ -140,13 +141,14 @@ class __$$_AnniversaryCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_Anniversary implements _Anniversary {
-  const _$_Anniversary(this.id, this.name, @DateTimeField() this.date,
-      @JsonKey(name: "person_id") this.personId);
+  const _$_Anniversary(@JsonKey(name: "anniversary_id") this.id, this.name,
+      @DateTimeField() this.date, @JsonKey(name: "person_id") this.personId);
 
   factory _$_Anniversary.fromJson(Map<String, dynamic> json) =>
       _$$_AnniversaryFromJson(json);
 
   @override
+  @JsonKey(name: "anniversary_id")
   final String id;
   @override
   final String name;
@@ -194,7 +196,7 @@ class _$_Anniversary implements _Anniversary {
 
 abstract class _Anniversary implements Anniversary {
   const factory _Anniversary(
-      final String id,
+      @JsonKey(name: "anniversary_id") final String id,
       final String name,
       @DateTimeField() final DateTime date,
       @JsonKey(name: "person_id") final String personId) = _$_Anniversary;
@@ -203,6 +205,7 @@ abstract class _Anniversary implements Anniversary {
       _$_Anniversary.fromJson;
 
   @override
+  @JsonKey(name: "anniversary_id")
   String get id;
   @override
   String get name;

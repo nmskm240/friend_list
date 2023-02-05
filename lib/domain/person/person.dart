@@ -8,7 +8,7 @@ part 'person.g.dart';
 @freezed
 class Person with _$Person {
   const factory Person(
-    String id,
+    @JsonKey(name: "person_id") String id,
     String name,
     String nickname,
     String icon,
