@@ -20,7 +20,7 @@ class AnniversaryTable implements ITable {
         name TEXT,
         date TEXT,
         PRIMARY KEY (anniversary_id),
-        FOREIGN KEY (person_id) REFERENCES ${DatabaseTable.persons.name} (person_id)
+        FOREIGN KEY (person_id) REFERENCES ${DatabaseTable.persons.name} (person_id) ON DELETE CASCADE
       )
     ''');
   }
