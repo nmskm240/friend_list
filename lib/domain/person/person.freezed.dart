@@ -133,27 +133,27 @@ class __$$_PersonCopyWithImpl<$Res>
     Object? updatedAt = freezed,
   }) {
     return _then(_$_Person(
-      null == id
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      null == name
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      null == nickname
+      nickname: null == nickname
           ? _value.nickname
           : nickname // ignore: cast_nullable_to_non_nullable
               as String,
-      null == icon
+      icon: null == icon
           ? _value.icon
           : icon // ignore: cast_nullable_to_non_nullable
               as String,
-      freezed == createdAt
+      createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      freezed == updatedAt
+      updatedAt: freezed == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
@@ -163,14 +163,15 @@ class __$$_PersonCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Person implements _Person {
+class _$_Person extends _Person {
   const _$_Person(
-      @JsonKey(name: "person_id") this.id,
-      this.name,
-      this.nickname,
-      this.icon,
+      {@JsonKey(name: "person_id") required this.id,
+      required this.name,
+      this.nickname = "",
+      this.icon = "",
       @CreatedAtField() @JsonKey(name: "created_at") this.createdAt,
-      @UpdatedAtField() @JsonKey(name: "updated_at") this.updatedAt);
+      @UpdatedAtField() @JsonKey(name: "updated_at") this.updatedAt})
+      : super._();
 
   factory _$_Person.fromJson(Map<String, dynamic> json) =>
       _$$_PersonFromJson(json);
@@ -181,8 +182,10 @@ class _$_Person implements _Person {
   @override
   final String name;
   @override
+  @JsonKey()
   final String nickname;
   @override
+  @JsonKey()
   final String icon;
   @override
   @CreatedAtField()
@@ -233,11 +236,11 @@ class _$_Person implements _Person {
   }
 }
 
-abstract class _Person implements Person {
+abstract class _Person extends Person {
   const factory _Person(
-      @JsonKey(name: "person_id")
-          final String id,
-      final String name,
+      {@JsonKey(name: "person_id")
+          required final String id,
+      required final String name,
       final String nickname,
       final String icon,
       @CreatedAtField()
@@ -245,7 +248,8 @@ abstract class _Person implements Person {
           final DateTime? createdAt,
       @UpdatedAtField()
       @JsonKey(name: "updated_at")
-          final DateTime? updatedAt) = _$_Person;
+          final DateTime? updatedAt}) = _$_Person;
+  const _Person._() : super._();
 
   factory _Person.fromJson(Map<String, dynamic> json) = _$_Person.fromJson;
 
