@@ -21,7 +21,7 @@ class ContactTable implements ITable {
         method TEXT,
         value TEXT,
         PRIMARY KEY (contact_id),
-        FOREIGN KEY (person_id) REFERENCES ${DatabaseTable.persons.name} (person_id)
+        FOREIGN KEY (person_id) REFERENCES ${DatabaseTable.persons.name} (person_id) ON DELETE CASCADE
       )
     ''');
   }
