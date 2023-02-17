@@ -15,12 +15,14 @@ class AnniversaryTable implements ITable {
   FutureOr<void>? onCreate(Database database, int version) {
     database.execute('''
       CREATE TABLE $name (
-        anniversary_id TEXT,
+        id TEXT,
         person_id TEXT,
         name TEXT,
         date TEXT,
-        PRIMARY KEY (anniversary_id),
-        FOREIGN KEY (person_id) REFERENCES ${DatabaseTable.persons.name} (person_id) ON DELETE CASCADE
+        created_at TEXT,
+        updated_at TEXT,
+        PRIMARY KEY (id),
+        FOREIGN KEY (person_id) REFERENCES ${DatabaseTable.persons.name} (id) ON DELETE CASCADE
       )
     ''');
   }

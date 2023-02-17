@@ -5,6 +5,11 @@ import 'package:uuid/uuid.dart';
 class PersonFactory implements IPersonFactory {
   @override
   Person create(String name, {String nickname = "", String icon = ""}) {
-    return Person(const Uuid().v1(), name, nickname, icon, null, null);
+    return Person(
+      id: const Uuid().v1(),
+      name: name,
+      nickname: nickname,
+      icon: icon,
+    );
   }
 }

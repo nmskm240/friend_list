@@ -15,13 +15,15 @@ class ContactTable implements ITable {
   FutureOr<void>? onCreate(Database database, int version) {
     database.execute('''
       CREATE TABLE $name (
-        contact_id TEXT,
+        id TEXT,
         person_id TEXT,
         name TEXT,  
         method TEXT,
         value TEXT,
-        PRIMARY KEY (contact_id),
-        FOREIGN KEY (person_id) REFERENCES ${DatabaseTable.persons.name} (person_id) ON DELETE CASCADE
+        created_at TEXT,
+        updated_at TEXT,
+        PRIMARY KEY (id),
+        FOREIGN KEY (person_id) REFERENCES ${DatabaseTable.persons.name} (id) ON DELETE CASCADE
       )
     ''');
   }

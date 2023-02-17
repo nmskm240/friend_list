@@ -15,13 +15,13 @@ class PersonTable implements ITable {
   FutureOr<void>? onCreate(Database database, int version) {
     database.execute('''
       CREATE TABLE $name (
-        person_id TEXT,
+        id TEXT,
         name TEXT,
         nickname TEXT,
         icon TEXT,
         created_at TEXT,
         updated_at TEXT,
-        PRIMARY KEY (person_id)
+        PRIMARY KEY (id)
       )
     ''');
   }
