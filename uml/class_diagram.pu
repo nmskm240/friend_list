@@ -19,24 +19,23 @@ package application {
     package model {
         class CustomModel<<freezed>>
     }
-    class AnniversaryAppService
-    class ContactAppService
-    class TagAppService
     class PersonAppService
+    class TagAppService
 }
 
 package domain {
-    package anniversary {
-        class Anniversary
-        class AnniversaryService
-        interface IAnniversaryFactory
-        interface IAnniversaryRepository
-    }
-    package contact {
-        class Contact
-        class ContactService
-        interface IContactFactory
-        interface IContactRepository
+    package person {
+        package anniversary {
+            class Anniversary<<JsonSerializable>>
+            interface IAnniversaryFactory
+        }
+        package contact {
+            class Contact<<JsonSerializable>>
+            interface IContactFactory
+        }
+        class Person<<JsonSerializable>>
+        interface IPersonFactory
+        interface IPersonRepository
     }
     package tag {
         class Tag
@@ -44,30 +43,22 @@ package domain {
         interface ITagFactory
         interface ITagRepository
     }
-    package person {
-        class Person
-        class PersonService
-        interface IPersonFactory
-        interface IPersonRepository
-    }
 }
 
 package infrastructure {
     package "anniversary " {
         class AnniversaryFactory
-        class AnniversaryRepository
     }
     package "contact " {
         class ContactFactory
-        class ContactRepository
-    }
-    package "tag " {
-        class TagFacotory
-        class TagRepository
     }
     package "person " {
         class PersonFactory
         class PersonRepository
+    }
+    package "tag " {
+        class TagFacotory
+        class TagRepository
     }
     interface LocalDataSource
 }
@@ -93,45 +84,34 @@ CustomWidget ..> CustomNotifyer
 CustomNotifyer ..> CustomModel
 
 ' application
-CustomModel <-- AnniversaryAppService : create
-CustomModel <-- ContactAppService : create
 CustomModel <-- TagAppService : create
 CustomModel <-- PersonAppService : create
 
 ' application - domain
-AnniversaryAppService ..> AnniversaryService
-ContactAppService ..> ContactService
 TagAppService ..> TagService
-PersonAppService ..> PersonService
+PersonAppService --> Person
 
 ' domain
-AnniversaryService ..> Anniversary
-AnniversaryService ..> IAnniversaryFactory
-AnniversaryService ..> IAnniversaryRepository
-ContactService ..> Contact
-ContactService ..> IContactFactory
-ContactService ..> IContactRepository
+Anniversary -- IAnniversaryFactory
+Contact -- IContactFactory
+Person *.. Anniversary
+Person *.. Contact
+Person -- IPersonFactory
+Person -- IPersonRepository
 TagService ..> Tag
 TagService ..> ITagFactory
 TagService ..> ITagRepository
-PersonService ..> Person
-PersonService ..> IPersonRepository
-PersonService ..> IPersonFactory
+
 
 ' domain - infrastructure
-IAnniversaryRepository <|.. AnniversaryRepository
 IAnniversaryFactory <|.. AnniversaryFactory
 IContactFactory <|.. ContactFactory
-IContactRepository <|.. ContactRepository
 ITagFactory <|.. TagFacotory
 ITagRepository <|.. TagRepository
 IPersonFactory <|.. PersonFactory
 IPersonRepository <|.. PersonRepository
 
 ' infrastructure
-<<<<<<< HEAD
-AnniversaryRepository ..> LocalDataSource
-ContactRepository ..> LocalDataSource
 TagRepository ..> LocalDataSource
 PersonRepository ..> LocalDataSource
 
@@ -146,11 +126,5 @@ ITable <|.. ContactTable
 ITable <|.. TagTable
 ITable <|.. PersonTable
 ITable <|.. RegistedTagTable
-=======
-AnniversaryRepository ..> AppDatabase
-ContactRepository ..> AppDatabase
-TagRepository ..> AppDatabase
-PersonRepository ..> AppDatabase
->>>>>>> origin/feature/infrastructure
 
 @enduml

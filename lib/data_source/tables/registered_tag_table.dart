@@ -18,7 +18,7 @@ class RegisteredTagTable implements ITable {
         person_id TEXT,
         tag_id TEXT,
         PRIMARY KEY (person_id, tag_id),
-        FOREIGN KEY (person_id) REFERENCES ${DatabaseTable.persons.name}(person_id) ON DELETE CASCADE,
+        FOREIGN KEY (person_id) REFERENCES ${DatabaseTable.persons.name}(id) ON DELETE CASCADE,
         FOREIGN KEY (tag_id) REFERENCES ${DatabaseTable.tags.name}(tag_id) ON DELETE CASCADE
       )
     ''');
