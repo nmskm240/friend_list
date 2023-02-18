@@ -82,9 +82,11 @@ class Person {
 
   Future<Uint8List> iconImage() async {
     if (isBlank(icon)) {
-      final bytes =
-          await rootBundle.loadString("assets/images/default_avatar.png");
-      return File(bytes).readAsBytes();
+      final data =
+          await rootBundle.load("assets/images/default_avatar.png");
+      final buffer = data.buffer;
+      final bytes = buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+      return bytes;
     } else {
       return base64.decode(icon);
     }
