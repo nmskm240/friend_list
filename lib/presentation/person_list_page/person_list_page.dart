@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:friend_list/presentation/person_list_page/provider/person_list_provider.dart';
 
-class PersonListPage extends StatelessWidget {
+class PersonListPage extends ConsumerWidget {
   const PersonListPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final notifyer = ref.watch(personListProvider);
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
@@ -20,21 +23,31 @@ class PersonListPage extends StatelessWidget {
           ),
         ],
       ),
-      body: ListView.builder(
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: const Text("Test Person"),
-            subtitle: const Text("nickname"),
-            leading: const CircleAvatar(
-              backgroundImage: AssetImage("assets/images/default_avatar.png"),
-            ),
-            trailing: const Text("XX years old"),
-            onTap: () {
-              Navigator.of(context).pushNamed("/detail");
+      body: notifyer.when(
+        data: (summaries) {
+          return ListView.builder(
+            itemCount: summaries.length,
+            itemBuilder: (context, index) {
+              final person = summaries.elementAt(index);
+              return ListTile(
+                title: Text(person.name),
+                subtitle: Text(person.nickname),
+                leading: CircleAvatar(
+                  backgroundImage: MemoryImage(person.icon),
+                ),
+                trailing: const Text("XX years old"),
+                onTap: () {
+                  Navigator.of(context).pushNamed("/detail");
+                },
+              );
             },
           );
         },
-        itemCount: 20,
+        error: ((error, stackTrace) {
+          debugPrint(stackTrace.toString());
+          return Text(error.toString());
+        }),
+        loading: () => const CircularProgressIndicator(),
       ),
     );
   }
