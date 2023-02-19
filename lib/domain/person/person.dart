@@ -78,7 +78,7 @@ class Person {
     return birthdate.date;
   }
 
-  int? get age => AgeCalculator.age(birthdate).years;
+  int get age => AgeCalculator.age(birthdate).years;
 
   Future<Uint8List> iconImage() async {
     if (isBlank(icon)) {

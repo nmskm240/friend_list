@@ -35,7 +35,7 @@ class PersonListPage extends ConsumerWidget {
                 leading: CircleAvatar(
                   backgroundImage: MemoryImage(person.icon),
                 ),
-                trailing: const Text("XX years old"),
+                trailing: Text("${person.age ?? "?"} years old"),
                 onTap: () {
                   Navigator.of(context).pushNamed("/detail");
                 },

@@ -1,4 +1,5 @@
 import 'package:friend_list/application/model/person_summary.dart';
+import 'package:friend_list/common/exception/unregistered_birthdate_exception.dart';
 import 'package:friend_list/domain/person/i_person_factory.dart';
 import 'package:friend_list/domain/person/i_person_repository.dart';
 import 'package:friend_list/domain/person/person.dart';
@@ -14,7 +15,15 @@ class PersonAppService {
     return Future.wait(
       persons.map((e) async {
         final image = await e.iconImage();
-        return PersonSummary(e.id, e.name, e.nickname, image);
+        late int? age;
+        try {
+          age = e.age;
+        } catch (e) {
+          if (e is UnregisteredBirthdateException) {
+            age = null;
+          }
+        }
+        return PersonSummary(e.id, e.name, e.nickname, image, age);
       }),
     );
   }

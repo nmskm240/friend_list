@@ -10,5 +10,6 @@ class PersonSummary with _$PersonSummary {
     String name,
     String nickname,
     Uint8List icon,
+    int? age,
   ) = _PersonSummary;
 }

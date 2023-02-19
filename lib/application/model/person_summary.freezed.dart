@@ -20,6 +20,7 @@ mixin _$PersonSummary {
   String get name => throw _privateConstructorUsedError;
   String get nickname => throw _privateConstructorUsedError;
   Uint8List get icon => throw _privateConstructorUsedError;
+  int? get age => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PersonSummaryCopyWith<PersonSummary> get copyWith =>
@@ -32,7 +33,8 @@ abstract class $PersonSummaryCopyWith<$Res> {
           PersonSummary value, $Res Function(PersonSummary) then) =
       _$PersonSummaryCopyWithImpl<$Res, PersonSummary>;
   @useResult
-  $Res call({String id, String name, String nickname, Uint8List icon});
+  $Res call(
+      {String id, String name, String nickname, Uint8List icon, int? age});
 }
 
 /// @nodoc
@@ -52,6 +54,7 @@ class _$PersonSummaryCopyWithImpl<$Res, $Val extends PersonSummary>
     Object? name = null,
     Object? nickname = null,
     Object? icon = null,
+    Object? age = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -70,6 +73,10 @@ class _$PersonSummaryCopyWithImpl<$Res, $Val extends PersonSummary>
           ? _value.icon
           : icon // ignore: cast_nullable_to_non_nullable
               as Uint8List,
+      age: freezed == age
+          ? _value.age
+          : age // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -82,7 +89,8 @@ abstract class _$$_PersonSummaryCopyWith<$Res>
       __$$_PersonSummaryCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String name, String nickname, Uint8List icon});
+  $Res call(
+      {String id, String name, String nickname, Uint8List icon, int? age});
 }
 
 /// @nodoc
@@ -100,6 +108,7 @@ class __$$_PersonSummaryCopyWithImpl<$Res>
     Object? name = null,
     Object? nickname = null,
     Object? icon = null,
+    Object? age = freezed,
   }) {
     return _then(_$_PersonSummary(
       null == id
@@ -118,6 +127,10 @@ class __$$_PersonSummaryCopyWithImpl<$Res>
           ? _value.icon
           : icon // ignore: cast_nullable_to_non_nullable
               as Uint8List,
+      freezed == age
+          ? _value.age
+          : age // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -125,7 +138,8 @@ class __$$_PersonSummaryCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_PersonSummary with DiagnosticableTreeMixin implements _PersonSummary {
-  const _$_PersonSummary(this.id, this.name, this.nickname, this.icon);
+  const _$_PersonSummary(
+      this.id, this.name, this.nickname, this.icon, this.age);
 
   @override
   final String id;
@@ -135,10 +149,12 @@ class _$_PersonSummary with DiagnosticableTreeMixin implements _PersonSummary {
   final String nickname;
   @override
   final Uint8List icon;
+  @override
+  final int? age;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'PersonSummary(id: $id, name: $name, nickname: $nickname, icon: $icon)';
+    return 'PersonSummary(id: $id, name: $name, nickname: $nickname, icon: $icon, age: $age)';
   }
 
   @override
@@ -149,7 +165,8 @@ class _$_PersonSummary with DiagnosticableTreeMixin implements _PersonSummary {
       ..add(DiagnosticsProperty('id', id))
       ..add(DiagnosticsProperty('name', name))
       ..add(DiagnosticsProperty('nickname', nickname))
-      ..add(DiagnosticsProperty('icon', icon));
+      ..add(DiagnosticsProperty('icon', icon))
+      ..add(DiagnosticsProperty('age', age));
   }
 
   @override
@@ -161,12 +178,13 @@ class _$_PersonSummary with DiagnosticableTreeMixin implements _PersonSummary {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.nickname, nickname) ||
                 other.nickname == nickname) &&
-            const DeepCollectionEquality().equals(other.icon, icon));
+            const DeepCollectionEquality().equals(other.icon, icon) &&
+            (identical(other.age, age) || other.age == age));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, id, name, nickname,
-      const DeepCollectionEquality().hash(icon));
+      const DeepCollectionEquality().hash(icon), age);
 
   @JsonKey(ignore: true)
   @override
@@ -176,8 +194,12 @@ class _$_PersonSummary with DiagnosticableTreeMixin implements _PersonSummary {
 }
 
 abstract class _PersonSummary implements PersonSummary {
-  const factory _PersonSummary(final String id, final String name,
-      final String nickname, final Uint8List icon) = _$_PersonSummary;
+  const factory _PersonSummary(
+      final String id,
+      final String name,
+      final String nickname,
+      final Uint8List icon,
+      final int? age) = _$_PersonSummary;
 
   @override
   String get id;
@@ -187,6 +209,8 @@ abstract class _PersonSummary implements PersonSummary {
   String get nickname;
   @override
   Uint8List get icon;
+  @override
+  int? get age;
   @override
   @JsonKey(ignore: true)
   _$$_PersonSummaryCopyWith<_$_PersonSummary> get copyWith =>
