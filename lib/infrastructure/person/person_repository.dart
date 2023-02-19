@@ -215,6 +215,8 @@ class PersonRepository implements IPersonRepository {
     return personIds.map((personId) {
       final personColumns =
           searched.where((column) => column["person_id"] == personId);
+      final jsonPerson = personColumns.first.map(
+          (key, value) => MapEntry(key.replaceFirst("person_", ""), value));
       final List<Map<String, dynamic>> jsonAnniversaries = [];
       for (final column in personColumns) {
         final entries = column.entries.where((element) =>
@@ -243,8 +245,9 @@ class PersonRepository implements IPersonRepository {
           jsonContatcts.add(jsonContatct);
         }
       }
+      print(personColumns.first);
       return Person.fromJson({
-        ...personColumns.first,
+        ...jsonPerson,
         "anniversaries": jsonAnniversaries,
         "contacts": jsonContatcts,
       });
