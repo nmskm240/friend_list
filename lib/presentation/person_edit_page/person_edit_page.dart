@@ -1,141 +1,139 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:friend_list/presentation/common/always_disabled_focus_node.dart';
+import 'package:friend_list/presentation/common/provider/person_service_provider.dart';
 import 'package:friend_list/presentation/common/widget/list_view_with_header.dart';
 
-class PersonEditPage extends StatelessWidget {
+class PersonEditPage extends ConsumerWidget {
   const PersonEditPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final service = ref.watch(personServiceProvider);
+    final key = GlobalKey<FormBuilderState>();
     return Scaffold(
       appBar: AppBar(
         actions: <IconButton>[
           IconButton(
             onPressed: () {
+              Navigator.of(context).pop();
               //TODO: save to database
             },
             icon: const Icon(Icons.check),
           ),
         ],
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(15),
-        children: <Widget>[
-          const ListViewWithHeader(
-            scrollLock: true,
-            title: Center(
-              child: CircleAvatar(
-                radius: 50,
-                backgroundImage: AssetImage("assets/images/default_avatar.png"),
-              ),
-            ),
-            children: <Widget>[
-              TextField(
-                decoration: InputDecoration(
-                  label: Text("name"),
+      body: FormBuilder(
+        key: key,
+        child: ListView(
+          padding: const EdgeInsets.all(15),
+          children: <Widget>[
+            ListViewWithHeader(
+              scrollLock: true,
+              title: Center(
+                child: CircleAvatar(
+                  radius: 50,
+                  backgroundImage:
+                      AssetImage("assets/images/default_avatar.png"),
                 ),
               ),
-              TextField(
-                decoration: InputDecoration(
-                  label: Text("nickname"),
+              children: <Widget>[
+                FormBuilderTextField(
+                  name: 'name',
+                  decoration: const InputDecoration(
+                    label: Text("name"),
+                  ), 
                 ),
-              ),
-            ],
-          ),
-          const Divider(),
-          ListViewWithHeader(
-            scrollLock: true,
-            leading: const Text("Anniversary"),
-            action: IconButton(
-              onPressed: () {
-                //TODO: create new anniversary
-              },
-              icon: const Icon(Icons.add),
-            ),
-            children: <Widget>[
-              TextField(
-                focusNode: AlwaysDisabledFocusNode(),
-                decoration: const InputDecoration(
-                  label: Text("birthdate"),
-                ),
-                controller: TextEditingController(text: "XXXX/YY/ZZ"),
-                onTap: () {
-                  Navigator.of(context).pushNamed("/anniversary/edit");
-                },
-              ),
-              TextField(
-                focusNode: AlwaysDisabledFocusNode(),
-                decoration: InputDecoration(
-                  label: const Text("custom anniversary"),
-                  suffixIcon: IconButton(
-                    icon: const Icon(Icons.delete),
-                    onPressed: () {
-                      //TODO: delete anniversary
-                    },
+                FormBuilderTextField(
+                  name: "nickname",
+                  decoration: const InputDecoration(
+                    label: Text("nickname"),
                   ),
                 ),
-                controller: TextEditingController(text: "XXXX/YY/ZZ"),
-                onTap: () {
+              ],
+            ),
+            const Divider(),
+            ListViewWithHeader(
+              scrollLock: true,
+              leading: const Text("Anniversary"),
+              action: IconButton(
+                onPressed: () {
                   Navigator.of(context).pushNamed("/anniversary/edit");
                 },
+                icon: const Icon(Icons.add),
               ),
-            ],
-          ),
-          const Divider(),
-          ListViewWithHeader(
-            scrollLock: true,
-            leading: const Text("Contact"),
-            action: IconButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed("/contact/edit");
-              },
-              icon: const Icon(Icons.add),
-            ),
-            children: <Widget>[
-              TextField(
-                focusNode: AlwaysDisabledFocusNode(),
-                decoration: InputDecoration(
-                  label: const Text("phone"),
-                  suffixIcon: IconButton(
-                    icon: const Icon(Icons.delete),
-                    onPressed: () {
-                      //TODO: delete contact
-                    },
+              children: <Widget>[
+                FormBuilderTextField(
+                  name: "birthdate",
+                  focusNode: AlwaysDisabledFocusNode(),
+                  decoration: const InputDecoration(
+                    label: Text("birthdate"),
                   ),
+                  controller: TextEditingController(text: "XXXX/YY/ZZ"),
+                  onTap: () {
+                    Navigator.of(context).pushNamed("/anniversary/edit");
+                  },
                 ),
-                controller: TextEditingController(text: "000-0000-0000"),
-                onTap: () {
-                  //TODO: set this data to edit page
+              ],
+            ),
+            const Divider(),
+            ListViewWithHeader(
+              scrollLock: true,
+              leading: const Text("Contact"),
+              action: IconButton(
+                onPressed: () {
                   Navigator.of(context).pushNamed("/contact/edit");
                 },
+                icon: const Icon(Icons.add),
               ),
-            ],
-          ),
-          const Divider(),
-          ListViewWithHeader(
-            scrollLock: true,
-            leading: const Text("Tag"),
-            action: IconButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed("/tag/select");
-              },
-              icon: const Icon(Icons.add),
-            ),
-            children: <Widget>[
-              Wrap(
-                spacing: 5,
-                children: <InputChip>[
-                  InputChip(
-                    label: const Text("test"),
-                    onDeleted: () {
-                      //TODO: remove tag
-                    },
+              children: <Widget>[
+                FormBuilderTextField(
+                  name: "",
+                  focusNode: AlwaysDisabledFocusNode(),
+                  decoration: InputDecoration(
+                    label: const Text("phone"),
+                    suffixIcon: IconButton(
+                      icon: const Icon(Icons.delete),
+                      onPressed: () {
+                        //TODO: delete contact
+                      },
+                    ),
                   ),
-                ],
+                  controller: TextEditingController(text: "000-0000-0000"),
+                  onTap: () {
+                    //TODO: set this data to edit page
+                    Navigator.of(context).pushNamed("/contact/edit");
+                  },
+                ),
+              ],
+            ),
+            const Divider(),
+            ListViewWithHeader(
+              scrollLock: true,
+              leading: const Text("Tag"),
+              action: IconButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed("/tag/select");
+                },
+                icon: const Icon(Icons.add),
               ),
-            ],
-          ),
-        ],
+              children: <Widget>[
+                Wrap(
+                  spacing: 5,
+                  children: <InputChip>[
+                    InputChip(
+                      label: const Text("test"),
+                      onDeleted: () {
+                        //TODO: remove tag
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
