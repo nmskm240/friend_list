@@ -25,23 +25,34 @@ class PersonListPage extends ConsumerWidget {
       ),
       body: notifyer.when(
         data: (summaries) {
-          return ListView.builder(
-            itemCount: summaries.length,
-            itemBuilder: (context, index) {
-              final person = summaries.elementAt(index);
-              return ListTile(
-                title: Text(person.name),
-                subtitle: Text(person.nickname),
-                leading: CircleAvatar(
-                  backgroundImage: MemoryImage(person.icon),
-                ),
-                trailing: Text("${person.age ?? "?"} years old"),
-                onTap: () {
-                  Navigator.of(context).pushNamed("/detail");
-                },
-              );
-            },
-          );
+          if (summaries.isEmpty) {
+            return Center(
+              child: Column(
+                children: const [
+                  Icon(Icons.people),
+                  Text("No one registered"),
+                ],
+              ),
+            );
+          } else {
+            return ListView.builder(
+              itemCount: summaries.length,
+              itemBuilder: (context, index) {
+                final person = summaries.elementAt(index);
+                return ListTile(
+                  title: Text(person.name),
+                  subtitle: Text(person.nickname),
+                  leading: CircleAvatar(
+                    backgroundImage: MemoryImage(person.icon),
+                  ),
+                  trailing: Text("${person.age ?? "?"} years old"),
+                  onTap: () {
+                    Navigator.of(context).pushNamed("/detail");
+                  },
+                );
+              },
+            );
+          }
         },
         error: ((error, stackTrace) {
           debugPrint(stackTrace.toString());
