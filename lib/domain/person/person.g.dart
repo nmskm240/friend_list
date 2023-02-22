@@ -10,7 +10,7 @@ Person _$PersonFromJson(Map<String, dynamic> json) => Person(
       id: json['id'] as String,
       name: json['name'] as String,
       nickname: json['nickname'] as String? ?? "",
-      icon: json['icon'] as String? ?? "",
+      icon: const Uint8ListField().fromJson(json['icon'] as String),
       anniversaries: (json['anniversaries'] as List<dynamic>?)
           ?.map((e) => Anniversary.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -25,7 +25,7 @@ Map<String, dynamic> _$PersonToJson(Person instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'nickname': instance.nickname,
-      'icon': instance.icon,
+      'icon': const Uint8ListField().toJson(instance.icon),
       'created_at': instance.createdAt.toIso8601String(),
       'updated_at': instance.updatedAt.toIso8601String(),
     };

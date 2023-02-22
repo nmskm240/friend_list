@@ -23,7 +23,6 @@ class PersonEditPage extends ConsumerWidget {
             onPressed: () async {
               if (key.currentState!.validate()) {
                 final fields = key.currentState!.instantValue;
-                debugPrint(fields.toString());
                 await service.createAndSavePerson(
                   fields["name"],
                   fields["nickname"],

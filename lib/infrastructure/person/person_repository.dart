@@ -1,6 +1,3 @@
-import 'dart:developer';
-
-import 'package:flutter/material.dart';
 import 'package:friend_list/common/exception/nonexistent_person_exception.dart';
 import 'package:friend_list/data_source/database_table.dart';
 import 'package:friend_list/domain/person/i_person_repository.dart';
@@ -141,7 +138,6 @@ class PersonRepository implements IPersonRepository {
       ''',
     );
     final personIds = searched.map((e) => e["person_id"] as String).toSet();
-    debugPrint(personIds.toString());
     return personIds.map((personId) {
       final personColumns =
           searched.where((column) => column["person_id"] == personId);
@@ -245,7 +241,6 @@ class PersonRepository implements IPersonRepository {
           jsonContatcts.add(jsonContatct);
         }
       }
-      print(personColumns.first);
       return Person.fromJson({
         ...jsonPerson,
         "anniversaries": jsonAnniversaries,

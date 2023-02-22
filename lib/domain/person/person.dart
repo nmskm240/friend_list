@@ -1,8 +1,5 @@
 // ignore_for_file: invalid_annotation_target, prefer_initializing_formals
 
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:age_calculator/age_calculator.dart';
 import 'package:flutter/services.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -12,11 +9,11 @@ import 'package:friend_list/common/exception/duplicate_contact_exception.dart';
 import 'package:friend_list/common/exception/unregistered_birthdate_exception.dart';
 import 'package:friend_list/domain/person/anniversary/anniversary.dart';
 import 'package:friend_list/domain/person/annotation/created_at_field.dart';
+import 'package:friend_list/domain/person/annotation/uint8list_field.dart';
 import 'package:friend_list/domain/person/annotation/updated_at_field.dart';
 import 'package:friend_list/domain/person/contact/contact.dart';
 import 'package:friend_list/infrastructure/person/anniversary/anniversary_factory.dart';
 import 'package:friend_list/infrastructure/person/contact/contact_factory.dart';
-import 'package:quiver/strings.dart';
 
 part 'person.g.dart';
 
@@ -28,8 +25,9 @@ class Person {
   late String name;
   @JsonKey(name: "nickname")
   late String nickname;
+  @Uint8ListField()
   @JsonKey(name: "icon")
-  late String icon;
+  late Uint8List icon;
   @JsonKey(includeToJson: false)
   late final List<Anniversary> _anniversaries;
   @JsonKey(includeToJson: false)
@@ -45,7 +43,7 @@ class Person {
     required String id,
     required String name,
     String nickname = "",
-    String icon = "",
+    required Uint8List icon,
     List<Anniversary>? anniversaries,
     List<Contact>? contacts,
     DateTime? createdAt,
@@ -79,18 +77,6 @@ class Person {
   }
 
   int get age => AgeCalculator.age(birthdate).years;
-
-  Future<Uint8List> iconImage() async {
-    if (isBlank(icon)) {
-      final data =
-          await rootBundle.load("assets/images/default_avatar.png");
-      final buffer = data.buffer;
-      final bytes = buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
-      return bytes;
-    } else {
-      return base64.decode(icon);
-    }
-  }
 
   void addAnniversary(String name, DateTime date) {
     if (hasSameAnniversary(name)) {

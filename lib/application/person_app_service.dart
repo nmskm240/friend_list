@@ -21,8 +21,7 @@ class PersonAppService {
     List<AnniversaryDto> anniversaries,
     List<ContactDto> contacts,
   ) async {
-    final person =
-        _factory.create(name, nickname: nickname, icon: base64.encode(icon));
+    final person = _factory.create(name, nickname, icon);
     for (final anniversary in anniversaries) {
       person.addAnniversary(anniversary.name, anniversary.date);
     }
@@ -35,19 +34,16 @@ class PersonAppService {
 
   Future<Iterable<PersonSummary>> getAll() async {
     final persons = await _repository.getAll();
-    return Future.wait(
-      persons.map((e) async {
-        final image = await e.iconImage();
-        late int? age;
-        try {
-          age = e.age;
-        } catch (e) {
-          if (e is UnregisteredBirthdateException) {
-            age = null;
-          }
+    return persons.map((e) {
+      late int? age;
+      try {
+        age = e.age;
+      } catch (e) {
+        if (e is UnregisteredBirthdateException) {
+          age = null;
         }
-        return PersonSummary(e.id, e.name, e.nickname, image, age);
-      }),
-    );
+      }
+      return PersonSummary(e.id, e.name, e.nickname, e.icon, age);
+    });
   }
 }
