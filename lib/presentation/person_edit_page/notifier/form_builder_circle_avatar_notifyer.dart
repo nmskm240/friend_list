@@ -6,12 +6,10 @@ import 'package:image_picker/image_picker.dart';
 class FormBuilderCircleAvatarNotifier extends StateNotifier<Uint8List> {
   FormBuilderCircleAvatarNotifier(Uint8List initialAvatar) : super(initialAvatar);
 
-  Uint8List get bytes => state;
-
-  Future<void> pickAndCrop() async {
+  Future<Uint8List?> pickAndCrop() async {
     final picked = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (picked == null) {
-      return;
+      return null;
     }
     final cropped = await ImageCropper().cropImage(
       sourcePath: picked.path,
@@ -19,8 +17,9 @@ class FormBuilderCircleAvatarNotifier extends StateNotifier<Uint8List> {
       aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
     );
     if (cropped == null) {
-      return;
+      return null;
     }
     state = await cropped.readAsBytes();
+    return state;
   }
 }

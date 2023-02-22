@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:friend_list/presentation/common/always_disabled_focus_node.dart';
 import 'package:friend_list/presentation/common/provider/default_icon_provider.dart';
 import 'package:friend_list/presentation/common/provider/person_service_provider.dart';
@@ -19,9 +20,20 @@ class PersonEditPage extends ConsumerWidget {
       appBar: AppBar(
         actions: <IconButton>[
           IconButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              //TODO: save to database
+            onPressed: () async {
+              if (key.currentState!.validate()) {
+                final fields = key.currentState!.instantValue;
+                debugPrint(fields.toString());
+                await service.createAndSavePerson(
+                  fields["name"],
+                  fields["nickname"],
+                  fields["icon"],
+                  [],
+                  [],
+                );
+                // ignore: use_build_context_synchronously
+                Navigator.of(context).pop();
+              }
             },
             icon: const Icon(Icons.check),
           ),
@@ -53,12 +65,15 @@ class PersonEditPage extends ConsumerWidget {
                   children: <Widget>[
                     FormBuilderTextField(
                       name: 'name',
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: FormBuilderValidators.required(),
                       decoration: const InputDecoration(
                         label: Text("name"),
                       ),
                     ),
                     FormBuilderTextField(
                       name: "nickname",
+                      initialValue: "",
                       decoration: const InputDecoration(
                         label: Text("nickname"),
                       ),
@@ -82,7 +97,6 @@ class PersonEditPage extends ConsumerWidget {
                       decoration: const InputDecoration(
                         label: Text("birthdate"),
                       ),
-                      controller: TextEditingController(text: "XXXX/YY/ZZ"),
                       onTap: () {
                         Navigator.of(context).pushNamed("/anniversary/edit");
                       },
@@ -99,26 +113,7 @@ class PersonEditPage extends ConsumerWidget {
                     },
                     icon: const Icon(Icons.add),
                   ),
-                  children: <Widget>[
-                    FormBuilderTextField(
-                      name: "",
-                      focusNode: AlwaysDisabledFocusNode(),
-                      decoration: InputDecoration(
-                        label: const Text("phone"),
-                        suffixIcon: IconButton(
-                          icon: const Icon(Icons.delete),
-                          onPressed: () {
-                            //TODO: delete contact
-                          },
-                        ),
-                      ),
-                      controller: TextEditingController(text: "000-0000-0000"),
-                      onTap: () {
-                        //TODO: set this data to edit page
-                        Navigator.of(context).pushNamed("/contact/edit");
-                      },
-                    ),
-                  ],
+                  children: <Widget>[],
                 ),
                 const Divider(),
                 ListViewWithHeader(

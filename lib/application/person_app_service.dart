@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:flutter/foundation.dart';
 import 'package:friend_list/application/model/anniversary_dto.dart';
 import 'package:friend_list/application/model/contact_dto.dart';
 import 'package:friend_list/application/model/person_summary.dart';
@@ -11,14 +14,15 @@ class PersonAppService {
 
   const PersonAppService(this._factory, this._repository);
 
-  Future<String> createPerson(
+  Future<String> createAndSavePerson(
     String name,
     String nickname,
-    String icon,
+    Uint8List icon,
     List<AnniversaryDto> anniversaries,
     List<ContactDto> contacts,
   ) async {
-    final person = _factory.create(name, nickname: nickname, icon: icon);
+    final person =
+        _factory.create(name, nickname: nickname, icon: base64.encode(icon));
     for (final anniversary in anniversaries) {
       person.addAnniversary(anniversary.name, anniversary.date);
     }

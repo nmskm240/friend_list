@@ -20,8 +20,9 @@ class FormBuilderCircleAvatar extends ConsumerWidget {
     final notifier =
         ref.read(formBuilderCircleAvatarProvider(initalValue).notifier);
     final state = ref.watch(formBuilderCircleAvatarProvider(initalValue));
-    return FormBuilderField(
+    return FormBuilderField<Uint8List>(
       name: name,
+      initialValue: initalValue,
       builder: (field) {
         return GestureDetector(
           child: Center(
@@ -32,7 +33,8 @@ class FormBuilderCircleAvatar extends ConsumerWidget {
           ),
           onTap: () async {
             try {
-              await notifier.pickAndCrop();
+              final bytes = await notifier.pickAndCrop();
+              field.didChange(bytes);
             } catch (e) {
               if (e is PlatformException) {
                 showDialog(
