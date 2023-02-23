@@ -34,7 +34,7 @@ class FormBuilderCircleAvatar extends ConsumerWidget {
           onTap: () async {
             try {
               final bytes = await notifier.pickAndCrop();
-              field.didChange(bytes);
+              field.didChange(bytes ?? initalValue);
             } catch (e) {
               if (e is PlatformException) {
                 showDialog(

@@ -7,6 +7,7 @@ import 'package:friend_list/application/model/person_summary.dart';
 import 'package:friend_list/common/exception/unregistered_birthdate_exception.dart';
 import 'package:friend_list/domain/person/i_person_factory.dart';
 import 'package:friend_list/domain/person/i_person_repository.dart';
+import 'package:friend_list/domain/person/person.dart';
 
 class PersonAppService {
   final IPersonFactory _factory;
@@ -14,7 +15,11 @@ class PersonAppService {
 
   const PersonAppService(this._factory, this._repository);
 
-  Future<String> createAndSavePerson(
+  Person createEmptyPerson(Uint8List defaultIcon) {
+    return _factory.create("", "", defaultIcon);
+  }
+
+  Future<void> savePerson(
     String name,
     String nickname,
     Uint8List icon,
@@ -28,8 +33,7 @@ class PersonAppService {
     for (final contact in contacts) {
       person.addContact(contact.name, contact.method, contact.value);
     }
-    final saved = await _repository.save(person);
-    return saved.id;
+    await _repository.save(person);
   }
 
   Future<Iterable<PersonSummary>> getAll() async {

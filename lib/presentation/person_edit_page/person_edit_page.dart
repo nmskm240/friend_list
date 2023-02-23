@@ -3,9 +3,9 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:friend_list/presentation/common/always_disabled_focus_node.dart';
-import 'package:friend_list/presentation/common/provider/default_icon_provider.dart';
 import 'package:friend_list/presentation/common/provider/person_service_provider.dart';
 import 'package:friend_list/presentation/common/widget/list_view_with_header.dart';
+import 'package:friend_list/presentation/person_edit_page/provider/editing_person_provider.dart';
 import 'package:friend_list/presentation/person_edit_page/widget/form_builder_circle_avatar.dart';
 
 class PersonEditPage extends ConsumerWidget {
@@ -13,8 +13,8 @@ class PersonEditPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final defaultIcon = ref.watch(defaultIconProvider);
     final service = ref.read(personServiceProvider);
+    final editing = ref.watch(editingPersonProvider(null));
     final key = GlobalKey<FormBuilderState>();
     return Scaffold(
       appBar: AppBar(
@@ -23,13 +23,8 @@ class PersonEditPage extends ConsumerWidget {
             onPressed: () async {
               if (key.currentState!.validate()) {
                 final fields = key.currentState!.instantValue;
-                await service.createAndSavePerson(
-                  fields["name"],
-                  fields["nickname"],
-                  fields["icon"],
-                  [],
-                  [],
-                );
+                await service.savePerson(
+                    fields["name"], fields["nickname"], fields["icon"], [], []);
                 // ignore: use_build_context_synchronously
                 Navigator.of(context).pop();
               }
@@ -38,7 +33,7 @@ class PersonEditPage extends ConsumerWidget {
           ),
         ],
       ),
-      body: defaultIcon.when(
+      body: editing.when(
         error: (error, stackTrace) {
           return const Center(
             child: Text("Cloud not load data"),
@@ -49,7 +44,7 @@ class PersonEditPage extends ConsumerWidget {
             child: CircularProgressIndicator(),
           );
         },
-        data: (data) {
+        data: (person) {
           return FormBuilder(
             key: key,
             child: ListView(
@@ -59,7 +54,7 @@ class PersonEditPage extends ConsumerWidget {
                   scrollLock: true,
                   title: FormBuilderCircleAvatar(
                     name: "icon",
-                    initalValue: data,
+                    initalValue: person.icon,
                   ),
                   children: <Widget>[
                     FormBuilderTextField(
@@ -72,7 +67,7 @@ class PersonEditPage extends ConsumerWidget {
                     ),
                     FormBuilderTextField(
                       name: "nickname",
-                      initialValue: "",
+                      initialValue: person.nickname,
                       decoration: const InputDecoration(
                         label: Text("nickname"),
                       ),
