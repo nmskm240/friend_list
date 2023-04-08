@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:friend_list/application/model/anniversary_dto.dart';
 import 'package:friend_list/presentation/common/always_disabled_focus_node.dart';
 import 'package:friend_list/presentation/common/provider/person_service_provider.dart';
 import 'package:friend_list/presentation/common/widget/list_view_with_header.dart';
@@ -91,8 +92,9 @@ class PersonEditPage extends ConsumerWidget {
                       decoration: const InputDecoration(
                         label: Text("birthdate"),
                       ),
-                      onTap: () {
-                        Navigator.of(context).pushNamed("/anniversary/edit");
+                      onTap: () async {
+                        final arg = AnniversaryDto(name: "birthdate", date: DateTime.now());
+                        final res = await Navigator.of(context).pushNamed("/anniversary/edit", arguments: arg) as AnniversaryDto?;                        
                       },
                     ),
                   ],

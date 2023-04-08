@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:friend_list/application/model/anniversary_dto.dart';
 import 'package:friend_list/presentation/anniversary_edit_page/widget/form_builder_drum_roll_date_picker.dart';
 
 class AnniversaryEditPage extends StatelessWidget {
@@ -8,6 +9,7 @@ class AnniversaryEditPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)!.settings.arguments as AnniversaryDto?;
     final key = GlobalKey<FormBuilderState>();
     return Scaffold(
       appBar: AppBar(
@@ -16,8 +18,9 @@ class AnniversaryEditPage extends StatelessWidget {
             icon: const Icon(Icons.check),
             onPressed: () {
               if (key.currentState!.validate()) {
-                debugPrint(key.currentState!.instantValue.toString());
-                Navigator.of(context).pop();
+                final values = key.currentState!.instantValue;
+                final dto = AnniversaryDto(name: values["name"], date: values["date"]);
+                Navigator.of(context).pop(dto);
               }
             },
           ),
@@ -30,6 +33,7 @@ class AnniversaryEditPage extends StatelessWidget {
           children: [
             FormBuilderTextField(
               name: "name",
+              initialValue: args?.name,
               decoration: const InputDecoration(
                 label: Text("name"),
               ),
@@ -37,6 +41,7 @@ class AnniversaryEditPage extends StatelessWidget {
             ),
             FormBuilderDrumRollDatePicker(
               name: "date",
+              initalValue: args?.date,
               validator: FormBuilderValidators.required(),
             ),
             const Divider(),
