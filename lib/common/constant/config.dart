@@ -3,3 +3,7 @@ class DatabaseConfig {
   static const contactTableName = "contacts";
   static const personTableName = "persons";
 }
+
+class Path {
+  static const defaultIcon = "assets/images/default_avatar.png";
+}
