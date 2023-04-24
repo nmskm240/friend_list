@@ -1,4 +1,4 @@
-import 'package:friend_list/common/exception/nonexistent_person_exception.dart';
+import 'package:friend_list/common/exception/unregistered_person_exception.dart';
 import 'package:friend_list/data_source/database_table.dart';
 import 'package:friend_list/domain/person/i_person_repository.dart';
 import 'package:friend_list/domain/person/person.dart';
@@ -69,7 +69,7 @@ class PersonRepository implements IPersonRepository {
       [id],
     );
     if (searched.isEmpty) {
-      throw NonexistentPersonException(id);
+      throw UnregisteredPersonException(id);
     }
     final jsonPerson = searched.first.map<String, dynamic>(
         (key, value) => MapEntry(key.replaceFirst("person_", ""), value));

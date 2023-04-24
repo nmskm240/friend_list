@@ -1,7 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:friend_list/common/exception/unregistered_birthdate_exception.dart';
+import 'package:friend_list/common/exception/unregistered_anniversary_exception.dart';
 import 'package:friend_list/infrastructure/person/person_factory.dart';
 
 void main() {
@@ -19,8 +19,8 @@ void main() {
       final factory = PersonFactory();
       final person = factory.create("test", "", defaultIcon);
       expect(() => person.birthdate,
-          throwsA(isA<UnregisteredBirthdateException>()));
-      expect(() => person.age, throwsA(isA<UnregisteredBirthdateException>()));
+          throwsA(isA<UnregisteredAnniversaryException>()));
+      expect(() => person.age, throwsA(isA<UnregisteredAnniversaryException>()));
       person.addAnniversary("birthdate", DateTime(2000));
       expect(person.birthdate, isNotNull);
       expect(person.age, equals(DateTime.now().year - person.birthdate.year));

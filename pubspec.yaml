@@ -51,6 +51,7 @@ dependencies:
   freezed_annotation: ^2.2.0
   form_builder_validators: ^8.4.0
   shared_preferences: ^2.1.0
+  get_it: ^7.2.0
 
 dev_dependencies:
   flutter_test:

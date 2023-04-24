@@ -114,13 +114,13 @@ class __$$_AnniversaryDtoCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_AnniversaryDto implements _AnniversaryDto {
-  const _$_AnniversaryDto(
-      {this.id = "", required this.name, required this.date});
+  const _$_AnniversaryDto({this.id = "", this.name = "", required this.date});
 
   @override
   @JsonKey()
   final String id;
   @override
+  @JsonKey()
   final String name;
   @override
   final DateTime date;
@@ -153,7 +153,7 @@ class _$_AnniversaryDto implements _AnniversaryDto {
 abstract class _AnniversaryDto implements AnniversaryDto {
   const factory _AnniversaryDto(
       {final String id,
-      required final String name,
+      final String name,
       required final DateTime date}) = _$_AnniversaryDto;
 
   @override

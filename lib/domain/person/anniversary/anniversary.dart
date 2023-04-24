@@ -36,4 +36,6 @@ class Anniversary {
       _$AnniversaryFromJson(json);
 
   Map<String, dynamic> toJson() => _$AnniversaryToJson(this);
+
+  bool get isBirthdate => name == "birthdate";
 }

@@ -127,18 +127,21 @@ class __$$_ContactDtoCopyWithImpl<$Res>
 class _$_ContactDto implements _ContactDto {
   const _$_ContactDto(
       {this.id = "",
-      required this.name,
-      required this.method,
-      required this.value});
+      this.name = "",
+      this.method = ContactMethod.phone,
+      this.value = ""});
 
   @override
   @JsonKey()
   final String id;
   @override
+  @JsonKey()
   final String name;
   @override
+  @JsonKey()
   final ContactMethod method;
   @override
+  @JsonKey()
   final String value;
 
   @override
@@ -170,9 +173,9 @@ class _$_ContactDto implements _ContactDto {
 abstract class _ContactDto implements ContactDto {
   const factory _ContactDto(
       {final String id,
-      required final String name,
-      required final ContactMethod method,
-      required final String value}) = _$_ContactDto;
+      final String name,
+      final ContactMethod method,
+      final String value}) = _$_ContactDto;
 
   @override
   String get id;

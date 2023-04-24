@@ -6,7 +6,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:friend_list/common/constant/contact_method.dart';
 import 'package:friend_list/common/exception/duplicate_anniversary_exception.dart';
 import 'package:friend_list/common/exception/duplicate_contact_exception.dart';
-import 'package:friend_list/common/exception/unregistered_birthdate_exception.dart';
+import 'package:friend_list/common/exception/unregistered_anniversary_exception.dart';
+import 'package:friend_list/common/exception/unregistered_contact_exception.dart';
 import 'package:friend_list/domain/person/anniversary/anniversary.dart';
 import 'package:friend_list/domain/person/annotation/created_at_field.dart';
 import 'package:friend_list/domain/person/annotation/uint8list_field.dart';
@@ -68,18 +69,18 @@ class Person {
   Iterable<Contact> get contacts => _contacts;
 
   DateTime get birthdate {
-    if (!hasSameAnniversary("birthdate")) {
-      throw UnregisteredBirthdateException(id);
+    if (!hasSameAnniversaryByName("birthdate")) {
+      throw const UnregisteredAnniversaryException("birthdate");
     }
     final birthdate =
-        anniversaries.firstWhere((element) => element.name == "birthdate");
+        anniversaries.firstWhere((element) => element.isBirthdate);
     return birthdate.date;
   }
 
   int get age => AgeCalculator.age(birthdate).years;
 
   void addAnniversary(String name, DateTime date) {
-    if (hasSameAnniversary(name)) {
+    if (hasSameAnniversaryByName(name)) {
       throw DuplicateAnniversaryException(id, name);
     }
     final factory = AnniversaryFactory();
@@ -87,8 +88,39 @@ class Person {
     _anniversaries.add(anniversary);
   }
 
-  bool hasSameAnniversary(String name) {
+  void editAnniversary(String id, {String? name, DateTime? date}) {
+    if (!hasSameAnniversaryById(id)) {
+      throw UnregisteredAnniversaryException(id);
+    }
+    final index = _anniversaries.indexWhere((element) => element.id == id);
+    if (name != null) {
+      _anniversaries[index].name = name;
+    }
+    if (date != null) {
+      _anniversaries[index].date = date;
+    }
+  }
+
+  bool hasSameAnniversaryById(String id) {
+    return anniversaries.any((element) => element.id == id);
+  }
+
+  bool hasSameAnniversaryByName(String name) {
     return anniversaries.any((element) => element.name == name);
+  }
+
+  Anniversary findAnniversaryById(String id) {
+    if (!hasSameAnniversaryById(id)) {
+      throw UnregisteredAnniversaryException(id);
+    }
+    return anniversaries.firstWhere((element) => element.id == id);
+  }
+
+  Anniversary findAnniversaryByName(String name) {
+    if (!hasSameAnniversaryByName(name)) {
+      throw UnregisteredAnniversaryException(name);
+    }
+    return anniversaries.firstWhere((element) => element.name == name);
   }
 
   void removeAnniversary(String id) {
@@ -96,7 +128,7 @@ class Person {
   }
 
   void addContact(String name, ContactMethod method, String value) {
-    if (hasSameContact(method, value)) {
+    if (hasSameContactByMethodAndValue(method, value)) {
       throw DuplicateContactException(id, method.name, value);
     }
     final factroy = ContactFactory();
@@ -104,9 +136,28 @@ class Person {
     _contacts.add(contact);
   }
 
-  bool hasSameContact(ContactMethod method, String value) {
+  bool hasSameContactById(String id) {
+    return contacts.any((element) => element.id == id);
+  }
+
+  bool hasSameContactByMethodAndValue(ContactMethod method, String value) {
     return contacts
         .any((element) => element.method == method && element.value == value);
+  }
+
+  Contact findContactById(String id) {
+    if (!hasSameContactById(id)) {
+      throw UnregisteredContactException(id: id);
+    }
+    return contacts.firstWhere((element) => element.id == id);
+  }
+
+  Contact findContactByMethodAndValue(ContactMethod method, String value) {
+    if (!hasSameContactByMethodAndValue(method, value)) {
+      throw UnregisteredContactException(method: method.name, value: value);
+    }
+    return contacts.firstWhere(
+        (element) => element.method == method && element.value == value);
   }
 
   void removeContact(String id) {
