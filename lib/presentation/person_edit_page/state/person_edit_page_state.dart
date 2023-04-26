@@ -1,6 +1,6 @@
-import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:friend_list/application/model/anniversary_edit_settings.dart';
+import 'package:friend_list/application/model/contact_edit_settings.dart';
 import 'package:friend_list/domain/person/person.dart';
 
 part 'person_edit_page_state.freezed.dart';
@@ -25,11 +25,20 @@ class PersonEditPageState with _$PersonEditPageState {
     }).toList();
     settings.sort((a, b) => _sortAnniversary(a, b));
     if (settings.isEmpty || settings.first.name != "birthdate") {
-      const birthdate = AnniversaryEditSettings(name: "birthdate", canDelete: false, canChangeName: false);
+      const birthdate = AnniversaryEditSettings(
+          name: "birthdate", canDelete: false, canChangeName: false);
       settings.insert(0, birthdate);
     }
     return settings;
   }
+
+  Iterable<ContactEditSettings> get contactEditSettings => person.contacts.map(
+        (e) => ContactEditSettings(
+          name: e.name,
+          method: e.method,
+          value: e.value,
+        ),
+      );
 
   bool get hasBirthdate => person.hasSameAnniversaryByName("birthdate");
 

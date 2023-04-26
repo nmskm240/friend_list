@@ -136,6 +136,27 @@ class Person {
     _contacts.add(contact);
   }
 
+  void editContact(
+    String id, {
+    String? name,
+    ContactMethod? method,
+    String? value,
+  }) {
+    if (!hasSameContactById(id)) {
+      throw UnregisteredContactException(id: id);
+    }
+    final index = _contacts.indexWhere((element) => element.id == id);
+    if (name != null) {
+      _contacts[index].name = name;
+    }
+    if (method != null) {
+      _contacts[index].method = method;
+    }
+    if (value != null) {
+      _contacts[index].value = value;
+    }
+  }
+
   bool hasSameContactById(String id) {
     return contacts.any((element) => element.id == id);
   }

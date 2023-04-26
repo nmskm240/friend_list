@@ -100,7 +100,29 @@ class PersonEditPage extends ConsumerWidget {
                 onPressed: notifier.onPressedAddContact,
                 icon: const Icon(Icons.add),
               ),
-              body: Divider(),
+              body: ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: state.contactEditSettings.length,
+                itemBuilder: ((context, index) {
+                  final setting = state.contactEditSettings.elementAt(index);
+                  return FormBuilderTextField(
+                    name: setting.name,
+                    focusNode: AlwaysDisabledFocusNode(),
+                    decoration: InputDecoration(
+                      label: Text(setting.name),
+                      prefixIcon: Icon(setting.method.icon),
+                      suffixIcon: IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: () =>
+                            notifier.onPressedDeletContact(setting),
+                      ),
+                    ),
+                    initialValue: setting.value,
+                    onTap: () => notifier.onPressedEditContact(setting),
+                  );
+                }),
+              ),
             ),
             const Divider(),
             ListViewWithHeader(

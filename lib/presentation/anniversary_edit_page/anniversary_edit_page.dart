@@ -34,25 +34,27 @@ class AnniversaryEditPage extends StatelessWidget {
       ),
       body: FormBuilder(
         key: key,
-        child: ListView(
+        child: Padding(
           padding: const EdgeInsets.all(15),
-          children: [
-            FormBuilderTextField(
-              name: "name",
-              initialValue: args?.name,
-              readOnly: args == null ? false : !args.canChangeName,
-              decoration: const InputDecoration(
-                label: Text("name"),
+          child: Column(
+            children: [
+              FormBuilderTextField(
+                name: "name",
+                initialValue: args?.name,
+                readOnly: args == null ? false : !args.canChangeName,
+                decoration: const InputDecoration(
+                  label: Text("name"),
+                ),
+                validator: FormBuilderValidators.required(),
               ),
-              validator: FormBuilderValidators.required(),
-            ),
-            FormBuilderDrumRollDatePicker(
-              name: "date",
-              initalValue: args?.date,
-              validator: FormBuilderValidators.required(),
-            ),
-            const Divider(),
-          ],
+              FormBuilderDrumRollDatePicker(
+                name: "date",
+                initalValue: args?.date,
+                validator: FormBuilderValidators.required(),
+              ),
+              const Divider(),
+            ],
+          ),
         ),
       ),
     );

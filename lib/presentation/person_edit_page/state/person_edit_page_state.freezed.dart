@@ -102,8 +102,7 @@ class __$$_PersonEditPageStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_PersonEditPageState extends _PersonEditPageState
-    with DiagnosticableTreeMixin {
+class _$_PersonEditPageState extends _PersonEditPageState {
   const _$_PersonEditPageState(
       {required this.person, this.shouldRefreshWidget = false})
       : super._();
@@ -115,17 +114,8 @@ class _$_PersonEditPageState extends _PersonEditPageState
   final bool shouldRefreshWidget;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'PersonEditPageState(person: $person, shouldRefreshWidget: $shouldRefreshWidget)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'PersonEditPageState'))
-      ..add(DiagnosticsProperty('person', person))
-      ..add(DiagnosticsProperty('shouldRefreshWidget', shouldRefreshWidget));
   }
 
   @override
