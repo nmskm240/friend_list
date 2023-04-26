@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:friend_list/application/provider/navigation_service_provider.dart';
 import 'package:friend_list/presentation/anniversary_detail_page/anniversary_detail_page.dart';
 import 'package:friend_list/presentation/anniversary_edit_page/anniversary_edit_page.dart';
 import 'package:friend_list/presentation/contact_edit_page/contact_edit_page.dart';
@@ -17,6 +18,7 @@ class App extends ConsumerWidget {
     return MaterialApp(
       title: "FriendList",
       theme: ThemeData.light(),
+      navigatorKey: ref.read(navigationServiceProvider).key,
       routes: {
         "/": (context) => const PersonListPage(),
         "/edit": (context) => const PersonEditPage(),

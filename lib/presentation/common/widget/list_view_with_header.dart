@@ -2,18 +2,16 @@ import 'package:flutter/material.dart';
 
 class ListViewWithHeader extends StatelessWidget {
   final Widget? title;
-  final List<Widget> children;
+  final Widget body;
   final Widget? leading;
   final Widget? action;
-  final bool scrollLock;
 
   const ListViewWithHeader({
     super.key,
     this.title,
-    required this.children,
+    required this.body,
     this.leading,
     this.action,
-    this.scrollLock = false,
   });
 
   @override
@@ -29,11 +27,7 @@ class ListViewWithHeader extends StatelessWidget {
     return Column(
       children: <Widget>[
         header,
-        ListView(
-          shrinkWrap: scrollLock,
-          physics: scrollLock ? const NeverScrollableScrollPhysics() : null,
-          children: children,
-        ),
+        body,
       ],
     );
   }

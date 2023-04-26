@@ -1,95 +1,60 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:friend_list/presentation/common/always_disabled_focus_node.dart';
-import 'package:friend_list/presentation/common/widget/list_view_with_header.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:friend_list/application/model/anniversary_dto.dart';
+import 'package:friend_list/application/model/anniversary_edit_settings.dart';
+import 'package:friend_list/presentation/anniversary_edit_page/widget/form_builder_drum_roll_date_picker.dart';
 
 class AnniversaryEditPage extends StatelessWidget {
   const AnniversaryEditPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final args =
+        ModalRoute.of(context)!.settings.arguments as AnniversaryEditSettings?;
+    final key = GlobalKey<FormBuilderState>();
     return Scaffold(
       appBar: AppBar(
         actions: [
           IconButton(
             icon: const Icon(Icons.check),
             onPressed: () {
-              //TODO: save edit data
-              Navigator.of(context).pop();
+              if (key.currentState!.validate()) {
+                final values = key.currentState!.instantValue;
+                final dto = AnniversaryDto(
+                  id: args == null ? "" : args.id,
+                  name: values["name"],
+                  date: values["date"],
+                );
+                Navigator.of(context).pop(dto);
+              }
             },
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(15),
-        child: Column(
-          children: [
-            const TextField(
-              decoration: InputDecoration(
-                label: Text("name"),
-              ),
-            ),
-            TextField(
-              focusNode: AlwaysDisabledFocusNode(),
-              decoration: const InputDecoration(
-                label: Text("date"),
-              ),
-              onTap: () {
-                DatePicker.showDatePicker(context);
-                //TODO: set picked date to text field
-              },
-            ),
-            const Divider(),
-            ListViewWithHeader(
-              scrollLock: true,
-              leading: const Text("Notification"),
-              action: IconButton(
-                icon: const Icon(Icons.add),
-                onPressed: () {
-                  //TODO: set new notification schedule
-                },
-              ),
-              children: <Widget>[
-                TextField(
-                  focusNode: AlwaysDisabledFocusNode(),
-                  controller: TextEditingController(text: "X day before"),
-                  decoration: InputDecoration(
-                    suffix: IconButton(
-                      icon: const Icon(Icons.delete),
-                      onPressed: () {
-                        //TODO: delete this notification
-                      },
-                    ),
-                  ),
-                  onTap: () {
-                    showModalBottomSheet(
-                      context: context,
-                      builder: (context) {
-                        final options = [
-                          "1 day before",
-                          "1 week before",
-                          "1 month before"
-                        ];
-                        return ListView.builder(
-                          itemCount: options.length,
-                          itemBuilder: (context, index) {
-                            return ListTile(
-                              title: Text(options[index]),
-                              onTap: () {
-                                //TODO: add to list
-                                Navigator.of(context).pop();
-                              },
-                            );
-                          },
-                        );
-                      },
-                    );
-                  },
+      body: FormBuilder(
+        key: key,
+        child: Padding(
+          padding: const EdgeInsets.all(15),
+          child: Column(
+            children: [
+              FormBuilderTextField(
+                name: "name",
+                initialValue: args?.name,
+                readOnly: args == null ? false : !args.canChangeName,
+                decoration: const InputDecoration(
+                  label: Text("name"),
                 ),
-                const Divider(),
-              ],
-            )
-          ],
+                validator: FormBuilderValidators.required(),
+              ),
+              FormBuilderDrumRollDatePicker(
+                name: "date",
+                initalValue: args?.date,
+                validator: FormBuilderValidators.required(),
+              ),
+              const Divider(),
+            ],
+          ),
         ),
       ),
     );
