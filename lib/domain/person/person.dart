@@ -77,6 +77,10 @@ class Person {
     return birthdate.date;
   }
 
+  bool get hasBirthdate {
+    return hasSameAnniversaryByName("birthdate");
+  }
+
   int get age => AgeCalculator.age(birthdate).years;
 
   void addAnniversary(String name, DateTime date) {

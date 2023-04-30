@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:friend_list/application/model/anniversary_dto.dart';
 import 'package:friend_list/application/model/contact_dto.dart';
-import 'package:friend_list/application/model/person_summary.dart';
 import 'package:friend_list/common/exception/unregistered_anniversary_exception.dart';
 import 'package:friend_list/common/shared_preferences_helper.dart';
 import 'package:friend_list/domain/person/anniversary/anniversary.dart';
@@ -38,19 +37,16 @@ class PersonAppService {
     await _repository.save(person);
   }
 
-  Future<Iterable<PersonSummary>> getAll() async {
-    final persons = await _repository.getAll();
-    return persons.map((e) {
-      late int? age;
-      try {
-        age = e.age;
-      } catch (e) {
-        if (e is UnregisteredAnniversaryException) {
-          age = null;
-        }
-      }
-      return PersonSummary(e.id, e.name, e.nickname, e.icon, age);
-    });
+  Future<void> deletePersonById(String id) async {
+    await _repository.deleteByID(id);
+  }
+
+  Future<Iterable<Person>> getAll() async {
+    return _repository.getAll();
+  }
+
+  Future<Person> findPersonById(String id) {
+    return _repository.findByID(id);
   }
 
   Future<AnniversaryDto> findAnniversaryById(

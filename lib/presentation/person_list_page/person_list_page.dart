@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:friend_list/presentation/person_list_page/provider/person_list_provider.dart';
+import 'package:friend_list/presentation/person_list_page/provider/person_list_page_provider.dart';
 
 class PersonListPage extends ConsumerWidget {
   const PersonListPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final notifyer = ref.watch(personListProvider);
+    final state = ref.watch(personListPageProvider);
+    final notifier = ref.watch(personListPageProvider.notifier);
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
@@ -17,15 +18,13 @@ class PersonListPage extends ConsumerWidget {
           ),
           IconButton(
             icon: const Icon(Icons.add),
-            onPressed: () {
-              Navigator.of(context).pushNamed("/edit");
-            },
+            onPressed: () => notifier.onPressedAddPerson(),
           ),
         ],
       ),
-      body: notifyer.when(
-        data: (summaries) {
-          if (summaries.isEmpty) {
+      body: state.when(
+        data: (persons) {
+          if (persons.isEmpty) {
             return Center(
               child: Column(
                 children: const [
@@ -36,18 +35,21 @@ class PersonListPage extends ConsumerWidget {
             );
           } else {
             return ListView.builder(
-              itemCount: summaries.length,
+              itemCount: persons.length,
               itemBuilder: (context, index) {
-                final person = summaries.elementAt(index);
+                final person = persons.elementAt(index);
                 return ListTile(
                   title: Text(person.name),
                   subtitle: Text(person.nickname),
                   leading: CircleAvatar(
                     backgroundImage: MemoryImage(person.icon),
                   ),
-                  trailing: Text("${person.age ?? "?"} years old"),
-                  onTap: () {
-                    Navigator.of(context).pushNamed("/detail");
+                  trailing: person.hasBirthdate
+                      ? Text("${person.age} years old")
+                      : null,
+                  onTap: () async {
+                    await notifier.onPressedPersonListTile(person.id);
+                    Navigator.of(context).pushNamed("/detail", arguments: person.id);
                   },
                 );
               },
