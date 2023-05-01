@@ -1,18 +1,18 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:friend_list/application/navigation_service.dart';
 import 'package:friend_list/application/person_app_service.dart';
 import 'package:friend_list/domain/person/person.dart';
+import 'package:friend_list/presentation/app_router.dart';
 
 class PersonListPageNotifyer
     extends StateNotifier<AsyncValue<Iterable<Person>>> {
   final PersonAppService _service;
-  final NavigationService _navigator;
+  final AppRouter _router;
 
   PersonListPageNotifyer({
     required PersonAppService service,
-    required NavigationService navigator,
+    required AppRouter router,
   })  : _service = service,
-        _navigator = navigator,
+        _router = router,
         super(const AsyncValue.loading()) {
     _init();
   }
@@ -27,10 +27,10 @@ class PersonListPageNotifyer
   }
 
   Future<void> onPressedPersonListTile(String id) async {
-    final person = await _service.findPersonById(id);
+    _router.push(PersonDetailRoute(id: id));
   }
 
   Future<void> onPressedAddPerson() async {
-    _navigator.push("/edit");
+    _router.pushNamed("/edit");
   }
 }

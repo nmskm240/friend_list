@@ -1,14 +1,16 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:friend_list/presentation/person_detail_page/provider/person_detail_page_provider.dart';
 import 'package:intl/intl.dart';
 
+@RoutePage()
 class PersonDetailPage extends ConsumerWidget {
-  const PersonDetailPage({super.key});
+  final String id;
+  const PersonDetailPage({super.key, required this.id});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final id = ModalRoute.of(context)?.settings.arguments as String;
     final provider = personDetailPageProvider(id);
     final asyncValue = ref.watch(provider);
     final notifier = ref.read(provider.notifier);
