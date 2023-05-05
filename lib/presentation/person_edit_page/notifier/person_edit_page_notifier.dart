@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:friend_list/application/model/anniversary_dto.dart';
 import 'package:friend_list/application/model/anniversary_edit_settings.dart';
 import 'package:friend_list/application/model/contact_dto.dart';
 import 'package:friend_list/application/model/contact_edit_settings.dart';
-import 'package:friend_list/application/navigation_service.dart';
 import 'package:friend_list/application/person_app_service.dart';
+import 'package:friend_list/presentation/app_router.dart';
 import 'package:friend_list/presentation/person_edit_page/state/person_edit_page_state.dart';
 
 class PersonEditPageNotifier
     extends StateNotifier<AsyncValue<PersonEditPageState>> {
   final PersonAppService _service;
-  final NavigationService _navigator;
+  final AppRouter _router;
 
   PersonEditPageNotifier({
     required PersonAppService service,
-    required NavigationService navigator,
+    required AppRouter router,
     String? id,
   })  : _service = service,
-        _navigator = navigator,
+        _router = router,
         super(const AsyncValue.loading()) {
     _init(id);
   }
@@ -41,33 +40,34 @@ class PersonEditPageNotifier
       final fields = formKey.currentState!.instantValue;
       await _service.savePerson(
           fields["name"], fields["nickname"], fields["icon"], [], []);
-      await _navigator.pop();
+      await _router.pop();
     }
   }
 
   Future<void> onPressedAddAnniversary() async {
-    final res = await _navigator.push<AnniversaryDto>("/anniversary/edit");
-    if (res == null) {
-      return;
-    }
-    state.value!.person.addAnniversary(res.name, res.date);
+    final route = AnniversaryEditRoute(
+      isDuplicated: state.value!.person.hasSameAnniversaryByName,
+      onSave: (name, date) {
+        state.value!.person.addAnniversary(name, date);
+        _router.pop();
+      },
+    );
+    await _router.push(route);
     state = AsyncValue.data(state.value!);
   }
 
   Future<void> onPressedEditAnniversary(
-      AnniversaryEditSettings settings) async {
-    final res = await _navigator.push<AnniversaryDto>(
-      "/anniversary/edit",
-      arguments: settings,
-    );
-    if (res == null) {
-      return;
-    }
-    if (state.value!.person.hasSameAnniversaryByName("birthdate")) {
-      state.value!.person.editAnniversary(res.id, name: res.name, date: res.date);
-    } else {
-      state.value!.person.addAnniversary(res.name, res.date);
-    }
+    AnniversaryEditSettings settings,
+  ) async {
+    final route = AnniversaryEditRoute(
+      isDuplicated: (newName) =>
+          newName != settings.name &&
+          state.value!.person.hasSameAnniversaryByName(newName),
+      onSave: (name, date) {
+        state.value!.person.editAnniversary(settings.id, name: name, date: date);
+        _router.pop();
+      },    );
+    await _router.push(route);
     state = AsyncValue.data(state.value!);
   }
 
@@ -78,7 +78,7 @@ class PersonEditPageNotifier
   }
 
   Future<void> onPressedAddContact() async {
-    final res = await _navigator.push<ContactDto>(
+    final res = await _router.pushNamed<ContactDto>(
       "/contact/edit",
     );
     if (res == null) {
@@ -89,9 +89,8 @@ class PersonEditPageNotifier
   }
 
   Future<void> onPressedEditContact(ContactEditSettings settings) async {
-    final res = await _navigator.push<ContactDto>(
+    final res = await _router.pushNamed<ContactDto>(
       "contact/edit",
-      arguments: settings,
     );
     if (res == null) {
       return;

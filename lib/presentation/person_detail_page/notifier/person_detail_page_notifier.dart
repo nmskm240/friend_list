@@ -37,6 +37,6 @@ class PersonDetailPageNotifier
   }
 
   Future<void> onPressedAnniversaryListTile(String id) async {
-    await _router.push(const AnniversaryEditRoute());
+    await _router.push(const AnniversaryDetailRoute());
   }
 }

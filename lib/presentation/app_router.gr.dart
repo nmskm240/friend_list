@@ -22,9 +22,15 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     AnniversaryEditRoute.name: (routeData) {
+      final args = routeData.argsAs<AnniversaryEditRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const AnniversaryEditPage(),
+        child: AnniversaryEditPage(
+          key: args.key,
+          state: args.state,
+          isDuplicated: args.isDuplicated,
+          onSave: args.onSave,
+        ),
       );
     },
     ContactEditRoute.name: (routeData) {
@@ -79,16 +85,56 @@ class AnniversaryDetailRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [AnniversaryEditPage]
-class AnniversaryEditRoute extends PageRouteInfo<void> {
-  const AnniversaryEditRoute({List<PageRouteInfo>? children})
-      : super(
+class AnniversaryEditRoute extends PageRouteInfo<AnniversaryEditRouteArgs> {
+  AnniversaryEditRoute({
+    Key? key,
+    Anniversary? state,
+    required bool Function(String) isDuplicated,
+    required void Function(
+      String,
+      DateTime,
+    ) onSave,
+    List<PageRouteInfo>? children,
+  }) : super(
           AnniversaryEditRoute.name,
+          args: AnniversaryEditRouteArgs(
+            key: key,
+            state: state,
+            isDuplicated: isDuplicated,
+            onSave: onSave,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'AnniversaryEditRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<AnniversaryEditRouteArgs> page =
+      PageInfo<AnniversaryEditRouteArgs>(name);
+}
+
+class AnniversaryEditRouteArgs {
+  const AnniversaryEditRouteArgs({
+    this.key,
+    this.state,
+    required this.isDuplicated,
+    required this.onSave,
+  });
+
+  final Key? key;
+
+  final Anniversary? state;
+
+  final bool Function(String) isDuplicated;
+
+  final void Function(
+    String,
+    DateTime,
+  ) onSave;
+
+  @override
+  String toString() {
+    return 'AnniversaryEditRouteArgs{key: $key, state: $state, isDuplicated: $isDuplicated, onSave: $onSave}';
+  }
 }
 
 /// generated route for
