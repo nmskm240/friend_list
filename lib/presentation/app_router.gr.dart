@@ -44,9 +44,14 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     PersonEditRoute.name: (routeData) {
+      final args = routeData.argsAs<PersonEditRouteArgs>(
+          orElse: () => const PersonEditRouteArgs());
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const PersonEditPage(),
+        child: PersonEditPage(
+          key: args.key,
+          id: args.id,
+        ),
       );
     },
     PersonListRoute.name: (routeData) {
@@ -140,16 +145,40 @@ class PersonDetailRouteArgs {
 
 /// generated route for
 /// [PersonEditPage]
-class PersonEditRoute extends PageRouteInfo<void> {
-  const PersonEditRoute({List<PageRouteInfo>? children})
-      : super(
+class PersonEditRoute extends PageRouteInfo<PersonEditRouteArgs> {
+  PersonEditRoute({
+    Key? key,
+    String? id,
+    List<PageRouteInfo>? children,
+  }) : super(
           PersonEditRoute.name,
+          args: PersonEditRouteArgs(
+            key: key,
+            id: id,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'PersonEditRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<PersonEditRouteArgs> page =
+      PageInfo<PersonEditRouteArgs>(name);
+}
+
+class PersonEditRouteArgs {
+  const PersonEditRouteArgs({
+    this.key,
+    this.id,
+  });
+
+  final Key? key;
+
+  final String? id;
+
+  @override
+  String toString() {
+    return 'PersonEditRouteArgs{key: $key, id: $id}';
+  }
 }
 
 /// generated route for

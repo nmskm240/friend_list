@@ -9,16 +9,32 @@ import 'package:friend_list/application/navigation_service.dart';
 import 'package:friend_list/application/person_app_service.dart';
 import 'package:friend_list/presentation/person_edit_page/state/person_edit_page_state.dart';
 
-class PersonEditPageNotifier extends StateNotifier<PersonEditPageState> {
+class PersonEditPageNotifier
+    extends StateNotifier<AsyncValue<PersonEditPageState>> {
   final PersonAppService _service;
   final NavigationService _navigator;
 
   PersonEditPageNotifier({
     required PersonAppService service,
     required NavigationService navigator,
+    String? id,
   })  : _service = service,
         _navigator = navigator,
-        super(PersonEditPageState(person: service.createEmpty()));
+        super(const AsyncValue.loading()) {
+    _init(id);
+  }
+
+  Future<void> _init(String? id) async {
+    state = await AsyncValue.guard(() async {
+      if (id == null || id.isEmpty) {
+        final domain = _service.createEmpty();
+        return PersonEditPageState(person: domain);
+      } else {
+        final domain = await _service.findPersonById(id);
+        return PersonEditPageState(person: domain);
+      }
+    });
+  }
 
   Future<void> onPressedSave(GlobalKey<FormBuilderState> formKey) async {
     if (formKey.currentState!.validate()) {
@@ -34,8 +50,8 @@ class PersonEditPageNotifier extends StateNotifier<PersonEditPageState> {
     if (res == null) {
       return;
     }
-    state.person.addAnniversary(res.name, res.date);
-    state = state.copyWith(shouldRefreshWidget: true);
+    state.value!.person.addAnniversary(res.name, res.date);
+    state = AsyncValue.data(state.value!);
   }
 
   Future<void> onPressedEditAnniversary(
@@ -47,18 +63,18 @@ class PersonEditPageNotifier extends StateNotifier<PersonEditPageState> {
     if (res == null) {
       return;
     }
-    if (state.person.hasSameAnniversaryByName("birthdate")) {
-      state.person.editAnniversary(res.id, name: res.name, date: res.date);
+    if (state.value!.person.hasSameAnniversaryByName("birthdate")) {
+      state.value!.person.editAnniversary(res.id, name: res.name, date: res.date);
     } else {
-      state.person.addAnniversary(res.name, res.date);
+      state.value!.person.addAnniversary(res.name, res.date);
     }
-    state = state.copyWith(shouldRefreshWidget: true);
+    state = AsyncValue.data(state.value!);
   }
 
   void onPressedDeletAnniversary(AnniversaryEditSettings settings) {
-    final target = state.person.findAnniversaryByName(settings.name);
-    state.person.removeAnniversary(target.id);
-    state = state.copyWith(shouldRefreshWidget: true);
+    final target = state.value!.person.findAnniversaryByName(settings.name);
+    state.value!.person.removeAnniversary(target.id);
+    state = AsyncValue.data(state.value!);
   }
 
   Future<void> onPressedAddContact() async {
@@ -68,8 +84,8 @@ class PersonEditPageNotifier extends StateNotifier<PersonEditPageState> {
     if (res == null) {
       return;
     }
-    state.person.addContact(res.name, res.method, res.value);
-    state = state.copyWith(shouldRefreshWidget: true);
+    state.value!.person.addContact(res.name, res.method, res.value);
+    state = AsyncValue.data(state.value!);
   }
 
   Future<void> onPressedEditContact(ContactEditSettings settings) async {
@@ -80,7 +96,7 @@ class PersonEditPageNotifier extends StateNotifier<PersonEditPageState> {
     if (res == null) {
       return;
     }
-    state.person.editContact(
+    state.value!.person.editContact(
       res.id,
       name: res.name,
       method: res.method,
@@ -89,11 +105,11 @@ class PersonEditPageNotifier extends StateNotifier<PersonEditPageState> {
   }
 
   void onPressedDeletContact(ContactEditSettings settings) {
-    final target = state.person.findContactByMethodAndValue(
+    final target = state.value!.person.findContactByMethodAndValue(
       settings.method,
       settings.value,
     );
-    state.person.removeContact(target.id);
-    state = state.copyWith(shouldRefreshWidget: true);
+    state.value!.person.removeContact(target.id);
+    state = AsyncValue.data(state.value!);
   }
 }
