@@ -31,6 +31,6 @@ class PersonListPageNotifyer
   }
 
   Future<void> onPressedAddPerson() async {
-    _router.pushNamed("/edit");
+    _router.push(PersonEditRoute());
   }
 }
