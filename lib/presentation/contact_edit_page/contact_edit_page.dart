@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -6,6 +7,7 @@ import 'package:friend_list/application/model/contact_edit_settings.dart';
 import 'package:friend_list/common/constant/contact_method.dart';
 import 'package:friend_list/presentation/contact_edit_page/widgets/form_bulder_modal_bottom_sheet.dart';
 
+@RoutePage()
 class ContactEditPage extends StatelessWidget {
   const ContactEditPage({super.key});
 

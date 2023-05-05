@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,11 +9,13 @@ import 'package:friend_list/presentation/person_edit_page/provider/person_edit_p
 import 'package:friend_list/presentation/person_edit_page/widget/form_builder_circle_avatar.dart';
 import 'package:intl/intl.dart';
 
+@RoutePage()
 class PersonEditPage extends ConsumerWidget {
   const PersonEditPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
     final state = ref.watch(personEditPageProvider);
     final notifier = ref.read(personEditPageProvider.notifier);
     final key = GlobalKey<FormBuilderState>();
