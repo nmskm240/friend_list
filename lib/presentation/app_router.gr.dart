@@ -34,9 +34,15 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     ContactEditRoute.name: (routeData) {
+      final args = routeData.argsAs<ContactEditRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const ContactEditPage(),
+        child: ContactEditPage(
+          key: args.key,
+          state: args.state,
+          isDuplicated: args.isDuplicated,
+          onSave: args.onSave,
+        ),
       );
     },
     PersonDetailRoute.name: (routeData) {
@@ -139,16 +145,64 @@ class AnniversaryEditRouteArgs {
 
 /// generated route for
 /// [ContactEditPage]
-class ContactEditRoute extends PageRouteInfo<void> {
-  const ContactEditRoute({List<PageRouteInfo>? children})
-      : super(
+class ContactEditRoute extends PageRouteInfo<ContactEditRouteArgs> {
+  ContactEditRoute({
+    Key? key,
+    Contact? state,
+    required bool Function(
+      ContactMethod,
+      String,
+    ) isDuplicated,
+    required void Function(
+      String,
+      ContactMethod,
+      String,
+    ) onSave,
+    List<PageRouteInfo>? children,
+  }) : super(
           ContactEditRoute.name,
+          args: ContactEditRouteArgs(
+            key: key,
+            state: state,
+            isDuplicated: isDuplicated,
+            onSave: onSave,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'ContactEditRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<ContactEditRouteArgs> page =
+      PageInfo<ContactEditRouteArgs>(name);
+}
+
+class ContactEditRouteArgs {
+  const ContactEditRouteArgs({
+    this.key,
+    this.state,
+    required this.isDuplicated,
+    required this.onSave,
+  });
+
+  final Key? key;
+
+  final Contact? state;
+
+  final bool Function(
+    ContactMethod,
+    String,
+  ) isDuplicated;
+
+  final void Function(
+    String,
+    ContactMethod,
+    String,
+  ) onSave;
+
+  @override
+  String toString() {
+    return 'ContactEditRouteArgs{key: $key, state: $state, isDuplicated: $isDuplicated, onSave: $onSave}';
+  }
 }
 
 /// generated route for

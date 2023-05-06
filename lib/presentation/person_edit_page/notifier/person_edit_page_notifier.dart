@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:friend_list/application/model/anniversary_edit_settings.dart';
-import 'package:friend_list/application/model/contact_dto.dart';
 import 'package:friend_list/application/model/contact_edit_settings.dart';
 import 'package:friend_list/application/person_app_service.dart';
 import 'package:friend_list/presentation/app_router.dart';
@@ -64,9 +63,11 @@ class PersonEditPageNotifier
           newName != settings.name &&
           state.value!.person.hasSameAnniversaryByName(newName),
       onSave: (name, date) {
-        state.value!.person.editAnniversary(settings.id, name: name, date: date);
+        state.value!.person
+            .editAnniversary(settings.id, name: name, date: date);
         _router.pop();
-      },    );
+      },
+    );
     await _router.push(route);
     state = AsyncValue.data(state.value!);
   }
@@ -78,29 +79,33 @@ class PersonEditPageNotifier
   }
 
   Future<void> onPressedAddContact() async {
-    final res = await _router.pushNamed<ContactDto>(
-      "/contact/edit",
+    final route = ContactEditRoute(
+      isDuplicated: state.value!.person.hasSameContactByMethodAndValue,
+      onSave: (label, method, value) {
+        state.value!.person.addContact(label, method, value);
+        _router.pop();
+      },
     );
-    if (res == null) {
-      return;
-    }
-    state.value!.person.addContact(res.name, res.method, res.value);
+    await _router.push(route);
     state = AsyncValue.data(state.value!);
   }
 
   Future<void> onPressedEditContact(ContactEditSettings settings) async {
-    final res = await _router.pushNamed<ContactDto>(
-      "contact/edit",
+    final route = ContactEditRoute(
+      isDuplicated: (method, value) =>
+          (method != settings.method || value != settings.value) &&
+          state.value!.person.hasSameContactByMethodAndValue(method, value),
+      onSave: (label, method, value) {
+        state.value!.person.editContact(
+          settings.id,
+          name: label,
+          method: method,
+          value: value,
+        );
+      },
     );
-    if (res == null) {
-      return;
-    }
-    state.value!.person.editContact(
-      res.id,
-      name: res.name,
-      method: res.method,
-      value: res.value,
-    );
+    await _router.push(route);
+    state = AsyncValue.data(state.value!);
   }
 
   void onPressedDeletContact(ContactEditSettings settings) {
