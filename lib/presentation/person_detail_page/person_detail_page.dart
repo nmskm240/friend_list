@@ -1,9 +1,11 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:friend_list/common/constant/strings.dart';
 import 'package:friend_list/domain/person/person.dart';
 import 'package:friend_list/presentation/person_detail_page/provider/person_detail_page_provider.dart';
 import 'package:intl/intl.dart';
+import 'package:sprintf/sprintf.dart';
 
 @RoutePage()
 class PersonDetailPage extends ConsumerWidget {
@@ -57,7 +59,9 @@ class PersonDetailPage extends ConsumerWidget {
                             style: Theme.of(context).textTheme.titleSmall,
                           ),
                           Text(
-                            "${state.age ?? "??"} years old",
+                            sprintf(Strings.yearsOldFormat, [
+                              state.age == null ? "??" : state.age.toString()
+                            ]),
                             style: Theme.of(context).textTheme.caption,
                           ),
                         ],
@@ -96,9 +100,10 @@ class PersonDetailPage extends ConsumerWidget {
                             child: const Icon(Icons.contacts),
                           ),
                           ElevatedButton.icon(
-                            onPressed: () => notifier.onPressedEditButton(domain),
+                            onPressed: () =>
+                                notifier.onPressedEditButton(domain),
                             icon: const Icon(Icons.edit),
-                            label: const Text("Edit"),
+                            label: const Text(Strings.editButtonLable),
                             style: ElevatedButton.styleFrom(
                               shape: const StadiumBorder(),
                             ),

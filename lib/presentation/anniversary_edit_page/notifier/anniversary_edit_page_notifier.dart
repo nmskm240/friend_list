@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:friend_list/common/constant/strings.dart';
 
 class AnniversaryEditPageNotifier {
   final bool Function(String) isDuplicated;
@@ -14,7 +15,7 @@ class AnniversaryEditPageNotifier {
   void onPressedSaveButton(GlobalKey<FormBuilderState> formKey) {
     if (formKey.currentState!.validate()) {
       final values = formKey.currentState!.instantValue;
-      onSave(values["name"], values["date"]);
+      onSave(values[Strings.formFieldName], values[Strings.formFieldDate]);
     }
   }
 }

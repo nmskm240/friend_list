@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:friend_list/common/constant/strings.dart';
 import 'package:friend_list/domain/person/annotation/created_at_field.dart';
 import 'package:friend_list/domain/person/annotation/updated_at_field.dart';
 
@@ -6,19 +7,19 @@ part 'anniversary.g.dart';
 
 @JsonSerializable()
 class Anniversary {
-  @JsonKey(name: "id")
+  @JsonKey(name: Strings.jsonKeyId)
   late final String id;
-  @JsonKey(name: "name")
+  @JsonKey(name: Strings.jsonKeyName)
   late String name;
-  @JsonKey(name: "date")
+  @JsonKey(name: Strings.jsonKeyDate)
   late DateTime date;
-  @JsonKey(name: "person_id")
+  @JsonKey(name: Strings.jsonKeyPersonId)
   late final String personId;
   @CreatedAtField()
-  @JsonKey(name: "created_at")
+  @JsonKey(name: Strings.jsonKeyCreatedAt)
   late final DateTime createdAt;
   @UpdatedAtField()
-  @JsonKey(name: "updated_at")
+  @JsonKey(name: Strings.jsonKeyUpdatedAt)
   late final DateTime updatedAt;
 
   Anniversary({
@@ -37,5 +38,5 @@ class Anniversary {
 
   Map<String, dynamic> toJson() => _$AnniversaryToJson(this);
 
-  bool get isBirthdate => name == "birthdate";
+  bool get isBirthdate => name == Strings.birthdate;
 }

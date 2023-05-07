@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:friend_list/common/constant/contact_method.dart';
+import 'package:friend_list/common/constant/strings.dart';
 import 'package:friend_list/domain/person/contact/contact.dart';
 import 'package:friend_list/presentation/contact_edit_page/notifier/contact_edit_page_notifier.dart';
 import 'package:friend_list/presentation/contact_edit_page/widgets/form_bulder_modal_bottom_sheet.dart';
@@ -43,16 +44,16 @@ class ContactEditPage extends StatelessWidget {
           child: Column(
             children: <Widget>[
               FormBuilderModalBottomSheet<ContactMethod>(
-                name: "method",
+                name: Strings.formFieldMethod,
                 initialValue: state?.method,
                 validator: FormBuilderValidators.required(),
                 values: ContactMethod.values,
               ),
               FormBuilderTextField(
-                name: "value",
+                name: Strings.formFieldValue,
                 initialValue: state?.value,
                 decoration: const InputDecoration(
-                  label: Text("value"),
+                  label: Text(Strings.personDetailPageFormValueLabel),
                 ),
                 validator: FormBuilderValidators.required(),
               ),

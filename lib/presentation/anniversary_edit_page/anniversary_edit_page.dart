@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:friend_list/common/constant/strings.dart';
 import 'package:friend_list/domain/person/anniversary/anniversary.dart';
 import 'package:friend_list/presentation/anniversary_edit_page/notifier/anniversary_edit_page_notifier.dart';
 import 'package:friend_list/presentation/anniversary_edit_page/widget/form_builder_drum_roll_date_picker.dart';
@@ -42,21 +43,21 @@ class AnniversaryEditPage extends StatelessWidget {
           child: Column(
             children: [
               FormBuilderTextField(
-                name: "name",
+                name: Strings.formFieldName,
                 initialValue: state?.name,
-                readOnly: state == null ? false: state!.isBirthdate,
+                readOnly: state == null ? false : state!.isBirthdate,
                 decoration: const InputDecoration(
-                  label: Text("name"),
+                  label: Text(Strings.anniversaryEditPageFormNameLabel),
                 ),
                 validator: FormBuilderValidators.compose([
                   FormBuilderValidators.required(),
                   (val) => notifier.isDuplicated(val!)
-                      ? "Can`t register same name anniversary."
+                      ? Strings.duplicateAnniversary
                       : null,
                 ]),
               ),
               FormBuilderDrumRollDatePicker(
-                name: "date",
+                name: Strings.formFieldDate,
                 initalValue: state?.date,
                 validator: FormBuilderValidators.required(),
               ),

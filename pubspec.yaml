@@ -52,6 +52,7 @@ dependencies:
   form_builder_validators: ^8.4.0
   shared_preferences: ^2.1.0
   auto_route: ^6.0.0
+  sprintf: ^7.0.0
 
 dev_dependencies:
   flutter_test:

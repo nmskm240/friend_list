@@ -2,6 +2,7 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:friend_list/common/constant/contact_method.dart';
+import 'package:friend_list/common/constant/strings.dart';
 import 'package:friend_list/domain/person/annotation/created_at_field.dart';
 import 'package:friend_list/domain/person/annotation/updated_at_field.dart';
 
@@ -9,21 +10,21 @@ part 'contact.g.dart';
 
 @JsonSerializable()
 class Contact {
-  @JsonKey(name: "id")
+  @JsonKey(name: Strings.jsonKeyId)
   late final String id;
-  @JsonKey(name: "name")
+  @JsonKey(name: Strings.jsonKeyName)
   late String name;
-  @JsonKey(name: "method")
+  @JsonKey(name: Strings.jsonKeyMethod)
   late ContactMethod method;
-  @JsonKey(name: "value")
+  @JsonKey(name: Strings.jsonKeyValue)
   late String value;
-  @JsonKey(name: "person_id")
+  @JsonKey(name: Strings.jsonKeyPersonId)
   late String personId;
   @CreatedAtField()
-  @JsonKey(name: "created_at")
+  @JsonKey(name: Strings.jsonKeyCreatedAt)
   late final DateTime createdAt;
   @UpdatedAtField()
-  @JsonKey(name: "updated_at")
+  @JsonKey(name: Strings.jsonKeyUpdatedAt)
   late final DateTime updatedAt;
 
   Contact({

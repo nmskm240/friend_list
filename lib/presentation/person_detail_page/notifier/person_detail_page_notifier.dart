@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:friend_list/application/person_app_service.dart';
+import 'package:friend_list/common/constant/strings.dart';
 import 'package:friend_list/domain/person/anniversary/anniversary.dart';
 import 'package:friend_list/domain/person/person.dart';
 import 'package:friend_list/presentation/app_router.dart';
@@ -20,7 +21,7 @@ class PersonDetailPageNotifier
 
   Future<void> onPressedDeleteButton() async {
     await _service.deletePersonById(state.id);
-    _router.popUntilRouteWithPath("/");
+    _router.popUntilRouteWithPath(Strings.initialRoutePath);
   }
 
   Future<void> onPressedEditButton(Person domain) async {

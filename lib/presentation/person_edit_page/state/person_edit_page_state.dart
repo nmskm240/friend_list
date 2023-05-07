@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:friend_list/application/model/anniversary_edit_settings.dart';
 import 'package:friend_list/application/model/contact_edit_settings.dart';
+import 'package:friend_list/common/constant/strings.dart';
 import 'package:friend_list/domain/person/person.dart';
 
 part 'person_edit_page_state.freezed.dart';
@@ -19,14 +20,14 @@ class PersonEditPageState with _$PersonEditPageState {
       return AnniversaryEditSettings(
         name: e.name,
         date: e.date,
-        canDelete: e.name != "birthdate",
-        canChangeName: e.name != "birthdate",
+        canDelete: e.name != Strings.birthdate,
+        canChangeName: e.name != Strings.birthdate,
       );
     }).toList();
     settings.sort((a, b) => _sortAnniversary(a, b));
-    if (settings.isEmpty || settings.first.name != "birthdate") {
+    if (settings.isEmpty || settings.first.name != Strings.birthdate) {
       const birthdate = AnniversaryEditSettings(
-          name: "birthdate", canDelete: false, canChangeName: false);
+          name: Strings.birthdate, canDelete: false, canChangeName: false);
       settings.insert(0, birthdate);
     }
     return settings;
@@ -40,12 +41,12 @@ class PersonEditPageState with _$PersonEditPageState {
         ),
       );
 
-  bool get hasBirthdate => person.hasSameAnniversaryByName("birthdate");
+  bool get hasBirthdate => person.hasSameAnniversaryByName(Strings.birthdate);
 
   int _sortAnniversary(AnniversaryEditSettings a, AnniversaryEditSettings b) {
-    if (a.name == "birthdate") {
+    if (a.name == Strings.birthdate) {
       return -1;
-    } else if (b.name == "birthdate") {
+    } else if (b.name == Strings.birthdate) {
       return 1;
     } else {
       return 0;

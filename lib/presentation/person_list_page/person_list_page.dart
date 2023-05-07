@@ -1,7 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:friend_list/common/constant/strings.dart';
 import 'package:friend_list/presentation/person_list_page/provider/person_list_page_provider.dart';
+import 'package:sprintf/sprintf.dart';
 
 @RoutePage()
 class PersonListPage extends ConsumerWidget {
@@ -31,7 +33,7 @@ class PersonListPage extends ConsumerWidget {
               child: Column(
                 children: const [
                   Icon(Icons.people),
-                  Text("No one registered"),
+                  Text(Strings.nonRegistered),
                 ],
               ),
             );
@@ -47,7 +49,7 @@ class PersonListPage extends ConsumerWidget {
                     backgroundImage: MemoryImage(person.icon),
                   ),
                   trailing: person.hasBirthdate
-                      ? Text("${person.age} years old")
+                      ? Text(sprintf(Strings.yearsOldFormat, [person.age]))
                       : null,
                   onTap: () async {
                     await notifier.onPressedPersonListTile(person);

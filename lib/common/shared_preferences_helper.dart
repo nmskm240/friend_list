@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/services.dart';
-import 'package:friend_list/common/constant/config.dart';
+import 'package:friend_list/common/constant/strings.dart';
 import 'package:friend_list/common/exception/unregistred_preferences_exception.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -21,7 +21,7 @@ class SharedPreferencesHelper {
   }
 
   static Future<void> setDefault() async {
-    final data = await rootBundle.load(Path.defaultIcon);
+    final data = await rootBundle.load(Strings.defaultIconPath);
     final buffer = data.buffer;
     final bytes = buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
     setDefaultIcon(bytes);
