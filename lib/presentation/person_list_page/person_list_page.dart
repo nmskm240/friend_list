@@ -50,7 +50,7 @@ class PersonListPage extends ConsumerWidget {
                       ? Text("${person.age} years old")
                       : null,
                   onTap: () async {
-                    await notifier.onPressedPersonListTile(person.id);
+                    await notifier.onPressedPersonListTile(person);
                   },
                 );
               },

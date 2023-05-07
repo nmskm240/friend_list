@@ -16,9 +16,13 @@ abstract class _$AppRouter extends RootStackRouter {
   @override
   final Map<String, PageFactory> pagesMap = {
     AnniversaryDetailRoute.name: (routeData) {
+      final args = routeData.argsAs<AnniversaryDetailRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const AnniversaryDetailPage(),
+        child: AnniversaryDetailPage(
+          key: args.key,
+          state: args.state,
+        ),
       );
     },
     AnniversaryEditRoute.name: (routeData) {
@@ -51,7 +55,7 @@ abstract class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: PersonDetailPage(
           key: args.key,
-          id: args.id,
+          domain: args.domain,
         ),
       );
     },
@@ -62,7 +66,7 @@ abstract class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: PersonEditPage(
           key: args.key,
-          id: args.id,
+          domain: args.domain,
         ),
       );
     },
@@ -77,16 +81,40 @@ abstract class _$AppRouter extends RootStackRouter {
 
 /// generated route for
 /// [AnniversaryDetailPage]
-class AnniversaryDetailRoute extends PageRouteInfo<void> {
-  const AnniversaryDetailRoute({List<PageRouteInfo>? children})
-      : super(
+class AnniversaryDetailRoute extends PageRouteInfo<AnniversaryDetailRouteArgs> {
+  AnniversaryDetailRoute({
+    Key? key,
+    required Anniversary state,
+    List<PageRouteInfo>? children,
+  }) : super(
           AnniversaryDetailRoute.name,
+          args: AnniversaryDetailRouteArgs(
+            key: key,
+            state: state,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'AnniversaryDetailRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<AnniversaryDetailRouteArgs> page =
+      PageInfo<AnniversaryDetailRouteArgs>(name);
+}
+
+class AnniversaryDetailRouteArgs {
+  const AnniversaryDetailRouteArgs({
+    this.key,
+    required this.state,
+  });
+
+  final Key? key;
+
+  final Anniversary state;
+
+  @override
+  String toString() {
+    return 'AnniversaryDetailRouteArgs{key: $key, state: $state}';
+  }
 }
 
 /// generated route for
@@ -210,13 +238,13 @@ class ContactEditRouteArgs {
 class PersonDetailRoute extends PageRouteInfo<PersonDetailRouteArgs> {
   PersonDetailRoute({
     Key? key,
-    required String id,
+    required Person domain,
     List<PageRouteInfo>? children,
   }) : super(
           PersonDetailRoute.name,
           args: PersonDetailRouteArgs(
             key: key,
-            id: id,
+            domain: domain,
           ),
           initialChildren: children,
         );
@@ -230,16 +258,16 @@ class PersonDetailRoute extends PageRouteInfo<PersonDetailRouteArgs> {
 class PersonDetailRouteArgs {
   const PersonDetailRouteArgs({
     this.key,
-    required this.id,
+    required this.domain,
   });
 
   final Key? key;
 
-  final String id;
+  final Person domain;
 
   @override
   String toString() {
-    return 'PersonDetailRouteArgs{key: $key, id: $id}';
+    return 'PersonDetailRouteArgs{key: $key, domain: $domain}';
   }
 }
 
@@ -248,13 +276,13 @@ class PersonDetailRouteArgs {
 class PersonEditRoute extends PageRouteInfo<PersonEditRouteArgs> {
   PersonEditRoute({
     Key? key,
-    String? id,
+    Person? domain,
     List<PageRouteInfo>? children,
   }) : super(
           PersonEditRoute.name,
           args: PersonEditRouteArgs(
             key: key,
-            id: id,
+            domain: domain,
           ),
           initialChildren: children,
         );
@@ -268,16 +296,16 @@ class PersonEditRoute extends PageRouteInfo<PersonEditRouteArgs> {
 class PersonEditRouteArgs {
   const PersonEditRouteArgs({
     this.key,
-    this.id,
+    this.domain,
   });
 
   final Key? key;
 
-  final String? id;
+  final Person? domain;
 
   @override
   String toString() {
-    return 'PersonEditRouteArgs{key: $key, id: $id}';
+    return 'PersonEditRouteArgs{key: $key, domain: $domain}';
   }
 }
 

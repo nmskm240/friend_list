@@ -1,9 +1,9 @@
 import 'dart:typed_data';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:friend_list/application/model/anniversary_dto.dart';
-import 'package:friend_list/application/model/contact_dto.dart';
 import 'package:friend_list/common/exception/unregistered_anniversary_exception.dart';
+import 'package:friend_list/domain/person/anniversary/anniversary.dart';
+import 'package:friend_list/domain/person/contact/contact.dart';
 import 'package:friend_list/domain/person/person.dart';
 
 part 'person_detail_page_state.freezed.dart';
@@ -25,10 +25,8 @@ class PersonDetailPageState with _$PersonDetailPageState {
     }
   }
 
-  Iterable<AnniversaryDto> get anniversaries =>
-      domain.anniversaries.map((e) => AnniversaryDto.fromModel(e));
-  Iterable<ContactDto> get contacts =>
-      domain.contacts.map((e) => ContactDto.fromModel(e));
+  Iterable<Anniversary> get anniversaries => domain.anniversaries;
+  Iterable<Contact> get contacts => domain.contacts;
 
   const PersonDetailPageState._();
   const factory PersonDetailPageState({

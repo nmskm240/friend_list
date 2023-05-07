@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:friend_list/common/constant/contact_method.dart';
 import 'package:friend_list/domain/person/anniversary/anniversary.dart';
 import 'package:friend_list/domain/person/contact/contact.dart';
+import 'package:friend_list/domain/person/person.dart';
 import 'package:friend_list/presentation/anniversary_detail_page/anniversary_detail_page.dart';
 import 'package:friend_list/presentation/anniversary_edit_page/anniversary_edit_page.dart';
 import 'package:friend_list/presentation/contact_edit_page/contact_edit_page.dart';
