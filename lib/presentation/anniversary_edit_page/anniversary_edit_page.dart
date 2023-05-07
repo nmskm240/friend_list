@@ -44,7 +44,7 @@ class AnniversaryEditPage extends StatelessWidget {
               FormBuilderTextField(
                 name: "name",
                 initialValue: state?.name,
-                readOnly: state!.isBirthdate,
+                readOnly: state == null ? false: state!.isBirthdate,
                 decoration: const InputDecoration(
                   label: Text("name"),
                 ),

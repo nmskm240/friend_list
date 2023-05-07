@@ -34,11 +34,17 @@ class PersonEditPageNotifier
     });
   }
 
+  void onChangedName(String? newName) {
+    state.value!.person.name = newName ?? "";
+  }
+
+  void onChangedNickname(String? newNickname) {
+    state.value!.person.nickname = newNickname ?? "";
+  }
+
   Future<void> onPressedSave(GlobalKey<FormBuilderState> formKey) async {
     if (formKey.currentState!.validate()) {
-      final fields = formKey.currentState!.instantValue;
-      await _service.savePerson(
-          fields["name"], fields["nickname"], fields["icon"], [], []);
+      await _service.savePerson(state.value!.person);
       await _router.pop();
     }
   }

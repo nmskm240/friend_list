@@ -56,6 +56,7 @@ class PersonEditPage extends ConsumerWidget {
                         decoration: const InputDecoration(
                           label: Text("name"),
                         ),
+                        onChanged: notifier.onChangedName,
                       ),
                       FormBuilderTextField(
                         name: "nickname",
@@ -63,6 +64,7 @@ class PersonEditPage extends ConsumerWidget {
                         decoration: const InputDecoration(
                           label: Text("nickname"),
                         ),
+                        onChanged: notifier.onChangedNickname,
                       ),
                     ],
                   ),

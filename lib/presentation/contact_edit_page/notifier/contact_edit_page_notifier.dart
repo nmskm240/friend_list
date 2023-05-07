@@ -15,7 +15,14 @@ class ContactEditPageNotifier {
   void onPressedSaveButton(GlobalKey<FormBuilderState> formKey) {
     if (formKey.currentState!.validate()) {
       final values = formKey.currentState!.instantValue;
-      onSave("", values["meth""od"], values["value"]);
+      if (isDuplicated(values["method"], values["value"])) {
+        formKey.currentState!.fields["method"]!
+            .invalidate("Can`t register same method and value contact.");
+        formKey.currentState!.fields["value"]!
+            .invalidate("Can`t register same method and value contact.");
+        return;
+      }
+      onSave("", values["method"], values["value"]);
     }
   }
 }
