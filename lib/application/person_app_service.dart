@@ -1,8 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:friend_list/application/model/anniversary_dto.dart';
-import 'package:friend_list/application/model/contact_dto.dart';
 import 'package:friend_list/common/exception/unregistered_anniversary_exception.dart';
 import 'package:friend_list/common/shared_preferences_helper.dart';
 import 'package:friend_list/domain/person/anniversary/anniversary.dart';
@@ -20,20 +18,7 @@ class PersonAppService {
     return _factory.create("", "", SharedPreferencesHelper.getDefaultIcon());
   }
 
-  Future<void> savePerson(
-    String name,
-    String nickname,
-    Uint8List icon,
-    List<AnniversaryDto> anniversaries,
-    List<ContactDto> contacts,
-  ) async {
-    final person = _factory.create(name, nickname, icon);
-    for (final anniversary in anniversaries) {
-      person.addAnniversary(anniversary.name, anniversary.date);
-    }
-    for (final contact in contacts) {
-      person.addContact(contact.name, contact.method, contact.value);
-    }
+  Future<void> savePerson(Person person) async {
     await _repository.save(person);
   }
 

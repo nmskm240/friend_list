@@ -4,6 +4,7 @@ import 'package:age_calculator/age_calculator.dart';
 import 'package:flutter/services.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:friend_list/common/constant/contact_method.dart';
+import 'package:friend_list/common/constant/strings.dart';
 import 'package:friend_list/common/exception/duplicate_anniversary_exception.dart';
 import 'package:friend_list/common/exception/duplicate_contact_exception.dart';
 import 'package:friend_list/common/exception/unregistered_anniversary_exception.dart';
@@ -20,24 +21,24 @@ part 'person.g.dart';
 
 @JsonSerializable()
 class Person {
-  @JsonKey(name: "id")
+  @JsonKey(name: Strings.jsonKeyId)
   late final String id;
-  @JsonKey(name: "name")
+  @JsonKey(name: Strings.jsonKeyName)
   late String name;
-  @JsonKey(name: "nickname")
+  @JsonKey(name: Strings.jsonKeyNickname)
   late String nickname;
   @Uint8ListField()
-  @JsonKey(name: "icon")
+  @JsonKey(name: Strings.jsonKeyIcon)
   late Uint8List icon;
   @JsonKey(includeToJson: false)
   late final List<Anniversary> _anniversaries;
   @JsonKey(includeToJson: false)
   late final List<Contact> _contacts;
   @CreatedAtField()
-  @JsonKey(name: "created_at")
+  @JsonKey(name: Strings.jsonKeyCreatedAt)
   late final DateTime createdAt;
   @UpdatedAtField()
-  @JsonKey(name: "updated_at")
+  @JsonKey(name: Strings.jsonKeyUpdatedAt)
   late final DateTime updatedAt;
 
   Person({
@@ -69,8 +70,8 @@ class Person {
   Iterable<Contact> get contacts => _contacts;
 
   DateTime get birthdate {
-    if (!hasSameAnniversaryByName("birthdate")) {
-      throw const UnregisteredAnniversaryException("birthdate");
+    if (!hasSameAnniversaryByName(Strings.birthdate)) {
+      throw const UnregisteredAnniversaryException(Strings.birthdate);
     }
     final birthdate =
         anniversaries.firstWhere((element) => element.isBirthdate);
@@ -78,7 +79,7 @@ class Person {
   }
 
   bool get hasBirthdate {
-    return hasSameAnniversaryByName("birthdate");
+    return hasSameAnniversaryByName(Strings.birthdate);
   }
 
   int get age => AgeCalculator.age(birthdate).years;

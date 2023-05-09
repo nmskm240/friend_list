@@ -1,20 +1,27 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:friend_list/common/constant/strings.dart';
+import 'package:friend_list/domain/person/person.dart';
 import 'package:friend_list/presentation/common/always_disabled_focus_node.dart';
 import 'package:friend_list/presentation/common/widget/list_view_with_header.dart';
 import 'package:friend_list/presentation/person_edit_page/provider/person_edit_page_provider.dart';
 import 'package:friend_list/presentation/person_edit_page/widget/form_builder_circle_avatar.dart';
 import 'package:intl/intl.dart';
 
+@RoutePage()
 class PersonEditPage extends ConsumerWidget {
-  const PersonEditPage({super.key});
+  final Person? domain;
+
+  const PersonEditPage({super.key, this.domain});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(personEditPageProvider);
-    final notifier = ref.read(personEditPageProvider.notifier);
+    final provider = personEditPageProvider(domain);
+    final state = ref.watch(provider);
+    final notifier = ref.read(provider.notifier);
     final key = GlobalKey<FormBuilderState>();
     return Scaffold(
       appBar: AppBar(
@@ -32,7 +39,7 @@ class PersonEditPage extends ConsumerWidget {
           children: <Widget>[
             ListViewWithHeader(
               title: FormBuilderCircleAvatar(
-                name: "icon",
+                name: Strings.formFieldIcon,
                 initalValue: state.person.icon,
               ),
               body: ListView(
@@ -40,27 +47,29 @@ class PersonEditPage extends ConsumerWidget {
                 physics: const NeverScrollableScrollPhysics(),
                 children: <Widget>[
                   FormBuilderTextField(
-                    name: 'name',
+                    name: Strings.formFieldName,
                     initialValue: state.person.name,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: FormBuilderValidators.required(),
                     decoration: const InputDecoration(
-                      label: Text("name"),
+                      label: Text(Strings.personEditPageFormNameLabel),
                     ),
+                    onChanged: notifier.onChangedName,
                   ),
                   FormBuilderTextField(
-                    name: "nickname",
+                    name: Strings.formFieldNickname,
                     initialValue: state.person.nickname,
                     decoration: const InputDecoration(
-                      label: Text("nickname"),
+                      label: Text(Strings.personEditPageFormNicknameLabel),
                     ),
+                    onChanged: notifier.onChangedNickname,
                   ),
                 ],
               ),
             ),
             const Divider(),
             ListViewWithHeader(
-              leading: const Text("Anniversary"),
+              leading: const Text(Strings.personEditPageFormAnniversaryLabel),
               action: IconButton(
                 onPressed: notifier.onPressedAddAnniversary,
                 icon: const Icon(Icons.add),
@@ -95,7 +104,7 @@ class PersonEditPage extends ConsumerWidget {
             ),
             const Divider(),
             ListViewWithHeader(
-              leading: const Text("Contact"),
+              leading: const Text(Strings.personEditPageFormContactLable),
               action: IconButton(
                 onPressed: notifier.onPressedAddContact,
                 icon: const Icon(Icons.add),

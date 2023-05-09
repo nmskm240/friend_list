@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:friend_list/common/exception/unknown_platform.dart';
 import 'package:friend_list/data_source/database_wrapper.dart';
 import 'package:friend_list/data_source/tables/anniversary_table.dart';
 import 'package:friend_list/data_source/tables/contact_table.dart';
@@ -21,7 +22,6 @@ class AppDatabase extends DatabaseWrapper {
             RegisteredTagTable(),
             TagTable(),
           ],
-          fileName: "app.db",
         );
 
   @override
@@ -33,7 +33,7 @@ class AppDatabase extends DatabaseWrapper {
       final directory = await getLibraryDirectory();
       path = directory.path;
     } else {
-      throw Exception('Unable to determine platform.');
+      throw const UnknownPlatformException();
     }
     return join(path, fileName);
   }

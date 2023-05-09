@@ -26,11 +26,11 @@ class PersonListPageNotifyer
     }
   }
 
-  Future<void> onPressedPersonListTile(String id) async {
-    _router.push(PersonDetailRoute(id: id));
+  Future<void> onPressedPersonListTile(Person domain) async {
+    _router.push(PersonDetailRoute(domain: domain));
   }
 
   Future<void> onPressedAddPerson() async {
-    _router.pushNamed("/edit");
+    _router.push(PersonEditRoute());
   }
 }

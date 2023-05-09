@@ -1,36 +1,39 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:friend_list/application/model/contact_dto.dart';
-import 'package:friend_list/application/model/contact_edit_settings.dart';
 import 'package:friend_list/common/constant/contact_method.dart';
+import 'package:friend_list/common/constant/strings.dart';
+import 'package:friend_list/domain/person/contact/contact.dart';
+import 'package:friend_list/presentation/contact_edit_page/notifier/contact_edit_page_notifier.dart';
 import 'package:friend_list/presentation/contact_edit_page/widgets/form_bulder_modal_bottom_sheet.dart';
 
+@RoutePage()
 class ContactEditPage extends StatelessWidget {
-  const ContactEditPage({super.key});
+  @protected
+  final ContactEditPageNotifier notifier;
+  @protected
+  final Contact? state;
+
+  ContactEditPage({
+    super.key,
+    this.state,
+    required bool Function(ContactMethod, String) isDuplicated,
+    required void Function(String, ContactMethod, String) onSave,
+  }) : notifier = ContactEditPageNotifier(
+          isDuplicated: isDuplicated,
+          onSave: onSave,
+        );
 
   @override
   Widget build(BuildContext context) {
-    final args =
-        ModalRoute.of(context)!.settings.arguments as ContactEditSettings?;
     final key = GlobalKey<FormBuilderState>();
     return Scaffold(
       appBar: AppBar(
         actions: [
           IconButton(
             icon: const Icon(Icons.check),
-            onPressed: () {
-              if (key.currentState!.validate()) {
-                final values = key.currentState!.instantValue;
-                final dto = ContactDto(
-                  id: args == null ? "" : args.id,
-                  name: "",
-                  method: values["method"],
-                  value: values["value"],
-                );
-                Navigator.of(context).pop(dto);
-              }
-            },
+            onPressed: () => notifier.onPressedSaveButton(key),
           ),
         ],
       ),
@@ -41,16 +44,16 @@ class ContactEditPage extends StatelessWidget {
           child: Column(
             children: <Widget>[
               FormBuilderModalBottomSheet<ContactMethod>(
-                name: "method",
-                initialValue: args?.method,
+                name: Strings.formFieldMethod,
+                initialValue: state?.method,
                 validator: FormBuilderValidators.required(),
                 values: ContactMethod.values,
               ),
               FormBuilderTextField(
-                name: "value",
-                initialValue: args?.value,
+                name: Strings.formFieldValue,
+                initialValue: state?.value,
                 decoration: const InputDecoration(
-                  label: Text("value"),
+                  label: Text(Strings.personDetailPageFormValueLabel),
                 ),
                 validator: FormBuilderValidators.required(),
               ),

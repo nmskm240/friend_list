@@ -1,12 +1,11 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:friend_list/application/navigation_service.dart';
 import 'package:friend_list/common/constant/contact_method.dart';
 import 'package:friend_list/domain/person/contact/contact.dart';
 
 part 'contact_dto.freezed.dart';
 
 @freezed
-class ContactDto with _$ContactDto implements RouteRequest, RouteResponce {
+class ContactDto with _$ContactDto {
   const factory ContactDto({
     @Default("") String id,
     @Default("") String name,

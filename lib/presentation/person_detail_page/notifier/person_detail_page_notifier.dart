@@ -1,42 +1,34 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:friend_list/application/navigation_service.dart';
 import 'package:friend_list/application/person_app_service.dart';
+import 'package:friend_list/common/constant/strings.dart';
+import 'package:friend_list/domain/person/anniversary/anniversary.dart';
+import 'package:friend_list/domain/person/person.dart';
+import 'package:friend_list/presentation/app_router.dart';
 import 'package:friend_list/presentation/person_detail_page/state/person_detail_page_state.dart';
 
 class PersonDetailPageNotifier
-    extends StateNotifier<AsyncValue<PersonDetailPageState>> {
+    extends StateNotifier<PersonDetailPageState> {
   final PersonAppService _service;
-  final NavigationService _navigator;
+  final AppRouter _router;
 
   PersonDetailPageNotifier({
     required PersonAppService service,
-    required NavigationService navigator,
-    required String id,
+    required AppRouter router,
+    required Person domain,
   })  : _service = service,
-        _navigator = navigator,
-        super(const AsyncValue.loading()) {
-    _init(id);
-  }
-
-  Future<void> _init(String id) async {
-    try {
-      final person = await _service.findPersonById(id);
-      state = AsyncValue.data(PersonDetailPageState(domain: person));
-    } on Exception catch (e) {
-      state = AsyncValue.error(e, StackTrace.current);
-    }
-  }
+        _router = router,
+        super(PersonDetailPageState(domain: domain));
 
   Future<void> onPressedDeleteButton() async {
-    await _service.deletePersonById(state.value!.id);
-    await _navigator.pop();
+    await _service.deletePersonById(state.id);
+    _router.popUntilRouteWithPath(Strings.initialRoutePath);
   }
 
-  Future<void> onPressedEditButton(String id) async {
-    await _navigator.push("/person/edit");
+  Future<void> onPressedEditButton(Person domain) async {
+    await _router.push(PersonEditRoute(domain: domain));
   }
 
-  Future<void> onPressedAnniversaryListTile(String id) async {
-    await _navigator.push("/anniversary/detail");
+  Future<void> onPressedAnniversaryListTile(Anniversary anniversary) async {
+    await _router.push(AnniversaryDetailRoute(state: anniversary));
   }
 }

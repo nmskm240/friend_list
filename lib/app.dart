@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:friend_list/common/constant/strings.dart';
 import 'package:friend_list/presentation/app_router.dart';
 
 class App extends ConsumerWidget {
@@ -10,7 +11,7 @@ class App extends ConsumerWidget {
     final router = ref.watch(routerProvider);
     return MaterialApp.router(
       routerConfig: router.config(),
-      title: "FriendList",
+      title: Strings.appTitle,
       theme: ThemeData.light(),
     );
   }

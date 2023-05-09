@@ -1,13 +1,10 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:friend_list/application/navigation_service.dart';
 import 'package:friend_list/domain/person/anniversary/anniversary.dart';
 
 part 'anniversary_dto.freezed.dart';
 
 @freezed
-class AnniversaryDto
-    with _$AnniversaryDto
-    implements RouteRequest, RouteResponce {
+class AnniversaryDto with _$AnniversaryDto {
   const factory AnniversaryDto({
     @Default("") String id,
     @Default("") String name,

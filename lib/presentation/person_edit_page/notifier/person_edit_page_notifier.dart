@@ -1,57 +1,65 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:friend_list/application/model/anniversary_dto.dart';
 import 'package:friend_list/application/model/anniversary_edit_settings.dart';
-import 'package:friend_list/application/model/contact_dto.dart';
 import 'package:friend_list/application/model/contact_edit_settings.dart';
-import 'package:friend_list/application/navigation_service.dart';
 import 'package:friend_list/application/person_app_service.dart';
+import 'package:friend_list/domain/person/person.dart';
+import 'package:friend_list/presentation/app_router.dart';
 import 'package:friend_list/presentation/person_edit_page/state/person_edit_page_state.dart';
 
 class PersonEditPageNotifier extends StateNotifier<PersonEditPageState> {
   final PersonAppService _service;
-  final NavigationService _navigator;
+  final AppRouter _router;
 
   PersonEditPageNotifier({
     required PersonAppService service,
-    required NavigationService navigator,
+    required AppRouter router,
+    Person? domain,
   })  : _service = service,
-        _navigator = navigator,
-        super(PersonEditPageState(person: service.createEmpty()));
+        _router = router,
+        super(PersonEditPageState(person: domain ?? service.createEmpty()));
+
+  void onChangedName(String? newName) {
+    state.person.name = newName ?? "";
+  }
+
+  void onChangedNickname(String? newNickname) {
+    state.person.nickname = newNickname ?? "";
+  }
 
   Future<void> onPressedSave(GlobalKey<FormBuilderState> formKey) async {
     if (formKey.currentState!.validate()) {
-      final fields = formKey.currentState!.instantValue;
-      await _service.savePerson(
-          fields["name"], fields["nickname"], fields["icon"], [], []);
-      await _navigator.pop();
+      await _service.savePerson(state.person);
+      await _router.pop();
     }
   }
 
   Future<void> onPressedAddAnniversary() async {
-    final res = await _navigator.push<AnniversaryDto>("/anniversary/edit");
-    if (res == null) {
-      return;
-    }
-    state.person.addAnniversary(res.name, res.date);
+    final route = AnniversaryEditRoute(
+      isDuplicated: state.person.hasSameAnniversaryByName,
+      onSave: (name, date) {
+        state.person.addAnniversary(name, date);
+        _router.pop();
+      },
+    );
+    await _router.push(route);
     state = state.copyWith(shouldRefreshWidget: true);
   }
 
   Future<void> onPressedEditAnniversary(
-      AnniversaryEditSettings settings) async {
-    final res = await _navigator.push<AnniversaryDto>(
-      "/anniversary/edit",
-      arguments: settings,
+    AnniversaryEditSettings settings,
+  ) async {
+    final route = AnniversaryEditRoute(
+      isDuplicated: (newName) =>
+          newName != settings.name &&
+          state.person.hasSameAnniversaryByName(newName),
+      onSave: (name, date) {
+        state.person.editAnniversary(settings.id, name: name, date: date);
+        _router.pop();
+      },
     );
-    if (res == null) {
-      return;
-    }
-    if (state.person.hasSameAnniversaryByName("birthdate")) {
-      state.person.editAnniversary(res.id, name: res.name, date: res.date);
-    } else {
-      state.person.addAnniversary(res.name, res.date);
-    }
+    await _router.push(route);
     state = state.copyWith(shouldRefreshWidget: true);
   }
 
@@ -62,30 +70,33 @@ class PersonEditPageNotifier extends StateNotifier<PersonEditPageState> {
   }
 
   Future<void> onPressedAddContact() async {
-    final res = await _navigator.push<ContactDto>(
-      "/contact/edit",
+    final route = ContactEditRoute(
+      isDuplicated: state.person.hasSameContactByMethodAndValue,
+      onSave: (label, method, value) {
+        state.person.addContact(label, method, value);
+        _router.pop();
+      },
     );
-    if (res == null) {
-      return;
-    }
-    state.person.addContact(res.name, res.method, res.value);
+    await _router.push(route);
     state = state.copyWith(shouldRefreshWidget: true);
   }
 
   Future<void> onPressedEditContact(ContactEditSettings settings) async {
-    final res = await _navigator.push<ContactDto>(
-      "contact/edit",
-      arguments: settings,
+    final route = ContactEditRoute(
+      isDuplicated: (method, value) =>
+          (method != settings.method || value != settings.value) &&
+          state.person.hasSameContactByMethodAndValue(method, value),
+      onSave: (label, method, value) {
+        state.person.editContact(
+          settings.id,
+          name: label,
+          method: method,
+          value: value,
+        );
+      },
     );
-    if (res == null) {
-      return;
-    }
-    state.person.editContact(
-      res.id,
-      name: res.name,
-      method: res.method,
-      value: res.value,
-    );
+    await _router.push(route);
+    state = state.copyWith(shouldRefreshWidget: true);
   }
 
   void onPressedDeletContact(ContactEditSettings settings) {

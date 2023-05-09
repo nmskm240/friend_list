@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:friend_list/common/constant/strings.dart';
 import 'package:intl/intl.dart';
 
 class FormBuilderDrumRollDatePicker extends StatelessWidget {
@@ -20,7 +21,7 @@ class FormBuilderDrumRollDatePicker extends StatelessWidget {
       builder: (field) {
         return InputDecorator(
           decoration: InputDecoration(
-            label: const Text("date"),
+            label: const Text(Strings.anniversaryEditPageFormDateLabel),
             errorText: field.errorText,
           ),
           child: GestureDetector(
