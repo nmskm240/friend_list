@@ -89,7 +89,7 @@ class Person {
       throw DuplicateAnniversaryException(id, name);
     }
     final factory = AnniversaryFactory();
-    final anniversary = factory.create(name, date, id);
+    final anniversary = factory.create(id, name: name, date:date);
     _anniversaries.add(anniversary);
   }
 
@@ -137,7 +137,7 @@ class Person {
       throw DuplicateContactException(id, method.name, value);
     }
     final factroy = ContactFactory();
-    final contact = factroy.create(name, method, value, id);
+    final contact = factroy.create(id, name: name, method: method, value: value);
     _contacts.add(contact);
   }
 

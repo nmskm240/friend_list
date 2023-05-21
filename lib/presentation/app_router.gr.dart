@@ -10,8 +10,7 @@
 part of 'app_router.dart';
 
 abstract class _$AppRouter extends RootStackRouter {
-  // ignore: unused_element
-  _$AppRouter({super.navigatorKey});
+  _$AppRouter([GlobalKey<NavigatorState>? navigatorKey]) : super();
 
   @override
   final Map<String, PageFactory> pagesMap = {
@@ -21,7 +20,7 @@ abstract class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: AnniversaryDetailPage(
           key: args.key,
-          state: args.state,
+          anniversary: args.anniversary,
         ),
       );
     },
@@ -31,9 +30,8 @@ abstract class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: AnniversaryEditPage(
           key: args.key,
-          state: args.state,
-          isDuplicated: args.isDuplicated,
-          onSave: args.onSave,
+          person: args.person,
+          anniversary: args.anniversary,
         ),
       );
     },
@@ -43,9 +41,8 @@ abstract class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: ContactEditPage(
           key: args.key,
-          state: args.state,
-          isDuplicated: args.isDuplicated,
-          onSave: args.onSave,
+          person: args.person,
+          contact: args.contact,
         ),
       );
     },
@@ -55,7 +52,7 @@ abstract class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: PersonDetailPage(
           key: args.key,
-          domain: args.domain,
+          person: args.person,
         ),
       );
     },
@@ -66,14 +63,16 @@ abstract class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: PersonEditPage(
           key: args.key,
-          domain: args.domain,
+          person: args.person,
         ),
       );
     },
     PersonListRoute.name: (routeData) {
+      final args = routeData.argsAs<PersonListRouteArgs>(
+          orElse: () => const PersonListRouteArgs());
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const PersonListPage(),
+        child: PersonListPage(key: args.key),
       );
     },
   };
@@ -84,13 +83,13 @@ abstract class _$AppRouter extends RootStackRouter {
 class AnniversaryDetailRoute extends PageRouteInfo<AnniversaryDetailRouteArgs> {
   AnniversaryDetailRoute({
     Key? key,
-    required Anniversary state,
+    required Anniversary anniversary,
     List<PageRouteInfo>? children,
   }) : super(
           AnniversaryDetailRoute.name,
           args: AnniversaryDetailRouteArgs(
             key: key,
-            state: state,
+            anniversary: anniversary,
           ),
           initialChildren: children,
         );
@@ -104,16 +103,16 @@ class AnniversaryDetailRoute extends PageRouteInfo<AnniversaryDetailRouteArgs> {
 class AnniversaryDetailRouteArgs {
   const AnniversaryDetailRouteArgs({
     this.key,
-    required this.state,
+    required this.anniversary,
   });
 
   final Key? key;
 
-  final Anniversary state;
+  final Anniversary anniversary;
 
   @override
   String toString() {
-    return 'AnniversaryDetailRouteArgs{key: $key, state: $state}';
+    return 'AnniversaryDetailRouteArgs{key: $key, anniversary: $anniversary}';
   }
 }
 
@@ -122,20 +121,15 @@ class AnniversaryDetailRouteArgs {
 class AnniversaryEditRoute extends PageRouteInfo<AnniversaryEditRouteArgs> {
   AnniversaryEditRoute({
     Key? key,
-    Anniversary? state,
-    required bool Function(String) isDuplicated,
-    required void Function(
-      String,
-      DateTime,
-    ) onSave,
+    required Person person,
+    Anniversary? anniversary,
     List<PageRouteInfo>? children,
   }) : super(
           AnniversaryEditRoute.name,
           args: AnniversaryEditRouteArgs(
             key: key,
-            state: state,
-            isDuplicated: isDuplicated,
-            onSave: onSave,
+            person: person,
+            anniversary: anniversary,
           ),
           initialChildren: children,
         );
@@ -149,25 +143,19 @@ class AnniversaryEditRoute extends PageRouteInfo<AnniversaryEditRouteArgs> {
 class AnniversaryEditRouteArgs {
   const AnniversaryEditRouteArgs({
     this.key,
-    this.state,
-    required this.isDuplicated,
-    required this.onSave,
+    required this.person,
+    this.anniversary,
   });
 
   final Key? key;
 
-  final Anniversary? state;
+  final Person person;
 
-  final bool Function(String) isDuplicated;
-
-  final void Function(
-    String,
-    DateTime,
-  ) onSave;
+  final Anniversary? anniversary;
 
   @override
   String toString() {
-    return 'AnniversaryEditRouteArgs{key: $key, state: $state, isDuplicated: $isDuplicated, onSave: $onSave}';
+    return 'AnniversaryEditRouteArgs{key: $key, person: $person, anniversary: $anniversary}';
   }
 }
 
@@ -176,24 +164,15 @@ class AnniversaryEditRouteArgs {
 class ContactEditRoute extends PageRouteInfo<ContactEditRouteArgs> {
   ContactEditRoute({
     Key? key,
-    Contact? state,
-    required bool Function(
-      ContactMethod,
-      String,
-    ) isDuplicated,
-    required void Function(
-      String,
-      ContactMethod,
-      String,
-    ) onSave,
+    required Person person,
+    Contact? contact,
     List<PageRouteInfo>? children,
   }) : super(
           ContactEditRoute.name,
           args: ContactEditRouteArgs(
             key: key,
-            state: state,
-            isDuplicated: isDuplicated,
-            onSave: onSave,
+            person: person,
+            contact: contact,
           ),
           initialChildren: children,
         );
@@ -207,29 +186,19 @@ class ContactEditRoute extends PageRouteInfo<ContactEditRouteArgs> {
 class ContactEditRouteArgs {
   const ContactEditRouteArgs({
     this.key,
-    this.state,
-    required this.isDuplicated,
-    required this.onSave,
+    required this.person,
+    this.contact,
   });
 
   final Key? key;
 
-  final Contact? state;
+  final Person person;
 
-  final bool Function(
-    ContactMethod,
-    String,
-  ) isDuplicated;
-
-  final void Function(
-    String,
-    ContactMethod,
-    String,
-  ) onSave;
+  final Contact? contact;
 
   @override
   String toString() {
-    return 'ContactEditRouteArgs{key: $key, state: $state, isDuplicated: $isDuplicated, onSave: $onSave}';
+    return 'ContactEditRouteArgs{key: $key, person: $person, contact: $contact}';
   }
 }
 
@@ -238,13 +207,13 @@ class ContactEditRouteArgs {
 class PersonDetailRoute extends PageRouteInfo<PersonDetailRouteArgs> {
   PersonDetailRoute({
     Key? key,
-    required Person domain,
+    required Person person,
     List<PageRouteInfo>? children,
   }) : super(
           PersonDetailRoute.name,
           args: PersonDetailRouteArgs(
             key: key,
-            domain: domain,
+            person: person,
           ),
           initialChildren: children,
         );
@@ -258,16 +227,16 @@ class PersonDetailRoute extends PageRouteInfo<PersonDetailRouteArgs> {
 class PersonDetailRouteArgs {
   const PersonDetailRouteArgs({
     this.key,
-    required this.domain,
+    required this.person,
   });
 
   final Key? key;
 
-  final Person domain;
+  final Person person;
 
   @override
   String toString() {
-    return 'PersonDetailRouteArgs{key: $key, domain: $domain}';
+    return 'PersonDetailRouteArgs{key: $key, person: $person}';
   }
 }
 
@@ -276,13 +245,13 @@ class PersonDetailRouteArgs {
 class PersonEditRoute extends PageRouteInfo<PersonEditRouteArgs> {
   PersonEditRoute({
     Key? key,
-    Person? domain,
+    Person? person,
     List<PageRouteInfo>? children,
   }) : super(
           PersonEditRoute.name,
           args: PersonEditRouteArgs(
             key: key,
-            domain: domain,
+            person: person,
           ),
           initialChildren: children,
         );
@@ -296,29 +265,44 @@ class PersonEditRoute extends PageRouteInfo<PersonEditRouteArgs> {
 class PersonEditRouteArgs {
   const PersonEditRouteArgs({
     this.key,
-    this.domain,
+    this.person,
   });
 
   final Key? key;
 
-  final Person? domain;
+  final Person? person;
 
   @override
   String toString() {
-    return 'PersonEditRouteArgs{key: $key, domain: $domain}';
+    return 'PersonEditRouteArgs{key: $key, person: $person}';
   }
 }
 
 /// generated route for
 /// [PersonListPage]
-class PersonListRoute extends PageRouteInfo<void> {
-  const PersonListRoute({List<PageRouteInfo>? children})
-      : super(
+class PersonListRoute extends PageRouteInfo<PersonListRouteArgs> {
+  PersonListRoute({
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
           PersonListRoute.name,
+          args: PersonListRouteArgs(key: key),
           initialChildren: children,
         );
 
   static const String name = 'PersonListRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<PersonListRouteArgs> page =
+      PageInfo<PersonListRouteArgs>(name);
+}
+
+class PersonListRouteArgs {
+  const PersonListRouteArgs({this.key});
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'PersonListRouteArgs{key: $key}';
+  }
 }

@@ -14,7 +14,7 @@ import 'package:friend_list/presentation/person_list_page/person_list_page.dart'
 
 part 'app_router.gr.dart';
 
-final routerProvider = Provider<AppRouter>((ref) => AppRouter());
+final router = Provider<AppRouter>((ref) => AppRouter());
 
 @AutoRouterConfig()
 class AppRouter extends _$AppRouter {

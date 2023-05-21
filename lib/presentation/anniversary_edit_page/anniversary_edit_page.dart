@@ -1,39 +1,48 @@
-import 'package:auto_route/auto_route.dart';
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:friend_list/common/constant/strings.dart';
 import 'package:friend_list/domain/person/anniversary/anniversary.dart';
-import 'package:friend_list/presentation/anniversary_edit_page/notifier/anniversary_edit_page_notifier.dart';
+import 'package:friend_list/domain/person/person.dart';
+import 'package:friend_list/infrastructure/person/anniversary/anniversary_factory.dart';
 import 'package:friend_list/presentation/anniversary_edit_page/widget/form_builder_drum_roll_date_picker.dart';
 
 @RoutePage()
-class AnniversaryEditPage extends StatelessWidget {
+class AnniversaryEditPage extends ConsumerWidget {
   @protected
-  final AnniversaryEditPageNotifier notifier;
+  final Person person;
   @protected
-  final Anniversary? state;
+  final Anniversary anniversary;
 
   AnniversaryEditPage({
     super.key,
-    this.state,
-    required bool Function(String) isDuplicated,
-    required void Function(String, DateTime) onSave,
-  }) : notifier = AnniversaryEditPageNotifier(
-          isDuplicated: isDuplicated,
-          onSave: onSave,
-        );
+    required this.person,
+    Anniversary? anniversary,
+  }) : anniversary = anniversary ?? AnniversaryFactory().create(person.id);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final key = GlobalKey<FormBuilderState>();
     return Scaffold(
       appBar: AppBar(
-        actions: [
+        actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.check),
-            onPressed: () => notifier.onPressedSaveButton(key),
-          ),
+            onPressed: () {
+              if (key.currentState!.validate()) {
+                final fields = key.currentState!.instantValue;
+                final factory = AnniversaryFactory();
+                final res = factory.create(
+                  person.id,
+                  name: fields[Strings.formFieldName],
+                  date: fields[Strings.formFieldDate],
+                );
+                Navigator.of(context).pop(res);
+              }
+            },
+          )
         ],
       ),
       body: FormBuilder(
@@ -44,21 +53,28 @@ class AnniversaryEditPage extends StatelessWidget {
             children: [
               FormBuilderTextField(
                 name: Strings.formFieldName,
-                initialValue: state?.name,
-                readOnly: state == null ? false : state!.isBirthdate,
+                initialValue: anniversary.name,
+                enabled: !anniversary.isBirthdate,
                 decoration: const InputDecoration(
                   label: Text(Strings.anniversaryEditPageFormNameLabel),
                 ),
                 validator: FormBuilderValidators.compose([
                   FormBuilderValidators.required(),
-                  (val) => notifier.isDuplicated(val!)
-                      ? Strings.duplicateAnniversary
-                      : null,
+                  (val) {
+                    // required指定のためここではnullを返す
+                    if (val == null || val.isEmpty) return null;
+                    // 同名の記念日が存在しないか(編集前の要素は対象外)
+                    if (person.hasSameAnniversaryByName(val) &&
+                        val != anniversary.name) {
+                      return Strings.duplicateAnniversary;
+                    }
+                    return null;
+                  },
                 ]),
               ),
               FormBuilderDrumRollDatePicker(
                 name: Strings.formFieldDate,
-                initalValue: state?.date,
+                initalValue: anniversary.date,
                 validator: FormBuilderValidators.required(),
               ),
               const Divider(),

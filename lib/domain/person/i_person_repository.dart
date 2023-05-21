@@ -1,4 +1,9 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:friend_list/domain/person/person.dart';
+
+final personRepository = Provider<IPersonRepository>((ref) {
+  throw Exception("overrideしてから使用してください");
+});
 
 abstract class IPersonRepository {
   Future<void> attachTags(String id, List<String> tagIds);

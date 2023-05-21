@@ -6,7 +6,7 @@ import 'package:uuid/uuid.dart';
 class ContactFactory implements IContactFactory {
   @override
   Contact create(
-      String name, ContactMethod method, String value, String personId) {
+      String personId, {String name = "", ContactMethod method = ContactMethod.phone, String value = ""}) {
     return Contact(
       id: const Uuid().v1(),
       name: name,
