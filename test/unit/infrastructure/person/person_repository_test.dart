@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:friend_list/common/constant/contact_method.dart';
+import 'package:friend_list/common/shared_preferences_helper.dart';
 import 'package:friend_list/domain/person/i_person_factory.dart';
 import 'package:friend_list/domain/person/i_person_repository.dart';
 import 'package:friend_list/domain/person/person.dart';
@@ -13,12 +13,9 @@ import '../mock_database.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  late Uint8List defaultIcon;
 
   setUp(() async {
-    final data = await rootBundle.load("assets/images/default_avatar.png");
-    final buffer = data.buffer;
-    defaultIcon = buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+    await SharedPreferencesHelper.loadOrDefault();
   });
 
   group("mock database repositoy test", (() {
@@ -32,14 +29,14 @@ void main() {
     });
 
     test("insert", () async {
-      final person = factory.create("test name", "", defaultIcon);
+      final person = factory.create(name: "test name");
       await expectLater(repository.save(person), completes);
     });
 
     group("find", () {
       late Person person;
       setUp(() async {
-        person = factory.create("demo name", "", defaultIcon);
+        person = factory.create(name: "demo name");
         person.addAnniversary("new anniversary", DateTime(2000));
         person.addContact("new contact", ContactMethod.address, "test");
         person.addContact("new contact", ContactMethod.phone, "test");
@@ -53,10 +50,10 @@ void main() {
 
       test("partical search", () async {
         final persons = [
-          factory.create("test name", "test nickname", defaultIcon),
-          factory.create("demo name", "demo nickname", defaultIcon),
-          factory.create("name test", "nickname test", defaultIcon),
-          factory.create("name demo", "nickname demo", defaultIcon),
+          factory.create(name: "test name", nickname: "test nickname"),
+          factory.create(name: "demo name", nickname: "demo nickname"),
+          factory.create(name: "name test", nickname: "nickname test"),
+          factory.create(name: "name demo", nickname: "nickname demo"),
         ];
         for (final person in persons) {
           await repository.save(person);
@@ -69,7 +66,7 @@ void main() {
     group("update", () {
       late Person person;
       setUp(() async {
-        person = factory.create("test name", "", defaultIcon);
+        person = factory.create(name: "test name");
         await repository.save(person);
       });
       test("basic info only", () async {
@@ -92,14 +89,14 @@ void main() {
     });
 
     test("delete", () async {
-      final person = factory.create("test name", "", defaultIcon);
+      final person = factory.create(name: "test name");
       await repository.save(person);
       await expectLater(repository.deleteByID(person.id), completes);
     });
 
     test("attach and remove tag test", () async {
       const tagId = "test_id";
-      final person = factory.create("test name", "", defaultIcon);
+      final person = factory.create(name: "test name");
       await repository.save(person);
       await repository.attachTags(person.id, [tagId]);
       expectLater(

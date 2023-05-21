@@ -1,6 +1,5 @@
 import 'package:age_calculator/age_calculator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:friend_list/infrastructure/person/person_factory.dart';
@@ -14,13 +13,9 @@ import '../unit/infrastructure/mock_database.dart';
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   late MockDatabae mock;
-  late Uint8List defaultIcon;
 
   setUp(() async {
     mock = MockDatabae();
-    final data = await rootBundle.load("assets/images/default_avatar.png");
-    final buffer = data.buffer;
-    defaultIcon = buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
   });
 
   testWidgets("No one registered", (tester) async {
@@ -32,7 +27,7 @@ void main() {
           overrides: [
             appDatabaseProvider.overrideWith((ref) => mock),
           ],
-          child: const MaterialApp(
+          child: MaterialApp(
             home: PersonListPage(),
           ),
         ),
@@ -54,9 +49,9 @@ void main() {
     final factory = PersonFactory();
     final repository = PersonRepository(mock);
     await repository.deleteAll();
-    final nameOnly = factory.create("Demo person", "", defaultIcon);
-    final nameAndNickname = factory.create("Demo person", "demo", defaultIcon);
-    final registeredBirthdate = factory.create("Demo person", "", defaultIcon);
+    final nameOnly = factory.create(name: "Demo person");
+    final nameAndNickname = factory.create(name: "Demo person", nickname: "demo");
+    final registeredBirthdate = factory.create(name: "Demo person");
     registeredBirthdate.addAnniversary("birthdate", DateTime(2000));
     for (final person in [nameOnly, nameAndNickname, registeredBirthdate]) {
       await repository.save(person);
@@ -67,7 +62,7 @@ void main() {
           overrides: [
             appDatabaseProvider.overrideWith((ref) => mock),
           ],
-          child: const MaterialApp(
+          child: MaterialApp(
             home: PersonListPage(),
           ),
         ),
