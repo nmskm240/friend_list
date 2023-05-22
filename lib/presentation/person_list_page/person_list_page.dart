@@ -1,5 +1,6 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:friend_list/common/constant/strings.dart';
 import 'package:friend_list/presentation/app_router.dart';
@@ -21,6 +22,7 @@ class PersonListPage extends ConsumerWidget {
       }),
       loading: () => const CircularProgressIndicator(),
       data: (state) {
+        FlutterNativeSplash.remove();
         return Scaffold(
           appBar: AppBar(
             actions: state.isFiltering

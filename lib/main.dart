@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:friend_list/app.dart';
 import 'package:friend_list/common/shared_preferences_helper.dart';
@@ -8,6 +9,7 @@ import 'package:friend_list/presentation/common/provider/app_database_provider.d
 
 void main() async {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await SharedPreferencesHelper.loadOrDefault();
   runApp(ProviderScope(
     overrides: [
