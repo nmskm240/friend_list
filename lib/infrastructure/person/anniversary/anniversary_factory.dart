@@ -4,7 +4,11 @@ import 'package:uuid/uuid.dart';
 
 class AnniversaryFactory implements IAnniversaryFactory {
   @override
-  Anniversary create(String personId, {String? name, DateTime? date,}) {
+  Anniversary create(
+    String personId, {
+    String? name,
+    DateTime? date,
+  }) {
     return Anniversary(
       id: const Uuid().v1(),
       name: name ?? "",

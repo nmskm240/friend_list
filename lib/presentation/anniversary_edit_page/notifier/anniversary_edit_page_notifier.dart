@@ -1,21 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:friend_list/common/constant/strings.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:friend_list/domain/person/anniversary/anniversary.dart';
+import 'package:friend_list/domain/person/person.dart';
+import 'package:friend_list/presentation/anniversary_edit_page/state/anniversary_edit_page_state.dart';
+import 'package:friend_list/presentation/app_router.dart';
 
-class AnniversaryEditPageNotifier {
-  final bool Function(String) isDuplicated;
+class AnniversaryEditPageNotifier
+    extends StateNotifier<AnniversaryEditPageState> {
   @protected
-  final void Function(String, DateTime) onSave;
+  Ref ref;
 
-  const AnniversaryEditPageNotifier({
-    required this.isDuplicated,
-    required this.onSave,
-  });
+  AnniversaryEditPageNotifier(this.ref, Person person, Anniversary anniversary)
+      : super(AnniversaryEditPageState(
+          person: person,
+          anniversary: anniversary,
+          key: GlobalKey<FormBuilderState>(),
+        ));
 
-  void onPressedSaveButton(GlobalKey<FormBuilderState> formKey) {
-    if (formKey.currentState!.validate()) {
-      final values = formKey.currentState!.instantValue;
-      onSave(values[Strings.formFieldName], values[Strings.formFieldDate]);
+  Future<void> onPressedSave() async {
+    if (state.validate()) {
+      final res = state.save();
+      ref.read(router).pop<Anniversary>(res);
     }
   }
 }

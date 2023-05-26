@@ -37,6 +37,9 @@ class Strings {
   static const String anniversaryEditPageFormNameLabel = "name";
   static const String anniversaryEditPageFormDateLabel = "date";
   static const String editButtonLable = "Edit";
+  static const String contactEditPageFormNameLabel = "name";
+  static const String contactEditPageFormMethodLabel = "method";
+  static const String contactEditPageFormValueLabel = "value";
 
   //Error
   static const String nonRegistered = "No one registered";

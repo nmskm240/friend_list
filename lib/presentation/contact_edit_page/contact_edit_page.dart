@@ -3,82 +3,72 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:friend_list/common/constant/contact_method.dart';
+import 'package:friend_list/domain/person/contact/contact_method.dart';
 import 'package:friend_list/common/constant/strings.dart';
 import 'package:friend_list/domain/person/contact/contact.dart';
 import 'package:friend_list/domain/person/person.dart';
-import 'package:friend_list/infrastructure/person/contact/contact_factory.dart';
+import 'package:friend_list/presentation/contact_edit_page/notifier/contact_edit_page_notifier.dart';
+import 'package:friend_list/presentation/contact_edit_page/provider/contact_edit_page_provider.dart';
+import 'package:friend_list/presentation/contact_edit_page/provider/contact_edit_page_provider_parameter.dart';
+import 'package:friend_list/presentation/contact_edit_page/state/contact_edit_page_state.dart';
 import 'package:friend_list/presentation/contact_edit_page/widgets/form_bulder_modal_bottom_sheet.dart';
 
-@RoutePage()
+@RoutePage<Contact>()
 class ContactEditPage extends ConsumerWidget {
   @protected
-  final Person person;
-  @protected
-  final Contact contact;
+  final AutoDisposeStateNotifierProvider<ContactEditPageNotifier,
+      ContactEditPageState> provider;
 
   ContactEditPage({
     super.key,
-    required this.person,
-    Contact? contact,
-  }) : contact = contact ?? ContactFactory().create(person.id);
+    required Person person,
+    required Contact contact,
+  }) : provider = contactEditPageProvider(
+          ContactEditPageProviderParameter(
+            person: person,
+            contact: contact,
+          ),
+        );
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final key = GlobalKey<FormBuilderState>();
+    final state = ref.watch(provider);
+    final notifier = ref.read(provider.notifier);
     return Scaffold(
       appBar: AppBar(
         actions: [
           IconButton(
             icon: const Icon(Icons.check),
-            onPressed: () {
-              if (!key.currentState!.validate()) {
-                return;
-              }
-              final fields = key.currentState!.instantValue;
-              if (person.hasSameContactById(contact.id)) {
-                person.editContact(
-                  contact.id,
-                  method: fields[Strings.formFieldMethod],
-                  value: fields[Strings.formFieldValue],
-                );
-              } else {
-                if (person.hasSameContactByMethodAndValue(
-                    fields[Strings.formFieldMethod],
-                    fields[Strings.formFieldValue])) {
-                  key.currentState!.fields[Strings.formFieldMethod]!
-                      .invalidate(Strings.duplicateContact);
-                  key.currentState!.fields[Strings.formFieldValue]!
-                      .invalidate(Strings.duplicateContact);
-                } else {
-                  person.addContact(
-                    "",
-                    fields[Strings.formFieldMethod],
-                    fields[Strings.formFieldValue],
-                  );
-                }
-              }
+            onPressed: () async {
+              await notifier.onPressedSave();
             },
           ),
         ],
       ),
       body: FormBuilder(
-        key: key,
+        key: state.formKey,
+        initialValue: state.initialValue,
         child: Padding(
           padding: const EdgeInsets.all(15),
           child: Column(
             children: <Widget>[
+              FormBuilderTextField(
+                name: state.formFieldName,
+                decoration: const InputDecoration(
+                  label: Text(Strings.contactEditPageFormNameLabel),
+                ),
+              ),
               FormBuilderModalBottomSheet<ContactMethod>(
-                name: Strings.formFieldMethod,
-                initialValue: contact.method,
+                name: state.formFieldMethod,
+                label: const Text(Strings.contactEditPageFormMethodLabel),
                 validator: FormBuilderValidators.required(),
-                values: ContactMethod.values,
+                // unknownを表示させないためskip
+                values: ContactMethod.values.skip(1),
               ),
               FormBuilderTextField(
-                name: Strings.formFieldValue,
-                initialValue: contact.value,
+                name: state.formFieldValue,
                 decoration: const InputDecoration(
-                  label: Text(Strings.personDetailPageFormValueLabel),
+                  label: Text(Strings.contactEditPageFormValueLabel),
                 ),
                 validator: FormBuilderValidators.required(),
               ),

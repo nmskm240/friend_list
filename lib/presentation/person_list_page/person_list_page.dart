@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:friend_list/common/constant/strings.dart';
-import 'package:friend_list/presentation/app_router.dart';
 import 'package:friend_list/presentation/person_list_page/provider/person_list_page_provider.dart';
 import 'package:sprintf/sprintf.dart';
 
@@ -30,14 +29,14 @@ class PersonListPage extends ConsumerWidget {
                 : <Widget>[
                     IconButton(
                       icon: const Icon(Icons.search),
-                      onPressed: () {
-                        notifier.onSwitchSearchMode(true);
+                      onPressed: () async {
+                        await notifier.onSwitchSearchMode(true);
                       },
                     ),
                     IconButton(
                       icon: const Icon(Icons.add),
-                      onPressed: () {
-                        ref.read(router).push(PersonEditRoute());
+                      onPressed: () async {
+                        await notifier.onPressedAddPerson();
                       },
                     ),
                   ],
@@ -53,7 +52,7 @@ class PersonListPage extends ConsumerWidget {
                       prefixIcon: const Icon(Icons.search),
                       suffix: IconButton(
                         icon: const Icon(Icons.clear),
-                        onPressed: () {
+                        onPressed: () async {
                           notifier.onSwitchSearchMode(false);
                         },
                       ),
@@ -84,9 +83,7 @@ class PersonListPage extends ConsumerWidget {
                           ? Text(sprintf(Strings.yearsOldFormat, [person.age]))
                           : null,
                       onTap: () {
-                        ref
-                            .read(router)
-                            .push(PersonDetailRoute(person: person));
+                        notifier.onPressedPersonListTile(person);
                       },
                     );
                   },

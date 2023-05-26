@@ -9,7 +9,8 @@ part of 'contact.dart';
 Contact _$ContactFromJson(Map<String, dynamic> json) => Contact(
       id: json['id'] as String,
       name: json['name'] as String,
-      method: $enumDecode(_$ContactMethodEnumMap, json['method']),
+      method: $enumDecode(_$ContactMethodEnumMap, json['method'],
+          unknownValue: ContactMethod.unknown),
       value: json['value'] as String,
       personId: json['person_id'] as String,
       createdAt: const CreatedAtField().fromJson(json['created_at'] as String?),
@@ -27,6 +28,7 @@ Map<String, dynamic> _$ContactToJson(Contact instance) => <String, dynamic>{
     };
 
 const _$ContactMethodEnumMap = {
+  ContactMethod.unknown: 'unknown',
   ContactMethod.phone: 'phone',
   ContactMethod.address: 'address',
   ContactMethod.twitter: 'twitter',

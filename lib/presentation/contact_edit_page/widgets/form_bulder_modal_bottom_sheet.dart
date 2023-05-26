@@ -6,7 +6,8 @@ class FormBuilderModalBottomSheet<T> extends ConsumerWidget {
   final String name;
   final T? initialValue;
   final String? Function(T?)? validator;
-  final List<T> values;
+  final Iterable<T> values;
+  final Widget? label;
 
   const FormBuilderModalBottomSheet({
     super.key,
@@ -14,6 +15,7 @@ class FormBuilderModalBottomSheet<T> extends ConsumerWidget {
     required this.values,
     this.initialValue,
     this.validator,
+    this.label,
   });
 
   @override
@@ -25,7 +27,7 @@ class FormBuilderModalBottomSheet<T> extends ConsumerWidget {
       builder: (field) {
         return InputDecorator(
           decoration: InputDecoration(
-            label: const Text("method"),
+            label: label,
             errorText: field.errorText,
           ),
           child: GestureDetector(
@@ -38,9 +40,9 @@ class FormBuilderModalBottomSheet<T> extends ConsumerWidget {
                     itemCount: values.length,
                     itemBuilder: (context, index) {
                       return ListTile(
-                        title: Text(values[index].toString()),
+                        title: Text(values.elementAt(index).toString()),
                         onTap: () {
-                          Navigator.of(context).pop(values[index]);
+                          Navigator.of(context).pop(values.elementAt(index));
                         },
                       );
                     },

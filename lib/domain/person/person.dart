@@ -3,7 +3,7 @@
 import 'package:age_calculator/age_calculator.dart';
 import 'package:flutter/services.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:friend_list/common/constant/contact_method.dart';
+import 'package:friend_list/domain/person/contact/contact_method.dart';
 import 'package:friend_list/common/constant/strings.dart';
 import 'package:friend_list/common/exception/duplicate_anniversary_exception.dart';
 import 'package:friend_list/common/exception/duplicate_contact_exception.dart';
@@ -14,8 +14,6 @@ import 'package:friend_list/domain/person/annotation/created_at_field.dart';
 import 'package:friend_list/domain/person/annotation/uint8list_field.dart';
 import 'package:friend_list/domain/person/annotation/updated_at_field.dart';
 import 'package:friend_list/domain/person/contact/contact.dart';
-import 'package:friend_list/infrastructure/person/anniversary/anniversary_factory.dart';
-import 'package:friend_list/infrastructure/person/contact/contact_factory.dart';
 
 part 'person.g.dart';
 
@@ -82,28 +80,47 @@ class Person {
     return hasSameAnniversaryByName(Strings.birthdate);
   }
 
-  int get age => AgeCalculator.age(birthdate).years;
-
-  void addAnniversary(String name, DateTime date) {
-    if (hasSameAnniversaryByName(name)) {
-      throw DuplicateAnniversaryException(id, name);
+  int? get age {
+    if (hasBirthdate) {
+      return AgeCalculator.age(birthdate).years;
+    } else {
+      return null;
     }
-    final factory = AnniversaryFactory();
-    final anniversary = factory.create(id, name: name, date:date);
+  }
+
+  void addAnniversary(Anniversary anniversary) {
+    if (!anniversary.isValid) {
+      throw Exception("不正なデータ");
+    }
+    if (anniversary.personId != id) {
+      throw Exception("異なるPersonId");
+    }
+    if (hasSameAnniversaryByName(anniversary.name) ||
+        hasSameAnniversaryById(anniversary.id)) {
+      throw DuplicateAnniversaryException(anniversary.id, anniversary.name);
+    }
+    if (anniversary.name == Strings.birthdate) {
+      throw Exception("登録できない名称");
+    }
     _anniversaries.add(anniversary);
   }
 
-  void editAnniversary(String id, {String? name, DateTime? date}) {
-    if (!hasSameAnniversaryById(id)) {
-      throw UnregisteredAnniversaryException(id);
+  void editAnniversary(Anniversary anniversary) {
+    if (!anniversary.isValid) {
+      throw Exception("不正なデータ");
     }
-    final index = _anniversaries.indexWhere((element) => element.id == id);
-    if (name != null) {
-      _anniversaries[index].name = name;
+    if (anniversary.personId != id) {
+      throw Exception("異なるPersonId");
     }
-    if (date != null) {
-      _anniversaries[index].date = date;
+    if (!hasSameAnniversaryById(anniversary.id)) {
+      throw UnregisteredAnniversaryException(anniversary.id);
     }
+    if (anniversary.name == Strings.birthdate) {
+      throw Exception("登録できない名称");
+    }
+    final old = _anniversaries.firstWhere((element) => element.id == id);
+    old.name = anniversary.name;
+    old.date = anniversary.date;
   }
 
   bool hasSameAnniversaryById(String id) {
@@ -132,34 +149,34 @@ class Person {
     _anniversaries.removeWhere((element) => element.id == id);
   }
 
-  void addContact(String name, ContactMethod method, String value) {
-    if (hasSameContactByMethodAndValue(method, value)) {
-      throw DuplicateContactException(id, method.name, value);
+  void addContact(Contact contact) {
+    if (!contact.isValid) {
+      throw Exception("不正なデータ");
     }
-    final factroy = ContactFactory();
-    final contact = factroy.create(id, name: name, method: method, value: value);
+    if (contact.personId != id) {
+      throw Exception("異なるPersonId");
+    }
+    if (hasSameContactById(contact.id) ||
+        hasSameContactByMethodAndValue(contact.method, contact.value)) {
+      throw DuplicateContactException(id, contact.method.name, contact.value);
+    }
     _contacts.add(contact);
   }
 
-  void editContact(
-    String id, {
-    String? name,
-    ContactMethod? method,
-    String? value,
-  }) {
-    if (!hasSameContactById(id)) {
-      throw UnregisteredContactException(id: id);
+  void editContact(Contact contact) {
+    if (!contact.isValid) {
+      throw Exception("不正なデータ");
     }
-    final index = _contacts.indexWhere((element) => element.id == id);
-    if (name != null) {
-      _contacts[index].name = name;
+    if (contact.personId != id) {
+      throw Exception("異なるPersonId");
     }
-    if (method != null) {
-      _contacts[index].method = method;
+    if (!hasSameContactById(contact.id)) {
+      throw UnregisteredContactException(id: contact.id);
     }
-    if (value != null) {
-      _contacts[index].value = value;
-    }
+    final old = _contacts.firstWhere((element) => element.id == id);
+    old.name = contact.name;
+    old.method = contact.method;
+    old.value = contact.value;
   }
 
   bool hasSameContactById(String id) {

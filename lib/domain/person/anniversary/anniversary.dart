@@ -39,4 +39,14 @@ class Anniversary {
   Map<String, dynamic> toJson() => _$AnniversaryToJson(this);
 
   bool get isBirthdate => name == Strings.birthdate;
+  bool get isValid {
+    return id.isNotEmpty &&
+        name.isNotEmpty &&
+        date.isBefore(DateTime.now()) &&
+        personId.isNotEmpty;
+  }
+
+  bool isB(String personId) {
+    return this.personId == personId;
+  }
 }

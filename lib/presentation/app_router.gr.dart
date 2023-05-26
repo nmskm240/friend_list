@@ -26,7 +26,7 @@ abstract class _$AppRouter extends RootStackRouter {
     },
     AnniversaryEditRoute.name: (routeData) {
       final args = routeData.argsAs<AnniversaryEditRouteArgs>();
-      return AutoRoutePage<dynamic>(
+      return AutoRoutePage<Anniversary>(
         routeData: routeData,
         child: AnniversaryEditPage(
           key: args.key,
@@ -37,7 +37,7 @@ abstract class _$AppRouter extends RootStackRouter {
     },
     ContactEditRoute.name: (routeData) {
       final args = routeData.argsAs<ContactEditRouteArgs>();
-      return AutoRoutePage<dynamic>(
+      return AutoRoutePage<Contact>(
         routeData: routeData,
         child: ContactEditPage(
           key: args.key,
@@ -57,9 +57,8 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     PersonEditRoute.name: (routeData) {
-      final args = routeData.argsAs<PersonEditRouteArgs>(
-          orElse: () => const PersonEditRouteArgs());
-      return AutoRoutePage<dynamic>(
+      final args = routeData.argsAs<PersonEditRouteArgs>();
+      return AutoRoutePage<Person>(
         routeData: routeData,
         child: PersonEditPage(
           key: args.key,
@@ -68,11 +67,9 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     PersonListRoute.name: (routeData) {
-      final args = routeData.argsAs<PersonListRouteArgs>(
-          orElse: () => const PersonListRouteArgs());
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: PersonListPage(key: args.key),
+        child: const PersonListPage(),
       );
     },
   };
@@ -122,7 +119,7 @@ class AnniversaryEditRoute extends PageRouteInfo<AnniversaryEditRouteArgs> {
   AnniversaryEditRoute({
     Key? key,
     required Person person,
-    Anniversary? anniversary,
+    required Anniversary anniversary,
     List<PageRouteInfo>? children,
   }) : super(
           AnniversaryEditRoute.name,
@@ -144,14 +141,14 @@ class AnniversaryEditRouteArgs {
   const AnniversaryEditRouteArgs({
     this.key,
     required this.person,
-    this.anniversary,
+    required this.anniversary,
   });
 
   final Key? key;
 
   final Person person;
 
-  final Anniversary? anniversary;
+  final Anniversary anniversary;
 
   @override
   String toString() {
@@ -165,7 +162,7 @@ class ContactEditRoute extends PageRouteInfo<ContactEditRouteArgs> {
   ContactEditRoute({
     Key? key,
     required Person person,
-    Contact? contact,
+    required Contact contact,
     List<PageRouteInfo>? children,
   }) : super(
           ContactEditRoute.name,
@@ -187,14 +184,14 @@ class ContactEditRouteArgs {
   const ContactEditRouteArgs({
     this.key,
     required this.person,
-    this.contact,
+    required this.contact,
   });
 
   final Key? key;
 
   final Person person;
 
-  final Contact? contact;
+  final Contact contact;
 
   @override
   String toString() {
@@ -245,7 +242,7 @@ class PersonDetailRouteArgs {
 class PersonEditRoute extends PageRouteInfo<PersonEditRouteArgs> {
   PersonEditRoute({
     Key? key,
-    Person? person,
+    required Person person,
     List<PageRouteInfo>? children,
   }) : super(
           PersonEditRoute.name,
@@ -265,12 +262,12 @@ class PersonEditRoute extends PageRouteInfo<PersonEditRouteArgs> {
 class PersonEditRouteArgs {
   const PersonEditRouteArgs({
     this.key,
-    this.person,
+    required this.person,
   });
 
   final Key? key;
 
-  final Person? person;
+  final Person person;
 
   @override
   String toString() {
@@ -280,29 +277,14 @@ class PersonEditRouteArgs {
 
 /// generated route for
 /// [PersonListPage]
-class PersonListRoute extends PageRouteInfo<PersonListRouteArgs> {
-  PersonListRoute({
-    Key? key,
-    List<PageRouteInfo>? children,
-  }) : super(
+class PersonListRoute extends PageRouteInfo<void> {
+  const PersonListRoute({List<PageRouteInfo>? children})
+      : super(
           PersonListRoute.name,
-          args: PersonListRouteArgs(key: key),
           initialChildren: children,
         );
 
   static const String name = 'PersonListRoute';
 
-  static const PageInfo<PersonListRouteArgs> page =
-      PageInfo<PersonListRouteArgs>(name);
-}
-
-class PersonListRouteArgs {
-  const PersonListRouteArgs({this.key});
-
-  final Key? key;
-
-  @override
-  String toString() {
-    return 'PersonListRouteArgs{key: $key}';
-  }
+  static const PageInfo<void> page = PageInfo<void>(name);
 }

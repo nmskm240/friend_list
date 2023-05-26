@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_initializing_formals
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:friend_list/common/constant/contact_method.dart';
+import 'package:friend_list/domain/person/contact/contact_method.dart';
 import 'package:friend_list/common/constant/strings.dart';
 import 'package:friend_list/domain/person/annotation/created_at_field.dart';
 import 'package:friend_list/domain/person/annotation/updated_at_field.dart';
@@ -14,7 +14,7 @@ class Contact {
   late final String id;
   @JsonKey(name: Strings.jsonKeyName)
   late String name;
-  @JsonKey(name: Strings.jsonKeyMethod)
+  @JsonKey(name: Strings.jsonKeyMethod, unknownEnumValue: ContactMethod.unknown)
   late ContactMethod method;
   @JsonKey(name: Strings.jsonKeyValue)
   late String value;
@@ -43,4 +43,12 @@ class Contact {
       _$ContactFromJson(json);
 
   Map<String, dynamic> toJson() => _$ContactToJson(this);
+
+  bool get isValid {
+    return id.isNotEmpty &&
+        name.isNotEmpty &&
+        method != ContactMethod.unknown &&
+        value.isNotEmpty &&
+        personId.isNotEmpty;
+  }
 }

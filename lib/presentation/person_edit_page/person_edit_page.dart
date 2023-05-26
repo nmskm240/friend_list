@@ -4,10 +4,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:friend_list/common/constant/strings.dart';
-import 'package:friend_list/domain/person/i_person_repository.dart';
 import 'package:friend_list/domain/person/person.dart';
-import 'package:friend_list/infrastructure/person/person_factory.dart';
-import 'package:friend_list/presentation/app_router.dart';
 import 'package:friend_list/presentation/common/always_disabled_focus_node.dart';
 import 'package:friend_list/presentation/common/widget/list_view_with_header.dart';
 import 'package:friend_list/presentation/person_edit_page/notifier/person_edit_page_notifier.dart';
@@ -16,35 +13,31 @@ import 'package:friend_list/presentation/person_edit_page/state/person_edit_page
 import 'package:friend_list/presentation/person_edit_page/widget/form_builder_circle_avatar.dart';
 import 'package:intl/intl.dart';
 
-@RoutePage()
+@RoutePage<Person>()
 class PersonEditPage extends ConsumerWidget {
   final AutoDisposeStateNotifierProvider<PersonEditPageNotifier,
       PersonEditPageState> _provider;
 
-  PersonEditPage({super.key, Person? person})
-      : _provider = personEditPageProvider(person ?? PersonFactory().create());
+  PersonEditPage({super.key, required Person person})
+      : _provider = personEditPageProvider(person);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(_provider);
     final notifier = ref.read(_provider.notifier);
-    final key = GlobalKey<FormBuilderState>();
     return Scaffold(
       appBar: AppBar(
         actions: <IconButton>[
           IconButton(
             onPressed: () async {
-              if (key.currentState!.validate()) {
-                await ref.read(personRepository).save(state.person);
-                ref.read(router).pop();
-              }
+              await notifier.onPressedSave();
             },
             icon: const Icon(Icons.check),
           ),
         ],
       ),
       body: FormBuilder(
-        key: key,
+        key: state.formKey,
         child: ListView(
           padding: const EdgeInsets.all(15),
           children: <Widget>[
@@ -52,6 +45,9 @@ class PersonEditPage extends ConsumerWidget {
               title: FormBuilderCircleAvatar(
                 name: Strings.formFieldIcon,
                 initalValue: state.person.icon,
+                onChanged: (val) {
+                    notifier.onChangedIcon(val);
+                },
               ),
               body: ListView(
                 shrinkWrap: true,
@@ -97,7 +93,7 @@ class PersonEditPage extends ConsumerWidget {
                 itemCount: state.anniversaries.length,
                 itemBuilder: ((context, index) {
                   final anniversary = state.anniversaries.elementAt(index);
-                  //TODO: ドメインの修正をした方がよさそう
+                  //NOTE: ドメインの修正をした方がよさそう
                   if (anniversary == null) {
                     return FormBuilderTextField(
                       name: Strings.birthdate,
@@ -106,7 +102,7 @@ class PersonEditPage extends ConsumerWidget {
                         label: Text(Strings.birthdate),
                       ),
                       onTap: () {
-                        notifier.onPressedAddAnniversary();
+                        notifier.onPressedAddAnniversary(name: Strings.birthdate);
                       },
                     );
                   } else {

@@ -2,6 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:friend_list/domain/person/i_person_repository.dart';
 import 'package:friend_list/domain/person/person.dart';
+import 'package:friend_list/infrastructure/person/person_factory.dart';
+import 'package:friend_list/presentation/app_router.dart';
+import 'package:friend_list/presentation/person_list_page/provider/person_list_page_provider.dart';
 import 'package:friend_list/presentation/person_list_page/state/person_list_page_state.dart';
 
 class PersonListPageNotifier
@@ -30,27 +33,47 @@ class PersonListPageNotifier
     });
   }
 
+  Future<void> onPressedAddPerson() async {
+    final factory = PersonFactory();
+    final person = factory.create();
+    final route = PersonEditRoute(person: person);
+    final res = await ref.read(router).push<Person>(route);
+    if (res == null) {
+      return;
+    }
+    state = ref.refresh(personListPageProvider);
+  }
+
+  Future<void> onPressedPersonListTile(Person person) async {
+    final route = PersonDetailRoute(person: person);
+    ref.read(router).push(route);
+  }
+
   Future<void> onChangedSearchBar(String content) async {
     final repository = ref.read(personRepository);
     state = await AsyncValue.guard(() async {
       Iterable<Person> searched;
-      if(content.isEmpty) {
+      if (content.isEmpty) {
         searched = await repository.getAll();
       } else {
         searched = await repository.findByNameOrNickname(content);
       }
-        return state.value!.copyWith(persons: searched);
+      return state.value!.copyWith(persons: searched);
     });
   }
 
-  void onSwitchSearchMode(bool isFiltering) {
-    if(!state.hasValue) {
+  Future<void> onSwitchSearchMode(bool isFiltering) async {
+    if (!state.hasValue) {
       return;
     }
-    final switched = state.value!.copyWith(isFiltering: isFiltering);
-    if(!switched.isFiltering) {
-      switched.searchBarController.clear();
-    }
-    state = AsyncValue.data(switched);
+    state = await AsyncValue.guard(() async {
+      var list = state.valueOrNull?.persons ?? [];
+      if (!isFiltering) {
+        final repository = ref.read(personRepository);
+        state.value!.searchBarController.clear();
+        list = await repository.getAll();
+      }
+      return state.value!.copyWith(isFiltering: isFiltering, persons: list);
+    });
   }
 }
