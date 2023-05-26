@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:friend_list/common/constant/contact_method.dart';
+import 'package:friend_list/domain/person/contact/contact_method.dart';
 import 'package:friend_list/common/shared_preferences_helper.dart';
 import 'package:friend_list/domain/person/i_person_factory.dart';
 import 'package:friend_list/domain/person/i_person_repository.dart';
