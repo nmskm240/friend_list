@@ -49,10 +49,11 @@ class ContactEditPageState with _$ContactEditPageState {
       // TODO: 例外クラス定義
       throw Exception("Formが正しく作れていません");
     }
-    contact.name = values[formFieldName];
-    contact.method = values[formFieldMethod];
-    contact.value = values[formFieldValue];
-    return contact;
+    ;
+    return contact.copyWith(
+        name: values[formFieldName],
+        method: values[formFieldMethod],
+        value: values[formFieldValue]);
   }
 
   /// validate失敗時のコールバック

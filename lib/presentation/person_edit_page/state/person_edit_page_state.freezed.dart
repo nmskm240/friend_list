@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$PersonEditPageState {
   Person get person => throw _privateConstructorUsedError;
   bool get shouldRefreshWidget => throw _privateConstructorUsedError;
+  @protected
   GlobalKey<FormBuilderState> get key => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -34,7 +35,9 @@ abstract class $PersonEditPageStateCopyWith<$Res> {
   $Res call(
       {Person person,
       bool shouldRefreshWidget,
-      GlobalKey<FormBuilderState> key});
+      @protected GlobalKey<FormBuilderState> key});
+
+  $PersonCopyWith<$Res> get person;
 }
 
 /// @nodoc
@@ -69,6 +72,14 @@ class _$PersonEditPageStateCopyWithImpl<$Res, $Val extends PersonEditPageState>
               as GlobalKey<FormBuilderState>,
     ) as $Val);
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $PersonCopyWith<$Res> get person {
+    return $PersonCopyWith<$Res>(_value.person, (value) {
+      return _then(_value.copyWith(person: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -82,7 +93,10 @@ abstract class _$$_PersonEditPageStateCopyWith<$Res>
   $Res call(
       {Person person,
       bool shouldRefreshWidget,
-      GlobalKey<FormBuilderState> key});
+      @protected GlobalKey<FormBuilderState> key});
+
+  @override
+  $PersonCopyWith<$Res> get person;
 }
 
 /// @nodoc
@@ -123,7 +137,7 @@ class _$_PersonEditPageState extends _PersonEditPageState {
   const _$_PersonEditPageState(
       {required this.person,
       this.shouldRefreshWidget = false,
-      required this.key})
+      @protected required this.key})
       : super._();
 
   @override
@@ -132,6 +146,7 @@ class _$_PersonEditPageState extends _PersonEditPageState {
   @JsonKey()
   final bool shouldRefreshWidget;
   @override
+  @protected
   final GlobalKey<FormBuilderState> key;
 
   @override
@@ -164,9 +179,10 @@ class _$_PersonEditPageState extends _PersonEditPageState {
 
 abstract class _PersonEditPageState extends PersonEditPageState {
   const factory _PersonEditPageState(
-      {required final Person person,
-      final bool shouldRefreshWidget,
-      required final GlobalKey<FormBuilderState> key}) = _$_PersonEditPageState;
+          {required final Person person,
+          final bool shouldRefreshWidget,
+          @protected required final GlobalKey<FormBuilderState> key}) =
+      _$_PersonEditPageState;
   const _PersonEditPageState._() : super._();
 
   @override
@@ -174,6 +190,7 @@ abstract class _PersonEditPageState extends PersonEditPageState {
   @override
   bool get shouldRefreshWidget;
   @override
+  @protected
   GlobalKey<FormBuilderState> get key;
   @override
   @JsonKey(ignore: true)

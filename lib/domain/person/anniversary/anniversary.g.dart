@@ -6,7 +6,8 @@ part of 'anniversary.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Anniversary _$AnniversaryFromJson(Map<String, dynamic> json) => Anniversary(
+_$_Anniversary _$$_AnniversaryFromJson(Map<String, dynamic> json) =>
+    _$_Anniversary(
       id: json['id'] as String,
       name: json['name'] as String,
       date: DateTime.parse(json['date'] as String),
@@ -15,12 +16,12 @@ Anniversary _$AnniversaryFromJson(Map<String, dynamic> json) => Anniversary(
       updatedAt: const UpdatedAtField().fromJson(json['updated_at'] as String?),
     );
 
-Map<String, dynamic> _$AnniversaryToJson(Anniversary instance) =>
+Map<String, dynamic> _$$_AnniversaryToJson(_$_Anniversary instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'date': instance.date.toIso8601String(),
       'person_id': instance.personId,
-      'created_at': instance.createdAt.toIso8601String(),
-      'updated_at': instance.updatedAt.toIso8601String(),
+      'created_at': const CreatedAtField().toJson(instance.createdAt),
+      'updated_at': const UpdatedAtField().toJson(instance.updatedAt),
     };

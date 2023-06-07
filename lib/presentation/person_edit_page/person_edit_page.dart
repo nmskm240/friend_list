@@ -46,7 +46,7 @@ class PersonEditPage extends ConsumerWidget {
                 name: Strings.formFieldIcon,
                 initalValue: state.person.icon,
                 onChanged: (val) {
-                    notifier.onChangedIcon(val);
+                  notifier.onChangedIcon(val);
                 },
               ),
               body: ListView(
@@ -79,54 +79,57 @@ class PersonEditPage extends ConsumerWidget {
               ),
             ),
             const Divider(),
+            const Spacer(),
+            const Divider(),
             ListViewWithHeader(
               leading: const Text(Strings.personEditPageFormAnniversaryLabel),
               action: IconButton(
+                icon: const Icon(Icons.add),
                 onPressed: () {
                   notifier.onPressedAddAnniversary();
                 },
-                icon: const Icon(Icons.add),
               ),
-              body: ListView.builder(
+              body: ListView.separated(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: state.anniversaries.length,
                 itemBuilder: ((context, index) {
                   final anniversary = state.anniversaries.elementAt(index);
-                  //NOTE: ドメインの修正をした方がよさそう
                   if (anniversary == null) {
-                    return FormBuilderTextField(
-                      name: Strings.birthdate,
-                      focusNode: AlwaysDisabledFocusNode(),
-                      decoration: const InputDecoration(
-                        label: Text(Strings.birthdate),
-                      ),
+                    return ListTile(
+                      title: const Text(Strings.birthdate),
+                      minLeadingWidth: 0,
+                      contentPadding: const EdgeInsets.only(left: 0, right: 0),
                       onTap: () {
-                        notifier.onPressedAddAnniversary(name: Strings.birthdate);
+                        notifier.onPressedAddAnniversary(
+                          name: Strings.birthdate,
+                        );
                       },
                     );
                   } else {
-                    return FormBuilderTextField(
-                      name: anniversary.name,
-                      focusNode: AlwaysDisabledFocusNode(),
-                      decoration: InputDecoration(
-                        label: Text(anniversary.name),
-                        suffixIcon: !anniversary.isBirthdate
-                            ? IconButton(
-                                icon: const Icon(Icons.delete),
-                                onPressed: () => notifier
-                                    .onPressedDeletAnniversary(anniversary),
-                              )
-                            : null,
+                    return ListTile(
+                      title: Text(anniversary.name),
+                      subtitle: Text(DateFormat.yMd().format(anniversary.date)),
+                      contentPadding: const EdgeInsets.only(left: 0, right: 0),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: () {
+                          notifier.onPressedDeletAnniversary(anniversary);
+                        },
                       ),
-                      initialValue: DateFormat.yMd().format(anniversary.date),
-                      onTap: () =>
-                          notifier.onPressedEditAnniversary(anniversary),
+                      onTap: () {
+                        notifier.onPressedEditAnniversary(anniversary);
+                      },
                     );
                   }
                 }),
+                separatorBuilder: (context, index) {
+                  return const Divider();
+                },
               ),
             ),
+            const Divider(),
+            const Spacer(),
             const Divider(),
             ListViewWithHeader(
               leading: const Text(Strings.personEditPageFormContactLable),
@@ -140,19 +143,19 @@ class PersonEditPage extends ConsumerWidget {
                 itemCount: state.contacts.length,
                 itemBuilder: ((context, index) {
                   final contact = state.contacts.elementAt(index);
-                  return FormBuilderTextField(
-                    name: contact.name,
-                    focusNode: AlwaysDisabledFocusNode(),
-                    decoration: InputDecoration(
-                      label: Text(contact.name),
-                      prefixIcon: Icon(contact.method.icon),
-                      suffixIcon: IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () =>
-                            notifier.onPressedDeletContact(contact),
-                      ),
+                  return ListTile(
+                    title: Text(contact.name.isEmpty
+                        ? contact.method.name
+                        : contact.name),
+                    subtitle: Text(contact.value),
+                    contentPadding: const EdgeInsets.only(left: 0, right: 0),
+                    leading: Icon(contact.method.icon),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete),
+                      onPressed: () {
+                        notifier.onPressedDeletContact(contact);
+                      },
                     ),
-                    initialValue: contact.value,
                     onTap: () {
                       notifier.onPressedEditContact(contact);
                     },

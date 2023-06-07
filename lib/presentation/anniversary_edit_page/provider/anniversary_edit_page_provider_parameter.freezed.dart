@@ -34,6 +34,9 @@ abstract class $AnniversaryEditPageProviderParameterCopyWith<$Res> {
           AnniversaryEditPageProviderParameter>;
   @useResult
   $Res call({Person person, Anniversary anniversary});
+
+  $PersonCopyWith<$Res> get person;
+  $AnniversaryCopyWith<$Res> get anniversary;
 }
 
 /// @nodoc
@@ -64,6 +67,22 @@ class _$AnniversaryEditPageProviderParameterCopyWithImpl<$Res,
               as Anniversary,
     ) as $Val);
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $PersonCopyWith<$Res> get person {
+    return $PersonCopyWith<$Res>(_value.person, (value) {
+      return _then(_value.copyWith(person: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $AnniversaryCopyWith<$Res> get anniversary {
+    return $AnniversaryCopyWith<$Res>(_value.anniversary, (value) {
+      return _then(_value.copyWith(anniversary: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -76,6 +95,11 @@ abstract class _$$_AnniversaryEditPageProviderParameterCopyWith<$Res>
   @override
   @useResult
   $Res call({Person person, Anniversary anniversary});
+
+  @override
+  $PersonCopyWith<$Res> get person;
+  @override
+  $AnniversaryCopyWith<$Res> get anniversary;
 }
 
 /// @nodoc

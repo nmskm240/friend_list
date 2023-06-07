@@ -38,6 +38,9 @@ abstract class $AnniversaryEditPageStateCopyWith<$Res> {
       {@protected Person person,
       @protected Anniversary anniversary,
       @protected GlobalKey<FormBuilderState> key});
+
+  $PersonCopyWith<$Res> get person;
+  $AnniversaryCopyWith<$Res> get anniversary;
 }
 
 /// @nodoc
@@ -73,6 +76,22 @@ class _$AnniversaryEditPageStateCopyWithImpl<$Res,
               as GlobalKey<FormBuilderState>,
     ) as $Val);
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $PersonCopyWith<$Res> get person {
+    return $PersonCopyWith<$Res>(_value.person, (value) {
+      return _then(_value.copyWith(person: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $AnniversaryCopyWith<$Res> get anniversary {
+    return $AnniversaryCopyWith<$Res>(_value.anniversary, (value) {
+      return _then(_value.copyWith(anniversary: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -88,6 +107,11 @@ abstract class _$$_AnniversaryEditPageStateCopyWith<$Res>
       {@protected Person person,
       @protected Anniversary anniversary,
       @protected GlobalKey<FormBuilderState> key});
+
+  @override
+  $PersonCopyWith<$Res> get person;
+  @override
+  $AnniversaryCopyWith<$Res> get anniversary;
 }
 
 /// @nodoc

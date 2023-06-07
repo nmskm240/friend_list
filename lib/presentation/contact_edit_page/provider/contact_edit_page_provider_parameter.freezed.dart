@@ -33,6 +33,9 @@ abstract class $ContactEditPageProviderParameterCopyWith<$Res> {
           ContactEditPageProviderParameter>;
   @useResult
   $Res call({Person person, Contact contact});
+
+  $PersonCopyWith<$Res> get person;
+  $ContactCopyWith<$Res> get contact;
 }
 
 /// @nodoc
@@ -63,6 +66,22 @@ class _$ContactEditPageProviderParameterCopyWithImpl<$Res,
               as Contact,
     ) as $Val);
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $PersonCopyWith<$Res> get person {
+    return $PersonCopyWith<$Res>(_value.person, (value) {
+      return _then(_value.copyWith(person: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ContactCopyWith<$Res> get contact {
+    return $ContactCopyWith<$Res>(_value.contact, (value) {
+      return _then(_value.copyWith(contact: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -75,6 +94,11 @@ abstract class _$$_ContactEditPageProviderParameterCopyWith<$Res>
   @override
   @useResult
   $Res call({Person person, Contact contact});
+
+  @override
+  $PersonCopyWith<$Res> get person;
+  @override
+  $ContactCopyWith<$Res> get contact;
 }
 
 /// @nodoc

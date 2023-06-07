@@ -6,7 +6,7 @@ part of 'contact.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Contact _$ContactFromJson(Map<String, dynamic> json) => Contact(
+_$_Contact _$$_ContactFromJson(Map<String, dynamic> json) => _$_Contact(
       id: json['id'] as String,
       name: json['name'] as String,
       method: $enumDecode(_$ContactMethodEnumMap, json['method'],
@@ -17,14 +17,15 @@ Contact _$ContactFromJson(Map<String, dynamic> json) => Contact(
       updatedAt: const UpdatedAtField().fromJson(json['updated_at'] as String?),
     );
 
-Map<String, dynamic> _$ContactToJson(Contact instance) => <String, dynamic>{
+Map<String, dynamic> _$$_ContactToJson(_$_Contact instance) =>
+    <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'method': _$ContactMethodEnumMap[instance.method]!,
       'value': instance.value,
       'person_id': instance.personId,
-      'created_at': instance.createdAt.toIso8601String(),
-      'updated_at': instance.updatedAt.toIso8601String(),
+      'created_at': const CreatedAtField().toJson(instance.createdAt),
+      'updated_at': const UpdatedAtField().toJson(instance.updatedAt),
     };
 
 const _$ContactMethodEnumMap = {

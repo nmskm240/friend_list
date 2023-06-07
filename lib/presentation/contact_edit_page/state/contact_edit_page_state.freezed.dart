@@ -38,6 +38,9 @@ abstract class $ContactEditPageStateCopyWith<$Res> {
       {@protected Person person,
       @protected Contact contact,
       @protected GlobalKey<FormBuilderState> key});
+
+  $PersonCopyWith<$Res> get person;
+  $ContactCopyWith<$Res> get contact;
 }
 
 /// @nodoc
@@ -73,6 +76,22 @@ class _$ContactEditPageStateCopyWithImpl<$Res,
               as GlobalKey<FormBuilderState>,
     ) as $Val);
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $PersonCopyWith<$Res> get person {
+    return $PersonCopyWith<$Res>(_value.person, (value) {
+      return _then(_value.copyWith(person: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ContactCopyWith<$Res> get contact {
+    return $ContactCopyWith<$Res>(_value.contact, (value) {
+      return _then(_value.copyWith(contact: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -87,6 +106,11 @@ abstract class _$$_ContactEditPageStateCopyWith<$Res>
       {@protected Person person,
       @protected Contact contact,
       @protected GlobalKey<FormBuilderState> key});
+
+  @override
+  $PersonCopyWith<$Res> get person;
+  @override
+  $ContactCopyWith<$Res> get contact;
 }
 
 /// @nodoc

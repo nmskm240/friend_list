@@ -51,8 +51,6 @@ class AnniversaryEditPageState with _$AnniversaryEditPageState {
       // TODO: 例外クラス定義
       throw Exception("Formが正しく作られていません");
     }
-    anniversary.name = value[formFieldName];
-    anniversary.date = value[formFieldDate];
-    return anniversary;
+    return anniversary.copyWith(name: value[formFieldName], date: value[formFieldDate]);
   }
 }
