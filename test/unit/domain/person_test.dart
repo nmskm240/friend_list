@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:friend_list/common/exception/unregistered_anniversary_exception.dart';
 import 'package:friend_list/common/shared_preferences_helper.dart';
+import 'package:friend_list/infrastructure/person/anniversary/anniversary_factory.dart';
 import 'package:friend_list/infrastructure/person/person_factory.dart';
 
 void main() {
@@ -19,7 +20,7 @@ void main() {
           throwsA(isA<UnregisteredAnniversaryException>()));
       expect(
           () => person.age, throwsA(isA<UnregisteredAnniversaryException>()));
-      person.addAnniversary("birthdate", DateTime(2000));
+      person.addAnniversary(AnniversaryFactory().create(person.id, name: "birthdate", date: DateTime(2000)));
       expect(person.birthdate, isNotNull);
       expect(person.age, equals(DateTime.now().year - person.birthdate.year));
     });

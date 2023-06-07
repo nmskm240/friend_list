@@ -6,75 +6,64 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:friend_list/common/constant/strings.dart';
 import 'package:friend_list/domain/person/anniversary/anniversary.dart';
 import 'package:friend_list/domain/person/person.dart';
-import 'package:friend_list/infrastructure/person/anniversary/anniversary_factory.dart';
+import 'package:friend_list/presentation/anniversary_edit_page/notifier/anniversary_edit_page_notifier.dart';
+import 'package:friend_list/presentation/anniversary_edit_page/provider/anniversary_edit_page_provider.dart';
+import 'package:friend_list/presentation/anniversary_edit_page/provider/anniversary_edit_page_provider_parameter.dart';
+import 'package:friend_list/presentation/anniversary_edit_page/state/anniversary_edit_page_state.dart';
 import 'package:friend_list/presentation/anniversary_edit_page/widget/form_builder_drum_roll_date_picker.dart';
 
-@RoutePage()
+@RoutePage<Anniversary>()
 class AnniversaryEditPage extends ConsumerWidget {
   @protected
-  final Person person;
-  @protected
-  final Anniversary anniversary;
+  final AutoDisposeStateNotifierProvider<AnniversaryEditPageNotifier,
+      AnniversaryEditPageState> provider;
 
   AnniversaryEditPage({
     super.key,
-    required this.person,
-    Anniversary? anniversary,
-  }) : anniversary = anniversary ?? AnniversaryFactory().create(person.id);
+    required Person person,
+    required Anniversary anniversary,
+  }) : provider = anniversaryeditPageProvider(
+          AnniversaryEditPageProviderParameter(
+            person: person,
+            anniversary: anniversary,
+          ),
+        );
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final key = GlobalKey<FormBuilderState>();
+    final state = ref.watch(provider);
+    final notifier = ref.read(provider.notifier);
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.check),
-            onPressed: () {
-              if (key.currentState!.validate()) {
-                final fields = key.currentState!.instantValue;
-                final factory = AnniversaryFactory();
-                final res = factory.create(
-                  person.id,
-                  name: fields[Strings.formFieldName],
-                  date: fields[Strings.formFieldDate],
-                );
-                Navigator.of(context).pop(res);
-              }
+            onPressed: () async {
+              await notifier.onPressedSave();
             },
           )
         ],
       ),
       body: FormBuilder(
-        key: key,
+        key: state.formKey,
+        initialValue: state.initialValue,
         child: Padding(
           padding: const EdgeInsets.all(15),
           child: Column(
             children: [
               FormBuilderTextField(
-                name: Strings.formFieldName,
-                initialValue: anniversary.name,
-                enabled: !anniversary.isBirthdate,
+                name: state.formFieldName,
+                enabled: state.isEditableName,
                 decoration: const InputDecoration(
                   label: Text(Strings.anniversaryEditPageFormNameLabel),
                 ),
                 validator: FormBuilderValidators.compose([
                   FormBuilderValidators.required(),
-                  (val) {
-                    // required指定のためここではnullを返す
-                    if (val == null || val.isEmpty) return null;
-                    // 同名の記念日が存在しないか(編集前の要素は対象外)
-                    if (person.hasSameAnniversaryByName(val) &&
-                        val != anniversary.name) {
-                      return Strings.duplicateAnniversary;
-                    }
-                    return null;
-                  },
+                  state.validateAnniversayName,
                 ]),
               ),
               FormBuilderDrumRollDatePicker(
-                name: Strings.formFieldDate,
-                initalValue: anniversary.date,
+                name: state.formFieldDate,
                 validator: FormBuilderValidators.required(),
               ),
               const Divider(),

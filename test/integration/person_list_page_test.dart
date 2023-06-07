@@ -2,6 +2,7 @@ import 'package:age_calculator/age_calculator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:friend_list/infrastructure/person/anniversary/anniversary_factory.dart';
 import 'package:friend_list/infrastructure/person/person_factory.dart';
 import 'package:friend_list/infrastructure/person/person_repository.dart';
 import 'package:friend_list/presentation/common/provider/app_database_provider.dart';
@@ -52,7 +53,7 @@ void main() {
     final nameOnly = factory.create(name: "Demo person");
     final nameAndNickname = factory.create(name: "Demo person", nickname: "demo");
     final registeredBirthdate = factory.create(name: "Demo person");
-    registeredBirthdate.addAnniversary("birthdate", DateTime(2000));
+    registeredBirthdate.addAnniversary(AnniversaryFactory().create(registeredBirthdate.id, name: "birthdate", date: DateTime(2000)));
     for (final person in [nameOnly, nameAndNickname, registeredBirthdate]) {
       await repository.save(person);
     }

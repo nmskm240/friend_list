@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:friend_list/common/constant/strings.dart';
 import 'package:friend_list/domain/person/anniversary/anniversary.dart';
@@ -13,7 +15,10 @@ class PersonEditPageState with _$PersonEditPageState {
   const factory PersonEditPageState({
     required Person person,
     @Default(false) bool shouldRefreshWidget,
+    @protected required GlobalKey<FormBuilderState> key,
   }) = _PersonEditPageState;
+
+  Key get formKey => key;
 
   String get name => person.name;
   String get nickname => person.nickname;
@@ -23,6 +28,7 @@ class PersonEditPageState with _$PersonEditPageState {
   ///birthdateが一番上になっている記念日リスト
   ///birthdateが未登録の場合先頭に[null]を配置
   Iterable<Anniversary?> get anniversaries {
+    debugPrint(person.anniversaries.toString());
     final copied = List<Anniversary?>.generate(
       person.anniversaries.length,
       (i) {
@@ -52,5 +58,9 @@ class PersonEditPageState with _$PersonEditPageState {
     } else {
       return 0;
     }
+  }
+
+  bool validate() {
+    return key.currentState!.validate();
   }
 }

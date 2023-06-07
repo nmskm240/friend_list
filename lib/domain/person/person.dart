@@ -1,9 +1,10 @@
 // ignore_for_file: invalid_annotation_target, prefer_initializing_formals
 
 import 'package:age_calculator/age_calculator.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:friend_list/common/constant/contact_method.dart';
+import 'package:friend_list/domain/person/contact/contact_method.dart';
 import 'package:friend_list/common/constant/strings.dart';
 import 'package:friend_list/common/exception/duplicate_anniversary_exception.dart';
 import 'package:friend_list/common/exception/duplicate_contact_exception.dart';
@@ -14,60 +15,32 @@ import 'package:friend_list/domain/person/annotation/created_at_field.dart';
 import 'package:friend_list/domain/person/annotation/uint8list_field.dart';
 import 'package:friend_list/domain/person/annotation/updated_at_field.dart';
 import 'package:friend_list/domain/person/contact/contact.dart';
-import 'package:friend_list/infrastructure/person/anniversary/anniversary_factory.dart';
-import 'package:friend_list/infrastructure/person/contact/contact_factory.dart';
 
+part "person.freezed.dart";
 part 'person.g.dart';
 
-@JsonSerializable()
-class Person {
-  @JsonKey(name: Strings.jsonKeyId)
-  late final String id;
-  @JsonKey(name: Strings.jsonKeyName)
-  late String name;
-  @JsonKey(name: Strings.jsonKeyNickname)
-  late String nickname;
-  @Uint8ListField()
-  @JsonKey(name: Strings.jsonKeyIcon)
-  late Uint8List icon;
-  @JsonKey(includeToJson: false)
-  late final List<Anniversary> _anniversaries;
-  @JsonKey(includeToJson: false)
-  late final List<Contact> _contacts;
-  @CreatedAtField()
-  @JsonKey(name: Strings.jsonKeyCreatedAt)
-  late final DateTime createdAt;
-  @UpdatedAtField()
-  @JsonKey(name: Strings.jsonKeyUpdatedAt)
-  late final DateTime updatedAt;
-
-  Person({
-    required String id,
-    required String name,
-    String nickname = "",
-    required Uint8List icon,
-    List<Anniversary>? anniversaries,
-    List<Contact>? contacts,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-  }) {
-    this.id = id;
-    this.name = name;
-    this.nickname = nickname;
-    this.icon = icon;
-    _anniversaries = anniversaries ?? [];
-    _contacts = contacts ?? [];
-    this.createdAt = createdAt ?? DateTime.now();
-    this.updatedAt = updatedAt ?? DateTime.now();
-  }
+@freezed
+class Person with _$Person {
+  const Person._();
+  const factory Person({
+    @JsonKey(name: Strings.jsonKeyId) required String id,
+    @JsonKey(name: Strings.jsonKeyName) required String name,
+    @JsonKey(name: Strings.jsonKeyNickname) @Default("") String nickname,
+    @Uint8ListField()
+    @JsonKey(name: Strings.jsonKeyIcon)
+        required Uint8List icon,
+    @JsonKey(includeToJson: false)
+    @Default(<Anniversary>[])
+        List<Anniversary> anniversaries,
+    @JsonKey(includeToJson: false) @Default(<Contact>[]) List<Contact> contacts,
+    @CreatedAtField()
+    @JsonKey(name: Strings.jsonKeyCreatedAt)
+        DateTime? createdAt,
+    @UpdatedAtField()
+    @JsonKey(name: Strings.jsonKeyUpdatedAt)
+        DateTime? updatedAt,
+  }) = _Person;
   factory Person.fromJson(Map<String, dynamic> json) => _$PersonFromJson(json);
-
-  Map<String, dynamic> toJson() => _$PersonToJson(this);
-
-  @JsonKey(includeToJson: false)
-  Iterable<Anniversary> get anniversaries => _anniversaries;
-  @JsonKey(includeToJson: false)
-  Iterable<Contact> get contacts => _contacts;
 
   DateTime get birthdate {
     if (!hasSameAnniversaryByName(Strings.birthdate)) {
@@ -82,28 +55,50 @@ class Person {
     return hasSameAnniversaryByName(Strings.birthdate);
   }
 
-  int get age => AgeCalculator.age(birthdate).years;
-
-  void addAnniversary(String name, DateTime date) {
-    if (hasSameAnniversaryByName(name)) {
-      throw DuplicateAnniversaryException(id, name);
+  int? get age {
+    if (hasBirthdate) {
+      return AgeCalculator.age(birthdate).years;
+    } else {
+      return null;
     }
-    final factory = AnniversaryFactory();
-    final anniversary = factory.create(id, name: name, date:date);
-    _anniversaries.add(anniversary);
   }
 
-  void editAnniversary(String id, {String? name, DateTime? date}) {
-    if (!hasSameAnniversaryById(id)) {
-      throw UnregisteredAnniversaryException(id);
+  Person addAnniversary(Anniversary anniversary) {
+    if (!anniversary.isValid) {
+      throw Exception("不正なデータ");
     }
-    final index = _anniversaries.indexWhere((element) => element.id == id);
-    if (name != null) {
-      _anniversaries[index].name = name;
+    if (anniversary.personId != id) {
+      throw Exception("異なるPersonId");
     }
-    if (date != null) {
-      _anniversaries[index].date = date;
+    if (hasSameAnniversaryByName(anniversary.name) ||
+        hasSameAnniversaryById(anniversary.id)) {
+      throw DuplicateAnniversaryException(anniversary.id, anniversary.name);
     }
+    if (anniversary.name == Strings.birthdate) {
+      throw Exception("登録できない名称");
+    }
+    return copyWith(anniversaries: [...anniversaries, anniversary]);
+  }
+
+  /// [edited]と同じIDを持つ要素を[edited]の内容に置き換える
+  /// 
+  /// [Person]がimmutableなため、[Person.anniversaries]は書き変わらない
+  /// 
+  /// 返り値：置き換え後の[anniversaries]
+  Iterable<Anniversary> editAnniversary(Anniversary edited) {
+    if (!edited.isValid) {
+      throw Exception("不正なデータ");
+    }
+    if (edited.personId != id) {
+      throw Exception("異なるPersonId");
+    }
+    if (!hasSameAnniversaryById(edited.id)) {
+      throw UnregisteredAnniversaryException(edited.id);
+    }
+    if (edited.name == Strings.birthdate) {
+      throw Exception("登録できない名称");
+    }
+    return anniversaries.map((e) => e.id == edited.id ? edited : e);
   }
 
   bool hasSameAnniversaryById(String id) {
@@ -128,38 +123,41 @@ class Person {
     return anniversaries.firstWhere((element) => element.name == name);
   }
 
-  void removeAnniversary(String id) {
-    _anniversaries.removeWhere((element) => element.id == id);
+  Person removeAnniversary(String id) {
+    var copy = List<Anniversary>.from(anniversaries);
+    copy.removeWhere((element) => element.id == id);
+    return copyWith(anniversaries: copy);
   }
 
-  void addContact(String name, ContactMethod method, String value) {
-    if (hasSameContactByMethodAndValue(method, value)) {
-      throw DuplicateContactException(id, method.name, value);
+  Person addContact(Contact contact) {
+    if (!contact.isValid) {
+      throw Exception("不正なデータ");
     }
-    final factroy = ContactFactory();
-    final contact = factroy.create(id, name: name, method: method, value: value);
-    _contacts.add(contact);
+    if (contact.personId != id) {
+      throw Exception("異なるPersonId");
+    }
+    if (hasSameContactById(contact.id) ||
+        hasSameContactByMethodAndValue(contact.method, contact.value)) {
+      throw DuplicateContactException(id, contact.method.name, contact.value);
+    }
+    return copyWith(contacts: [...contacts, contact]);
   }
 
-  void editContact(
-    String id, {
-    String? name,
-    ContactMethod? method,
-    String? value,
-  }) {
-    if (!hasSameContactById(id)) {
-      throw UnregisteredContactException(id: id);
+  Person editContact(Contact edited) {
+    if (!edited.isValid) {
+      throw Exception("不正なデータ");
     }
-    final index = _contacts.indexWhere((element) => element.id == id);
-    if (name != null) {
-      _contacts[index].name = name;
+    if (edited.personId != id) {
+      throw Exception("異なるPersonId");
     }
-    if (method != null) {
-      _contacts[index].method = method;
+    if (!hasSameContactById(edited.id)) {
+      throw UnregisteredContactException(id: edited.id);
     }
-    if (value != null) {
-      _contacts[index].value = value;
-    }
+    final old = contacts.firstWhere((element) => element.id == id);
+    final index = contacts.indexOf(old);
+    contacts.remove(old);
+    contacts.insert(index, edited);
+    return copyWith(contacts: [...contacts]);
   }
 
   bool hasSameContactById(String id) {
@@ -186,7 +184,9 @@ class Person {
         (element) => element.method == method && element.value == value);
   }
 
-  void removeContact(String id) {
-    _contacts.removeWhere((element) => element.id == id);
+  Person removeContact(String id) {
+    var copy = List<Contact>.from(contacts);
+    copy.removeWhere((element) => element.id == id);
+    return copyWith(contacts: copy);
   }
 }

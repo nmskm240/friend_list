@@ -1,7 +1,6 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:friend_list/application/service.dart';
 import 'package:friend_list/common/constant/strings.dart';
 import 'package:friend_list/domain/person/i_person_repository.dart';
 import 'package:friend_list/domain/person/person.dart';
@@ -27,7 +26,6 @@ class PersonDetailPage extends ConsumerWidget {
           IconButton(
             onPressed: () async {
               await ref.read(personRepository).deleteByID(person.id);
-              ref.invalidate(personList);
               ref.read(router).pop();
             },
             icon: const Icon(Icons.delete),

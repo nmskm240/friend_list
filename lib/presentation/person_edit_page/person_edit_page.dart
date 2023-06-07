@@ -3,12 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:friend_list/application/service.dart';
 import 'package:friend_list/common/constant/strings.dart';
-import 'package:friend_list/domain/person/i_person_repository.dart';
 import 'package:friend_list/domain/person/person.dart';
-import 'package:friend_list/infrastructure/person/person_factory.dart';
-import 'package:friend_list/presentation/app_router.dart';
 import 'package:friend_list/presentation/common/always_disabled_focus_node.dart';
 import 'package:friend_list/presentation/common/widget/list_view_with_header.dart';
 import 'package:friend_list/presentation/person_edit_page/notifier/person_edit_page_notifier.dart';
@@ -17,36 +13,31 @@ import 'package:friend_list/presentation/person_edit_page/state/person_edit_page
 import 'package:friend_list/presentation/person_edit_page/widget/form_builder_circle_avatar.dart';
 import 'package:intl/intl.dart';
 
-@RoutePage()
+@RoutePage<Person>()
 class PersonEditPage extends ConsumerWidget {
   final AutoDisposeStateNotifierProvider<PersonEditPageNotifier,
       PersonEditPageState> _provider;
 
-  PersonEditPage({super.key, Person? person})
-      : _provider = personEditPageProvider(person ?? PersonFactory().create());
+  PersonEditPage({super.key, required Person person})
+      : _provider = personEditPageProvider(person);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(_provider);
     final notifier = ref.read(_provider.notifier);
-    final key = GlobalKey<FormBuilderState>();
     return Scaffold(
       appBar: AppBar(
         actions: <IconButton>[
           IconButton(
             onPressed: () async {
-              if (key.currentState!.validate()) {
-                await ref.read(personRepository).save(state.person);
-                ref.invalidate(personList);
-                ref.read(router).pop();
-              }
+              await notifier.onPressedSave();
             },
             icon: const Icon(Icons.check),
           ),
         ],
       ),
       body: FormBuilder(
-        key: key,
+        key: state.formKey,
         child: ListView(
           padding: const EdgeInsets.all(15),
           children: <Widget>[
@@ -54,6 +45,9 @@ class PersonEditPage extends ConsumerWidget {
               title: FormBuilderCircleAvatar(
                 name: Strings.formFieldIcon,
                 initalValue: state.person.icon,
+                onChanged: (val) {
+                  notifier.onChangedIcon(val);
+                },
               ),
               body: ListView(
                 shrinkWrap: true,
@@ -85,54 +79,57 @@ class PersonEditPage extends ConsumerWidget {
               ),
             ),
             const Divider(),
+            const Spacer(),
+            const Divider(),
             ListViewWithHeader(
               leading: const Text(Strings.personEditPageFormAnniversaryLabel),
               action: IconButton(
+                icon: const Icon(Icons.add),
                 onPressed: () {
                   notifier.onPressedAddAnniversary();
                 },
-                icon: const Icon(Icons.add),
               ),
-              body: ListView.builder(
+              body: ListView.separated(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: state.anniversaries.length,
                 itemBuilder: ((context, index) {
                   final anniversary = state.anniversaries.elementAt(index);
-                  //TODO: ドメインの修正をした方がよさそう
                   if (anniversary == null) {
-                    return FormBuilderTextField(
-                      name: Strings.birthdate,
-                      focusNode: AlwaysDisabledFocusNode(),
-                      decoration: const InputDecoration(
-                        label: Text(Strings.birthdate),
-                      ),
+                    return ListTile(
+                      title: const Text(Strings.birthdate),
+                      minLeadingWidth: 0,
+                      contentPadding: const EdgeInsets.only(left: 0, right: 0),
                       onTap: () {
-                        notifier.onPressedAddAnniversary();
+                        notifier.onPressedAddAnniversary(
+                          name: Strings.birthdate,
+                        );
                       },
                     );
                   } else {
-                    return FormBuilderTextField(
-                      name: anniversary.name,
-                      focusNode: AlwaysDisabledFocusNode(),
-                      decoration: InputDecoration(
-                        label: Text(anniversary.name),
-                        suffixIcon: !anniversary.isBirthdate
-                            ? IconButton(
-                                icon: const Icon(Icons.delete),
-                                onPressed: () => notifier
-                                    .onPressedDeletAnniversary(anniversary),
-                              )
-                            : null,
+                    return ListTile(
+                      title: Text(anniversary.name),
+                      subtitle: Text(DateFormat.yMd().format(anniversary.date)),
+                      contentPadding: const EdgeInsets.only(left: 0, right: 0),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: () {
+                          notifier.onPressedDeletAnniversary(anniversary);
+                        },
                       ),
-                      initialValue: DateFormat.yMd().format(anniversary.date),
-                      onTap: () =>
-                          notifier.onPressedEditAnniversary(anniversary),
+                      onTap: () {
+                        notifier.onPressedEditAnniversary(anniversary);
+                      },
                     );
                   }
                 }),
+                separatorBuilder: (context, index) {
+                  return const Divider();
+                },
               ),
             ),
+            const Divider(),
+            const Spacer(),
             const Divider(),
             ListViewWithHeader(
               leading: const Text(Strings.personEditPageFormContactLable),
@@ -146,19 +143,19 @@ class PersonEditPage extends ConsumerWidget {
                 itemCount: state.contacts.length,
                 itemBuilder: ((context, index) {
                   final contact = state.contacts.elementAt(index);
-                  return FormBuilderTextField(
-                    name: contact.name,
-                    focusNode: AlwaysDisabledFocusNode(),
-                    decoration: InputDecoration(
-                      label: Text(contact.name),
-                      prefixIcon: Icon(contact.method.icon),
-                      suffixIcon: IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () =>
-                            notifier.onPressedDeletContact(contact),
-                      ),
+                  return ListTile(
+                    title: Text(contact.name.isEmpty
+                        ? contact.method.name
+                        : contact.name),
+                    subtitle: Text(contact.value),
+                    contentPadding: const EdgeInsets.only(left: 0, right: 0),
+                    leading: Icon(contact.method.icon),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete),
+                      onPressed: () {
+                        notifier.onPressedDeletContact(contact);
+                      },
                     ),
-                    initialValue: contact.value,
                     onTap: () {
                       notifier.onPressedEditContact(contact);
                     },

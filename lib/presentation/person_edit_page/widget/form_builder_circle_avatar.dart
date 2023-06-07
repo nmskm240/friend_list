@@ -8,11 +8,13 @@ import 'package:friend_list/presentation/person_edit_page/widget/image_pick_erro
 class FormBuilderCircleAvatar extends ConsumerWidget {
   final String name;
   final Uint8List initalValue;
+  final void Function(Uint8List?)? onChanged;
 
   const FormBuilderCircleAvatar({
     super.key,
     required this.name,
     required this.initalValue,
+    this.onChanged,
   });
 
   @override
@@ -23,6 +25,7 @@ class FormBuilderCircleAvatar extends ConsumerWidget {
     return FormBuilderField<Uint8List>(
       name: name,
       initialValue: initalValue,
+      onChanged: onChanged,
       builder: (field) {
         return GestureDetector(
           child: Center(

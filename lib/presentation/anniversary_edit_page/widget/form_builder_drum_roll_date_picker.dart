@@ -9,8 +9,12 @@ class FormBuilderDrumRollDatePicker extends StatelessWidget {
   final String? Function(DateTime?)? validator;
   final DateTime? initalValue;
 
-  const FormBuilderDrumRollDatePicker(
-      {super.key, required this.name, this.initalValue, this.validator});
+  const FormBuilderDrumRollDatePicker({
+    super.key,
+    required this.name,
+    this.initalValue,
+    this.validator,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +35,7 @@ class FormBuilderDrumRollDatePicker extends StatelessWidget {
             onTap: () async {
               final value = await DatePicker.showDatePicker(
                 context,
+                currentTime: field.value,
                 maxTime: DateTime.now(),
               );
               field.didChange(value);
