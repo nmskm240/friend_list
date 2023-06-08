@@ -72,6 +72,18 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const PersonListPage(),
       );
     },
+    RootRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const RootPage(),
+      );
+    },
+    AnniversaryCalendarRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const AnniversaryCalendarPage(),
+      );
+    },
   };
 }
 
@@ -285,6 +297,34 @@ class PersonListRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'PersonListRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [RootPage]
+class RootRoute extends PageRouteInfo<void> {
+  const RootRoute({List<PageRouteInfo>? children})
+      : super(
+          RootRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'RootRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [AnniversaryCalendarPage]
+class AnniversaryCalendarRoute extends PageRouteInfo<void> {
+  const AnniversaryCalendarRoute({List<PageRouteInfo>? children})
+      : super(
+          AnniversaryCalendarRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'AnniversaryCalendarRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
