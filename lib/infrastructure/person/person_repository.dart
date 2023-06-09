@@ -1,5 +1,6 @@
 import 'package:friend_list/common/exception/unregistered_person_exception.dart';
 import 'package:friend_list/data_source/database_table.dart';
+import 'package:friend_list/domain/person/anniversary/anniversary.dart';
 import 'package:friend_list/domain/person/i_person_repository.dart';
 import 'package:friend_list/domain/person/person.dart';
 import 'package:friend_list/infrastructure/i_local_data_source.dart';
@@ -247,6 +248,13 @@ class PersonRepository implements IPersonRepository {
         "contacts": jsonContatcts,
       });
     });
+  }
+
+  @override
+  Future<Iterable<Anniversary>> getAllAnniversaries() async {
+    final db = await source.database;
+    final datas = await db.query(DatabaseTable.anniversaries.name);
+    return datas.map((e) => Anniversary.fromJson(e));
   }
 
   @override
