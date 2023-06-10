@@ -4,6 +4,7 @@ import 'package:friend_list/common/shared_preferences_helper.dart';
 import 'package:friend_list/domain/person/anniversary/anniversary.dart';
 import 'package:friend_list/domain/person/i_person_repository.dart';
 import 'package:friend_list/presentation/anniversary_calendar_page/state/anniversary_calendar_page_state.dart';
+import 'package:friend_list/presentation/app_router.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class AnniversaryCalendarPageNotifier
@@ -51,5 +52,10 @@ class AnniversaryCalendarPageNotifier
   Iterable<Anniversary> eventLoader(DateTime day) {
     debugPrint(day.toString());
     return state.value!.anniversaryMap[day] ?? const Iterable.empty();
+  }
+
+  void onPressedAnniversaryListTile(Anniversary anniversary) {
+    final route = AnniversaryDetailRoute(anniversary: anniversary);
+    ref.read(router).push(route);
   }
 }

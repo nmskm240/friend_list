@@ -54,6 +54,9 @@ class AnniversaryCalendarPage extends ConsumerWidget {
                         state.anniversariesOnSelectedDay.elementAt(index);
                     return ListTile(
                       title: Text(anniversary.name),
+                      onTap: () {
+                        notifier.onPressedAnniversaryListTile(anniversary);
+                      },
                     );
                   },
                 ),
