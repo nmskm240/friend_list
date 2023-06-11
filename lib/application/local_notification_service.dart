@@ -74,4 +74,18 @@ class LocalNotificationService {
   Future<void> cancelSchedule(int id) async {
     await localNotificationsPlugin.cancel(id);
   }
+
+  Future<Iterable<ActiveNotification>> getScheduledAll() async {
+    return await localNotificationsPlugin.getActiveNotifications();
+  }
+
+  Future<Iterable<ActiveNotification>> getScheduled(Iterable<int> ids) async {
+    final list = await localNotificationsPlugin.getActiveNotifications();
+    return list.where((element) => ids.contains(element.id));
+  }
+
+  Future<bool> isScheduled(int id) async {
+    final list = await localNotificationsPlugin.getActiveNotifications();
+    return list.any((e) => e.id == id);
+  }
 }

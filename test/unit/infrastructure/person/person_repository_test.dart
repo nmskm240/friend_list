@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:friend_list/domain/person/anniversary/anniversary.dart';
 import 'package:friend_list/domain/person/anniversary/i_anniversary_factory.dart';
+import 'package:friend_list/domain/person/contact/contact.dart';
 import 'package:friend_list/domain/person/contact/contact_method.dart';
 import 'package:friend_list/common/shared_preferences_helper.dart';
 import 'package:friend_list/domain/person/contact/i_contact_factory.dart';
@@ -44,16 +46,43 @@ void main() {
     group("find", () {
       late Person person;
       setUp(() async {
-        person = factory.create(name: "demo name");
-        person.addAnniversary(aFactory.create(person.id, name: "new anniversary", date: DateTime(2000)));
-        person.addContact(cFactory.create(person.id, name: "new contact", method: ContactMethod.address, value: "test"));
-        person.addContact(cFactory.create(person.id, name: "new contact", method: ContactMethod.phone, value: "test"));
+        person = Person(
+            id: "0",
+            name: "test",
+            icon: SharedPreferencesHelper.getDefaultIcon(),
+            anniversaries: [
+              Anniversary(
+                id: "0",
+                name: "test",
+                date: DateTime.now(),
+                personId: "0",
+                notificationIds: [0],
+              ),
+              Anniversary(
+                id: "1",
+                name: "test",
+                date: DateTime.now(),
+                personId: "0",
+              ),
+            ],
+            contacts: [
+              Contact(
+                  id: "0",
+                  name: "test",
+                  method: ContactMethod.phone,
+                  value: "test",
+                  personId: "0"),
+            ]);
+        person.addContact(cFactory.create(person.id,
+            name: "new contact", method: ContactMethod.address, value: "test"));
         await repository.save(person);
       });
       test("with id", () async {
         final saved = await repository.findByID(person.id);
-        expect(saved.anniversaries.length, equals(1));
-        expect(saved.contacts.length, equals(2));
+        expect(saved.anniversaries.length, equals(2));
+        expect(saved.anniversaries.first.notificationIds.length, equals(1));
+        expect(saved.anniversaries.last.notificationIds.length, equals(0));
+        expect(saved.contacts.length, equals(1));
       });
 
       test("partical search", () async {
@@ -67,7 +96,7 @@ void main() {
           await repository.save(person);
         }
         final searched = await repository.findByNameOrNickname("tes");
-        expect(searched.length, equals(2));
+        expect(searched.length, equals(3));
       });
     });
 
@@ -78,17 +107,20 @@ void main() {
         await repository.save(person);
       });
       test("basic info only", () async {
-        var fixed = person.copyWith(name: "demo name", nickname: "demo nickname");
+        var fixed =
+            person.copyWith(name: "demo name", nickname: "demo nickname");
         await expectLater(repository.save(fixed), completes);
       });
       test("add and remove anniversary", () async {
-        person.addAnniversary(aFactory.create(person.id, name: "new anniversary", date: DateTime(2000)));
+        person.addAnniversary(aFactory.create(person.id,
+            name: "new anniversary", date: DateTime(2000)));
         await expectLater(repository.save(person), completes);
         person.removeAnniversary(person.anniversaries.first.id);
         await expectLater(repository.save(person), completes);
       });
       test("add and remove contact", () async {
-        person.addContact(cFactory.create(person.id, name: "new contact", method: ContactMethod.address, value: "test"));
+        person.addContact(cFactory.create(person.id,
+            name: "new contact", method: ContactMethod.address, value: "test"));
         await expectLater(repository.save(person), completes);
         person.removeContact(person.contacts.first.id);
         await expectLater(repository.save(person), completes);

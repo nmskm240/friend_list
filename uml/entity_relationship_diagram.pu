@@ -11,6 +11,10 @@ json contacts {
     "FK": "person_id",
     "": ["name", "method", "value"]
 }
+json notifications {
+    "PK": "notification_id",
+    "FK": "anniversary_id"
+}
 json tags {
     "PK": "tag_id",
     "": "name"
@@ -23,6 +27,7 @@ json registed_tags {
     "FK": ["person_id", "tag_id"]
 }
 
+anniversaries ||--|| notifications
 persons ||--o{ anniversaries
 persons ||--o{ contacts
 persons ||--o{ registed_tags

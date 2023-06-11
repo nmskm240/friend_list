@@ -12,20 +12,19 @@ part 'anniversary.g.dart';
 class Anniversary with _$Anniversary {
   const Anniversary._();
   const factory Anniversary({
-  @JsonKey(name: Strings.jsonKeyId)
-    required String id,
-  @JsonKey(name: Strings.jsonKeyName)
-    required String name,
-  @JsonKey(name: Strings.jsonKeyDate)
-    required DateTime date,
-  @JsonKey(name: Strings.jsonKeyPersonId)
-    required String personId,
-      @CreatedAtField()
-  @JsonKey(name: Strings.jsonKeyCreatedAt)
-    DateTime? createdAt,
-      @UpdatedAtField()
-  @JsonKey(name: Strings.jsonKeyUpdatedAt)
-    DateTime? updatedAt,
+    @JsonKey(name: Strings.jsonKeyId) required String id,
+    @JsonKey(name: Strings.jsonKeyName) required String name,
+    @JsonKey(name: Strings.jsonKeyDate) required DateTime date,
+    @JsonKey(name: Strings.jsonKeyPersonId) required String personId,
+    @JsonKey(name: Strings.jsonKeyNotificationId, includeToJson: false)
+    @Default(<int>[])
+        List<int> notificationIds,
+    @CreatedAtField()
+    @JsonKey(name: Strings.jsonKeyCreatedAt)
+        DateTime? createdAt,
+    @UpdatedAtField()
+    @JsonKey(name: Strings.jsonKeyUpdatedAt)
+        DateTime? updatedAt,
   }) = _Anniversary;
   factory Anniversary.fromJson(Map<String, dynamic> json) =>
       _$AnniversaryFromJson(json);
@@ -36,5 +35,17 @@ class Anniversary with _$Anniversary {
         name.isNotEmpty &&
         date.isBefore(DateTime.now()) &&
         personId.isNotEmpty;
+  }
+
+  Iterable<int> addNotification(int id) {
+    return [...notificationIds, id];
+  }
+
+  Iterable<int> removeNotification(int id) {
+    return notificationIds.where((element) => element != id);
+  }
+
+  bool hasNotification(int id) {
+    return notificationIds.contains(id);
   }
 }
