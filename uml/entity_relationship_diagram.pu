@@ -2,32 +2,33 @@
 hide circle
 
 json anniversaries {
-    "PK": "anniversary_id",
+    "PK": "id",
     "FK": "person_id",
-    "": ["name", "date"]
+    "": ["name", "date", "created_at", "updated_at"]
 }
 json contacts {
-    "PK": "contact_id",
+    "PK": "id",
     "FK": "person_id",
-    "": ["name", "method", "value"]
+    "": ["name", "method", "value", "created_at", "updated_at"]
 }
 json notifications {
-    "PK": "notification_id",
-    "FK": "anniversary_id"
+    "PK": "id",
+    "FK": "anniversary_id",
+    "": "interval_days"
 }
 json tags {
-    "PK": "tag_id",
+    "PK": "id",
     "": "name"
 }
 json persons {
-    "PK": "person_id",
+    "PK": "id",
     "": ["name", "nickname", "icon", "created_at", "updated_at"]
 }
 json registed_tags {
     "FK": ["person_id", "tag_id"]
 }
 
-anniversaries ||--|| notifications
+anniversaries ||--o{ notifications
 persons ||--o{ anniversaries
 persons ||--o{ contacts
 persons ||--o{ registed_tags

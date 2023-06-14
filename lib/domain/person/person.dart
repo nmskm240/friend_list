@@ -1,7 +1,6 @@
 // ignore_for_file: invalid_annotation_target, prefer_initializing_formals
 
 import 'package:age_calculator/age_calculator.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:friend_list/domain/person/contact/contact_method.dart';

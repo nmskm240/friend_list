@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:friend_list/domain/person/anniversary/anniversary.dart';
 import 'package:friend_list/domain/person/anniversary/i_anniversary_factory.dart';
+import 'package:friend_list/domain/person/anniversary/remind/remind.dart';
 import 'package:friend_list/domain/person/contact/contact.dart';
 import 'package:friend_list/domain/person/contact/contact_method.dart';
 import 'package:friend_list/common/shared_preferences_helper.dart';
@@ -56,7 +57,7 @@ void main() {
                 name: "test",
                 date: DateTime.now(),
                 personId: "0",
-                notificationIds: [0],
+                reminds: [Remind(id: 0, anniversaryId: "0", intervalDays: 1)],
               ),
               Anniversary(
                 id: "1",
@@ -80,8 +81,8 @@ void main() {
       test("with id", () async {
         final saved = await repository.findByID(person.id);
         expect(saved.anniversaries.length, equals(2));
-        expect(saved.anniversaries.first.notificationIds.length, equals(1));
-        expect(saved.anniversaries.last.notificationIds.length, equals(0));
+        expect(saved.anniversaries.first.reminds.length, equals(1));
+        expect(saved.anniversaries.last.reminds.length, equals(0));
         expect(saved.contacts.length, equals(1));
       });
 
@@ -97,6 +98,11 @@ void main() {
         }
         final searched = await repository.findByNameOrNickname("tes");
         expect(searched.length, equals(3));
+      });
+
+      test("anniversary only", () async {
+        final searched = await repository.getAllAnniversaries();
+        debugPrint(searched.toString());
       });
     });
 

@@ -12,10 +12,10 @@ _$_Anniversary _$$_AnniversaryFromJson(Map<String, dynamic> json) =>
       name: json['name'] as String,
       date: DateTime.parse(json['date'] as String),
       personId: json['person_id'] as String,
-      notificationIds: (json['notification_ids'] as List<dynamic>?)
-              ?.map((e) => e as int)
+      reminds: (json['reminds'] as List<dynamic>?)
+              ?.map((e) => Remind.fromJson(e as Map<String, dynamic>))
               .toList() ??
-          const <int>[],
+          const <Remind>[],
       createdAt: const CreatedAtField().fromJson(json['created_at'] as String?),
       updatedAt: const UpdatedAtField().fromJson(json['updated_at'] as String?),
     );

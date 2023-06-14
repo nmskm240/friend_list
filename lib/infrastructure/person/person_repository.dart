@@ -13,30 +13,30 @@ class PersonRepository implements IPersonRepository {
   const PersonRepository(this.source);
 
   @protected
-  Iterable<Map<String, dynamic>?> convertToAnniversaryJson(
+  Iterable<Map<String, dynamic>?> convertToJson(
     Iterable<Map<String, Object?>> columns,
-  ) {
+    String prefix, {
+    String additionalKey = "",
+  }) {
     final List<Map<String, dynamic>?> unique = [];
     columns
         .map((column) {
           final entries = column.entries.where((element) =>
-              element.value != null && element.key.contains("anniversary"));
+              element.value != null && element.key.contains(prefix));
           final map = Map.fromEntries(entries);
-          if (map.isNotEmpty && column.containsKey("person_id")) {
-            map.addAll({
-              "person_id": column["person_id"],
-              "notification_ids": column.entries
-                  .where((element) =>
-                      element.value != null &&
-                      element.key.contains("notification"))
-                  .map((e) => int.tryParse(e.value.toString()))
-                  .toList(),
-            });
-            final json = map.map<String, dynamic>((key, value) =>
-                MapEntry(key.replaceFirst("anniversary_", ""), value));
-            return json;
+          if (map.isEmpty) return null;
+          if (column.containsKey(additionalKey)) {
+            map[additionalKey] = column[additionalKey];
           }
-          return null;
+          if (prefix == "anniversary") {
+            map["reminds"] = convertToJson(
+                columns.where((element) => element["anniversary_id"] == map["anniversary_id"]),
+                "notification",
+                additionalKey: "anniversary_id");
+          }
+          final json = map.map<String, dynamic>((key, value) =>
+              MapEntry(key.replaceFirst("${prefix}_", ""), value));
+          return json;
         })
         .where((json) => json != null)
         .forEach((json) {
@@ -45,55 +45,6 @@ class PersonRepository implements IPersonRepository {
           }
         });
     return unique;
-  }
-
-  @protected
-  Iterable<Map<String, dynamic>?> convertToContactJson(
-    Iterable<Map<String, Object?>> columns,
-  ) {
-    final List<Map<String, dynamic>?> unique = [];
-    columns
-        .map((column) {
-          final entries = column.entries.where((element) =>
-              element.value != null && element.key.contains("contact"));
-          final map = Map.fromEntries(entries);
-          if (map.isNotEmpty && column.containsKey("person_id")) {
-            map.addAll({"person_id": column["person_id"]});
-            final json = map.map<String, dynamic>((key, value) =>
-                MapEntry(key.replaceFirst("contact_", ""), value));
-            return json;
-          }
-          return null;
-        })
-        .where((json) => json != null)
-        .forEach((json) {
-          if (unique.every((e) => e!["id"] != json!["id"])) {
-            unique.add(json);
-          }
-        });
-    return unique;
-  }
-
-  @protected
-  Future<void> createTempolaryAnniversaryAndNotificationTable(
-      {String tableName = "anniversaryAndNotifications"}) async {
-    final db = await source.database;
-    await db.execute(
-      '''
-        CREATE TEMPORARY TABLE $tableName 
-        AS 
-        SELECT 
-          anniversary.id AS anniversary_id, 
-          anniversary.name AS anniversary_name, 
-          anniversary.date AS anniversary_date, 
-          anniversary.person_id AS anniversary_person_id,
-          anniversary.created_at AS anniversary_created_at, 
-          anniversary.updated_at AS anniversary_updated_at, 
-          notification.id AS notification_id 
-        FROM ${DatabaseTable.anniversaries.name} AS anniversary 
-          LEFT JOIN ${DatabaseTable.notifications.name} AS notification ON anniversary.id = notification.anniversary_id 
-      ''',
-    );
   }
 
   @override
@@ -128,7 +79,6 @@ class PersonRepository implements IPersonRepository {
   @override
   Future<Person> findByID(String id) async {
     final db = await source.database;
-    await createTempolaryAnniversaryAndNotificationTable();
     final searched = await db.rawQuery(
       '''
         SELECT 
@@ -138,12 +88,14 @@ class PersonRepository implements IPersonRepository {
           person.icon AS person_icon, 
           person.created_at AS person_created_at, 
           person.updated_at AS person_updated_at, 
-          anniversary_id, 
-          anniversary_name, 
-          anniversary_date, 
-          anniversary_created_at, 
-          anniversary_updated_at, 
-          notification_id, 
+          anniversary.id AS anniversary_id, 
+          anniversary.name AS anniversary_name, 
+          anniversary.date AS anniversary_date, 
+          anniversary.person_id AS anniversary_person_id,
+          anniversary.created_at AS anniversary_created_at, 
+          anniversary.updated_at AS anniversary_updated_at, 
+          notification.id AS notification_id, 
+          notification.interval_days AS notification_interval_days, 
           contact.id AS contact_id,
           contact.name AS contact_name,
           contact.method AS contact_method,
@@ -151,16 +103,12 @@ class PersonRepository implements IPersonRepository {
           contact.created_at AS contact_created_at,
           contact.updated_at AS contact_updated_at 
         FROM ${DatabaseTable.persons.name} AS person 
-          LEFT JOIN anniversaryAndNotifications ON person.id = anniversary_person_id 
+          LEFT JOIN ${DatabaseTable.anniversaries.name} AS anniversary ON person.id = anniversary_person_id 
+          LEFT JOIN ${DatabaseTable.notifications.name} AS notification ON anniversary.id = notification.anniversary_id 
           LEFT JOIN ${DatabaseTable.contacts.name} AS contact ON person.id = contact.person_id 
         WHERE person.id = ?
       ''',
       [id],
-    );
-    await db.execute(
-      '''
-        DROP TABLE anniversaryAndNotifications;
-      ''',
     );
     if (searched.isEmpty) {
       throw UnregisteredPersonException(id);
@@ -169,15 +117,16 @@ class PersonRepository implements IPersonRepository {
         (key, value) => MapEntry(key.replaceFirst("person_", ""), value));
     return Person.fromJson({
       ...json,
-      "anniversaries": convertToAnniversaryJson(searched),
-      "contacts": convertToContactJson(searched),
+      "anniversaries":
+          convertToJson(searched, "anniversary", additionalKey: "person_id"),
+      "contacts":
+          convertToJson(searched, "contact", additionalKey: "person_id"),
     });
   }
 
   @override
   Future<Iterable<Person>> findByNameOrNickname(String value) async {
     final db = await source.database;
-    await createTempolaryAnniversaryAndNotificationTable();
     final searched = await db.rawQuery(
       '''
         SELECT 
@@ -187,12 +136,14 @@ class PersonRepository implements IPersonRepository {
           person.icon AS person_icon, 
           person.created_at AS person_created_at, 
           person.updated_at AS person_updated_at, 
-          anniversary_id,
-          anniversary_name,
-          anniversary_date,
-          anniversary_created_at, 
-          anniversary_updated_at, 
-          notification_id, 
+          anniversary.id AS anniversary_id, 
+          anniversary.name AS anniversary_name, 
+          anniversary.date AS anniversary_date, 
+          anniversary.person_id AS anniversary_person_id,
+          anniversary.created_at AS anniversary_created_at, 
+          anniversary.updated_at AS anniversary_updated_at, 
+          notification.id AS notification_id, 
+          notification.interval_days AS notification_interval_days, 
           contact.id AS contact_id,
           contact.name AS contact_name,
           contact.method AS contact_method,
@@ -200,18 +151,13 @@ class PersonRepository implements IPersonRepository {
           contact.created_at AS contact_created_at,
           contact.updated_at AS contact_updated_at 
         FROM ${DatabaseTable.persons.name} AS person 
-          LEFT JOIN anniversaryAndNotifications ON person.id = anniversary_person_id 
+          LEFT JOIN ${DatabaseTable.anniversaries.name} AS anniversary ON person.id = anniversary_person_id 
+          LEFT JOIN ${DatabaseTable.notifications.name} AS notification ON anniversary.id = notification.anniversary_id 
           LEFT JOIN ${DatabaseTable.contacts.name} AS contact ON person.id = contact.person_id 
         WHERE person.name LIKE '%$value%' OR person.nickname LIKE '%$value%'
       ''',
     );
-    await db.execute(
-      '''
-        DROP TABLE anniversaryAndNotifications;
-      ''',
-    );
     final personIds = searched.map((e) => e["person_id"] as String).toSet();
-    debugPrint(personIds.toString());
     return personIds.map((personId) {
       final columns =
           searched.where((column) => column["person_id"] == personId);
@@ -219,8 +165,10 @@ class PersonRepository implements IPersonRepository {
           (key, value) => MapEntry(key.replaceFirst("person_", ""), value));
       return Person.fromJson({
         ...json,
-        "anniversaries": convertToAnniversaryJson(columns),
-        "contacts": convertToContactJson(columns),
+        "anniversaries":
+            convertToJson(columns, "anniversary", additionalKey: "person_id"),
+        "contacts":
+            convertToJson(columns, "contact", additionalKey: "person_id"),
       });
     });
   }
@@ -228,7 +176,6 @@ class PersonRepository implements IPersonRepository {
   @override
   Future<Iterable<Person>> getAll() async {
     final db = await source.database;
-    await createTempolaryAnniversaryAndNotificationTable();
     final searched = await db.rawQuery(
       '''
         SELECT 
@@ -238,12 +185,14 @@ class PersonRepository implements IPersonRepository {
           person.icon AS person_icon, 
           person.created_at AS person_created_at, 
           person.updated_at AS person_updated_at, 
-          anniversary_id,
-          anniversary_name,
-          anniversary_date,
-          anniversary_created_at,
-          anniversary_updated_at,
-          notification_id, 
+          anniversary.id AS anniversary_id, 
+          anniversary.name AS anniversary_name, 
+          anniversary.date AS anniversary_date, 
+          anniversary.person_id AS anniversary_person_id,
+          anniversary.created_at AS anniversary_created_at, 
+          anniversary.updated_at AS anniversary_updated_at, 
+          notification.id AS notification_id, 
+          notification.interval_days AS notification_interval_days, 
           contact.id AS contact_id,
           contact.name AS contact_name,
           contact.method AS contact_method,
@@ -251,13 +200,9 @@ class PersonRepository implements IPersonRepository {
           contact.created_at AS contact_created_at,
           contact.updated_at AS contact_updated_at 
         FROM ${DatabaseTable.persons.name} AS person 
-          LEFT JOIN temp AS anniversaryAndNotifications ON person.id = anniversary_person_id 
+          LEFT JOIN ${DatabaseTable.anniversaries.name} AS anniversary ON person.id = anniversary_person_id 
+          LEFT JOIN ${DatabaseTable.notifications.name} AS notification ON anniversary.id = notification.anniversary_id 
           LEFT JOIN ${DatabaseTable.contacts.name} AS contact ON person.id = contact.person_id 
-      ''',
-    );
-    await db.execute(
-      '''
-        DROP TABLE anniversaryAndNotifications;
       ''',
     );
     final personIds = searched.map((e) => e["person_id"] as String).toSet();
@@ -268,8 +213,10 @@ class PersonRepository implements IPersonRepository {
           (key, value) => MapEntry(key.replaceFirst("person_", ""), value));
       return Person.fromJson({
         ...json,
-        "anniversaries": convertToAnniversaryJson(columns),
-        "contacts": convertToContactJson(columns),
+        "anniversaries":
+            convertToJson(columns, "anniversary", additionalKey: "person_id"),
+        "contacts":
+            convertToJson(columns, "contact", additionalKey: "person_id"),
       });
     });
   }
@@ -286,7 +233,8 @@ class PersonRepository implements IPersonRepository {
           anniversary.person_id AS anniversary_person_id,
           anniversary.created_at AS anniversary_created_at, 
           anniversary.updated_at AS anniversary_updated_at, 
-          notification.id AS notification_id,
+          notification.id AS notification_id, 
+          notification.interval_days AS notification_interval_days 
         FROM ${DatabaseTable.anniversaries.name} AS anniversary 
           LEFT JOIN ${DatabaseTable.notifications.name} AS notification ON anniversary.id = notification.anniversary_id 
       ''',
@@ -299,9 +247,7 @@ class PersonRepository implements IPersonRepository {
           MapEntry(key.replaceFirst("anniversary_", ""), value));
       return Anniversary.fromJson({
         ...json,
-        Strings.jsonKeyNotificationId: columns
-            .map((e) => int.tryParse(e["notification_id"] as String))
-            .toList(),
+        "reminds": convertToJson(columns, "notification", additionalKey: "anniversary_id"),
       });
     });
   }
@@ -357,15 +303,16 @@ class PersonRepository implements IPersonRepository {
         ''',
         anniversary.toJson().values.toList(),
       );
-      for (final notification in anniversary.notificationIds) {
+      for (final remind in anniversary.reminds) {
         await db.rawInsert(
           '''
             INSERT OR REPLACE INTO ${DatabaseTable.notifications.name} (
               id,
-              anniversary_id
-            ) VALUES (?, ?)
+              anniversary_id, 
+              interval_days
+            ) VALUES (?, ?, ?)
           ''',
-          [notification, anniversary.id],
+          remind.toJson().values.toList(),
         );
       }
     }

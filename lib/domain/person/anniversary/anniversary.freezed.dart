@@ -28,8 +28,8 @@ mixin _$Anniversary {
   DateTime get date => throw _privateConstructorUsedError;
   @JsonKey(name: Strings.jsonKeyPersonId)
   String get personId => throw _privateConstructorUsedError;
-  @JsonKey(name: Strings.jsonKeyNotificationId, includeToJson: false)
-  List<int> get notificationIds => throw _privateConstructorUsedError;
+  @JsonKey(includeToJson: false)
+  List<Remind> get reminds => throw _privateConstructorUsedError;
   @CreatedAtField()
   @JsonKey(name: Strings.jsonKeyCreatedAt)
   DateTime? get createdAt => throw _privateConstructorUsedError;
@@ -58,8 +58,8 @@ abstract class $AnniversaryCopyWith<$Res> {
           DateTime date,
       @JsonKey(name: Strings.jsonKeyPersonId)
           String personId,
-      @JsonKey(name: Strings.jsonKeyNotificationId, includeToJson: false)
-          List<int> notificationIds,
+      @JsonKey(includeToJson: false)
+          List<Remind> reminds,
       @CreatedAtField()
       @JsonKey(name: Strings.jsonKeyCreatedAt)
           DateTime? createdAt,
@@ -85,7 +85,7 @@ class _$AnniversaryCopyWithImpl<$Res, $Val extends Anniversary>
     Object? name = null,
     Object? date = null,
     Object? personId = null,
-    Object? notificationIds = null,
+    Object? reminds = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
@@ -106,10 +106,10 @@ class _$AnniversaryCopyWithImpl<$Res, $Val extends Anniversary>
           ? _value.personId
           : personId // ignore: cast_nullable_to_non_nullable
               as String,
-      notificationIds: null == notificationIds
-          ? _value.notificationIds
-          : notificationIds // ignore: cast_nullable_to_non_nullable
-              as List<int>,
+      reminds: null == reminds
+          ? _value.reminds
+          : reminds // ignore: cast_nullable_to_non_nullable
+              as List<Remind>,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -139,8 +139,8 @@ abstract class _$$_AnniversaryCopyWith<$Res>
           DateTime date,
       @JsonKey(name: Strings.jsonKeyPersonId)
           String personId,
-      @JsonKey(name: Strings.jsonKeyNotificationId, includeToJson: false)
-          List<int> notificationIds,
+      @JsonKey(includeToJson: false)
+          List<Remind> reminds,
       @CreatedAtField()
       @JsonKey(name: Strings.jsonKeyCreatedAt)
           DateTime? createdAt,
@@ -164,7 +164,7 @@ class __$$_AnniversaryCopyWithImpl<$Res>
     Object? name = null,
     Object? date = null,
     Object? personId = null,
-    Object? notificationIds = null,
+    Object? reminds = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
@@ -185,10 +185,10 @@ class __$$_AnniversaryCopyWithImpl<$Res>
           ? _value.personId
           : personId // ignore: cast_nullable_to_non_nullable
               as String,
-      notificationIds: null == notificationIds
-          ? _value._notificationIds
-          : notificationIds // ignore: cast_nullable_to_non_nullable
-              as List<int>,
+      reminds: null == reminds
+          ? _value._reminds
+          : reminds // ignore: cast_nullable_to_non_nullable
+              as List<Remind>,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -213,15 +213,15 @@ class _$_Anniversary extends _Anniversary {
           required this.date,
       @JsonKey(name: Strings.jsonKeyPersonId)
           required this.personId,
-      @JsonKey(name: Strings.jsonKeyNotificationId, includeToJson: false)
-          final List<int> notificationIds = const <int>[],
+      @JsonKey(includeToJson: false)
+          final List<Remind> reminds = const <Remind>[],
       @CreatedAtField()
       @JsonKey(name: Strings.jsonKeyCreatedAt)
           this.createdAt,
       @UpdatedAtField()
       @JsonKey(name: Strings.jsonKeyUpdatedAt)
           this.updatedAt})
-      : _notificationIds = notificationIds,
+      : _reminds = reminds,
         super._();
 
   factory _$_Anniversary.fromJson(Map<String, dynamic> json) =>
@@ -239,13 +239,13 @@ class _$_Anniversary extends _Anniversary {
   @override
   @JsonKey(name: Strings.jsonKeyPersonId)
   final String personId;
-  final List<int> _notificationIds;
+  final List<Remind> _reminds;
   @override
-  @JsonKey(name: Strings.jsonKeyNotificationId, includeToJson: false)
-  List<int> get notificationIds {
-    if (_notificationIds is EqualUnmodifiableListView) return _notificationIds;
+  @JsonKey(includeToJson: false)
+  List<Remind> get reminds {
+    if (_reminds is EqualUnmodifiableListView) return _reminds;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_notificationIds);
+    return EqualUnmodifiableListView(_reminds);
   }
 
   @override
@@ -259,7 +259,7 @@ class _$_Anniversary extends _Anniversary {
 
   @override
   String toString() {
-    return 'Anniversary(id: $id, name: $name, date: $date, personId: $personId, notificationIds: $notificationIds, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'Anniversary(id: $id, name: $name, date: $date, personId: $personId, reminds: $reminds, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -272,8 +272,7 @@ class _$_Anniversary extends _Anniversary {
             (identical(other.date, date) || other.date == date) &&
             (identical(other.personId, personId) ||
                 other.personId == personId) &&
-            const DeepCollectionEquality()
-                .equals(other._notificationIds, _notificationIds) &&
+            const DeepCollectionEquality().equals(other._reminds, _reminds) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -282,15 +281,8 @@ class _$_Anniversary extends _Anniversary {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      name,
-      date,
-      personId,
-      const DeepCollectionEquality().hash(_notificationIds),
-      createdAt,
-      updatedAt);
+  int get hashCode => Object.hash(runtimeType, id, name, date, personId,
+      const DeepCollectionEquality().hash(_reminds), createdAt, updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -316,8 +308,8 @@ abstract class _Anniversary extends Anniversary {
           required final DateTime date,
       @JsonKey(name: Strings.jsonKeyPersonId)
           required final String personId,
-      @JsonKey(name: Strings.jsonKeyNotificationId, includeToJson: false)
-          final List<int> notificationIds,
+      @JsonKey(includeToJson: false)
+          final List<Remind> reminds,
       @CreatedAtField()
       @JsonKey(name: Strings.jsonKeyCreatedAt)
           final DateTime? createdAt,
@@ -342,8 +334,8 @@ abstract class _Anniversary extends Anniversary {
   @JsonKey(name: Strings.jsonKeyPersonId)
   String get personId;
   @override
-  @JsonKey(name: Strings.jsonKeyNotificationId, includeToJson: false)
-  List<int> get notificationIds;
+  @JsonKey(includeToJson: false)
+  List<Remind> get reminds;
   @override
   @CreatedAtField()
   @JsonKey(name: Strings.jsonKeyCreatedAt)

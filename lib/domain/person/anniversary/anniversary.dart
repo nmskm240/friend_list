@@ -2,6 +2,7 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:friend_list/common/constant/strings.dart';
+import 'package:friend_list/domain/person/anniversary/remind/remind.dart';
 import 'package:friend_list/domain/person/annotation/created_at_field.dart';
 import 'package:friend_list/domain/person/annotation/updated_at_field.dart';
 
@@ -16,9 +17,7 @@ class Anniversary with _$Anniversary {
     @JsonKey(name: Strings.jsonKeyName) required String name,
     @JsonKey(name: Strings.jsonKeyDate) required DateTime date,
     @JsonKey(name: Strings.jsonKeyPersonId) required String personId,
-    @JsonKey(name: Strings.jsonKeyNotificationId, includeToJson: false)
-    @Default(<int>[])
-        List<int> notificationIds,
+    @JsonKey(includeToJson: false) @Default(<Remind>[]) List<Remind> reminds,
     @CreatedAtField()
     @JsonKey(name: Strings.jsonKeyCreatedAt)
         DateTime? createdAt,
@@ -35,17 +34,5 @@ class Anniversary with _$Anniversary {
         name.isNotEmpty &&
         date.isBefore(DateTime.now()) &&
         personId.isNotEmpty;
-  }
-
-  Iterable<int> addNotification(int id) {
-    return [...notificationIds, id];
-  }
-
-  Iterable<int> removeNotification(int id) {
-    return notificationIds.where((element) => element != id);
-  }
-
-  bool hasNotification(int id) {
-    return notificationIds.contains(id);
   }
 }
