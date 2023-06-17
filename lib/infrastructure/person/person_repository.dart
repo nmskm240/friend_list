@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:friend_list/common/constant/strings.dart';
 import 'package:friend_list/common/exception/unregistered_person_exception.dart';
 import 'package:friend_list/data_source/database_table.dart';
 import 'package:friend_list/domain/person/anniversary/anniversary.dart';
@@ -94,8 +93,7 @@ class PersonRepository implements IPersonRepository {
           anniversary.person_id AS anniversary_person_id,
           anniversary.created_at AS anniversary_created_at, 
           anniversary.updated_at AS anniversary_updated_at, 
-          notification.id AS notification_id, 
-          notification.interval_days AS notification_interval_days, 
+          notification.timing AS notification_timing, 
           contact.id AS contact_id,
           contact.name AS contact_name,
           contact.method AS contact_method,
@@ -142,8 +140,7 @@ class PersonRepository implements IPersonRepository {
           anniversary.person_id AS anniversary_person_id,
           anniversary.created_at AS anniversary_created_at, 
           anniversary.updated_at AS anniversary_updated_at, 
-          notification.id AS notification_id, 
-          notification.interval_days AS notification_interval_days, 
+          notification.timing AS notification_timing, 
           contact.id AS contact_id,
           contact.name AS contact_name,
           contact.method AS contact_method,
@@ -191,8 +188,7 @@ class PersonRepository implements IPersonRepository {
           anniversary.person_id AS anniversary_person_id,
           anniversary.created_at AS anniversary_created_at, 
           anniversary.updated_at AS anniversary_updated_at, 
-          notification.id AS notification_id, 
-          notification.interval_days AS notification_interval_days, 
+          notification.timing AS notification_timing, 
           contact.id AS contact_id,
           contact.name AS contact_name,
           contact.method AS contact_method,
@@ -233,8 +229,7 @@ class PersonRepository implements IPersonRepository {
           anniversary.person_id AS anniversary_person_id,
           anniversary.created_at AS anniversary_created_at, 
           anniversary.updated_at AS anniversary_updated_at, 
-          notification.id AS notification_id, 
-          notification.interval_days AS notification_interval_days 
+          notification.timing AS notification_timing 
         FROM ${DatabaseTable.anniversaries.name} AS anniversary 
           LEFT JOIN ${DatabaseTable.notifications.name} AS notification ON anniversary.id = notification.anniversary_id 
       ''',
@@ -307,10 +302,9 @@ class PersonRepository implements IPersonRepository {
         await db.rawInsert(
           '''
             INSERT OR REPLACE INTO ${DatabaseTable.notifications.name} (
-              id,
               anniversary_id, 
-              interval_days
-            ) VALUES (?, ?, ?)
+              timing 
+            ) VALUES (?, ?)
           ''',
           remind.toJson().values.toList(),
         );

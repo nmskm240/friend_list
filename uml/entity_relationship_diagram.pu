@@ -12,9 +12,8 @@ json contacts {
     "": ["name", "method", "value", "created_at", "updated_at"]
 }
 json notifications {
-    "PK": "id",
-    "FK": "anniversary_id",
-    "": "interval_days"
+    "PK*FK": "anniversary_id",
+    "PK": "timing"
 }
 json tags {
     "PK": "id",

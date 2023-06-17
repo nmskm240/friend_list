@@ -62,7 +62,7 @@ class Person with _$Person {
     }
   }
 
-  Person addAnniversary(Anniversary anniversary) {
+  Iterable<Anniversary> addAnniversary(Anniversary anniversary) {
     if (!anniversary.isValid) {
       throw Exception("不正なデータ");
     }
@@ -76,13 +76,13 @@ class Person with _$Person {
     if (anniversary.name == Strings.birthdate) {
       throw Exception("登録できない名称");
     }
-    return copyWith(anniversaries: [...anniversaries, anniversary]);
+    return [...anniversaries, anniversary];
   }
 
   /// [edited]と同じIDを持つ要素を[edited]の内容に置き換える
-  /// 
+  ///
   /// [Person]がimmutableなため、[Person.anniversaries]は書き変わらない
-  /// 
+  ///
   /// 返り値：置き換え後の[anniversaries]
   Iterable<Anniversary> editAnniversary(Anniversary edited) {
     if (!edited.isValid) {

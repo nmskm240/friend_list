@@ -17,7 +17,7 @@ class Strings {
   static const String jsonKeyCreatedAt = "created_at";
   static const String jsonKeyUpdatedAt = "updated_at";
   static const String jsonKeyAnniversaryId = "anniversary_id";
-  static const String jsonKeyIntervalDays = "interval_days";
+  static const String jsonKeyRemindTiming = "timing";
 
   //Format
   static const String yearsOldFormat = "%s years old";
@@ -29,6 +29,7 @@ class Strings {
   static const String formFieldMethod = "method";
   static const String formFieldValue = "value";
   static const String formFieldDate = "date";
+  static const String formFieldRemind = "remind";
 
   //View
   static const String personEditPageFormNameLabel = "name";

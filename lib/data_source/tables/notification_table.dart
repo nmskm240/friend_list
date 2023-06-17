@@ -15,10 +15,9 @@ class NotificationTable implements ITable {
   FutureOr<void>? onCreate(Database database, int version) {
     database.execute('''
       CREATE TABLE $name (
-        id INTEGER,
         anniversary_id TEXT, 
-        interval_days INTEGER, 
-        PRIMARY KEY (id),
+        timing INTEGER, 
+        PRIMARY KEY (anniversary_id, timing),
         FOREIGN KEY (anniversary_id) REFERENCES ${DatabaseTable.anniversaries.name} (id) ON DELETE CASCADE
       )
     ''');

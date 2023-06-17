@@ -20,12 +20,10 @@ Remind _$RemindFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Remind {
-  @JsonKey(name: Strings.jsonKeyId)
-  int get id => throw _privateConstructorUsedError;
   @JsonKey(name: Strings.jsonKeyAnniversaryId)
   String get anniversaryId => throw _privateConstructorUsedError;
-  @JsonKey(name: Strings.jsonKeyIntervalDays)
-  int get intervalDays => throw _privateConstructorUsedError;
+  @JsonKey(name: Strings.jsonKeyRemindTiming)
+  int get timing => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -38,9 +36,8 @@ abstract class $RemindCopyWith<$Res> {
       _$RemindCopyWithImpl<$Res, Remind>;
   @useResult
   $Res call(
-      {@JsonKey(name: Strings.jsonKeyId) int id,
-      @JsonKey(name: Strings.jsonKeyAnniversaryId) String anniversaryId,
-      @JsonKey(name: Strings.jsonKeyIntervalDays) int intervalDays});
+      {@JsonKey(name: Strings.jsonKeyAnniversaryId) String anniversaryId,
+      @JsonKey(name: Strings.jsonKeyRemindTiming) int timing});
 }
 
 /// @nodoc
@@ -56,22 +53,17 @@ class _$RemindCopyWithImpl<$Res, $Val extends Remind>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
     Object? anniversaryId = null,
-    Object? intervalDays = null,
+    Object? timing = null,
   }) {
     return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
       anniversaryId: null == anniversaryId
           ? _value.anniversaryId
           : anniversaryId // ignore: cast_nullable_to_non_nullable
               as String,
-      intervalDays: null == intervalDays
-          ? _value.intervalDays
-          : intervalDays // ignore: cast_nullable_to_non_nullable
+      timing: null == timing
+          ? _value.timing
+          : timing // ignore: cast_nullable_to_non_nullable
               as int,
     ) as $Val);
   }
@@ -84,9 +76,8 @@ abstract class _$$_RemindCopyWith<$Res> implements $RemindCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: Strings.jsonKeyId) int id,
-      @JsonKey(name: Strings.jsonKeyAnniversaryId) String anniversaryId,
-      @JsonKey(name: Strings.jsonKeyIntervalDays) int intervalDays});
+      {@JsonKey(name: Strings.jsonKeyAnniversaryId) String anniversaryId,
+      @JsonKey(name: Strings.jsonKeyRemindTiming) int timing});
 }
 
 /// @nodoc
@@ -99,22 +90,17 @@ class __$$_RemindCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
     Object? anniversaryId = null,
-    Object? intervalDays = null,
+    Object? timing = null,
   }) {
     return _then(_$_Remind(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
       anniversaryId: null == anniversaryId
           ? _value.anniversaryId
           : anniversaryId // ignore: cast_nullable_to_non_nullable
               as String,
-      intervalDays: null == intervalDays
-          ? _value.intervalDays
-          : intervalDays // ignore: cast_nullable_to_non_nullable
+      timing: null == timing
+          ? _value.timing
+          : timing // ignore: cast_nullable_to_non_nullable
               as int,
     ));
   }
@@ -124,26 +110,22 @@ class __$$_RemindCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Remind implements _Remind {
   const _$_Remind(
-      {@JsonKey(name: Strings.jsonKeyId) required this.id,
-      @JsonKey(name: Strings.jsonKeyAnniversaryId) required this.anniversaryId,
-      @JsonKey(name: Strings.jsonKeyIntervalDays) required this.intervalDays});
+      {@JsonKey(name: Strings.jsonKeyAnniversaryId) required this.anniversaryId,
+      @JsonKey(name: Strings.jsonKeyRemindTiming) required this.timing});
 
   factory _$_Remind.fromJson(Map<String, dynamic> json) =>
       _$$_RemindFromJson(json);
 
   @override
-  @JsonKey(name: Strings.jsonKeyId)
-  final int id;
-  @override
   @JsonKey(name: Strings.jsonKeyAnniversaryId)
   final String anniversaryId;
   @override
-  @JsonKey(name: Strings.jsonKeyIntervalDays)
-  final int intervalDays;
+  @JsonKey(name: Strings.jsonKeyRemindTiming)
+  final int timing;
 
   @override
   String toString() {
-    return 'Remind(id: $id, anniversaryId: $anniversaryId, intervalDays: $intervalDays)';
+    return 'Remind(anniversaryId: $anniversaryId, timing: $timing)';
   }
 
   @override
@@ -151,16 +133,14 @@ class _$_Remind implements _Remind {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Remind &&
-            (identical(other.id, id) || other.id == id) &&
             (identical(other.anniversaryId, anniversaryId) ||
                 other.anniversaryId == anniversaryId) &&
-            (identical(other.intervalDays, intervalDays) ||
-                other.intervalDays == intervalDays));
+            (identical(other.timing, timing) || other.timing == timing));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, anniversaryId, intervalDays);
+  int get hashCode => Object.hash(runtimeType, anniversaryId, timing);
 
   @JsonKey(ignore: true)
   @override
@@ -178,24 +158,19 @@ class _$_Remind implements _Remind {
 
 abstract class _Remind implements Remind {
   const factory _Remind(
-      {@JsonKey(name: Strings.jsonKeyId)
-          required final int id,
-      @JsonKey(name: Strings.jsonKeyAnniversaryId)
+      {@JsonKey(name: Strings.jsonKeyAnniversaryId)
           required final String anniversaryId,
-      @JsonKey(name: Strings.jsonKeyIntervalDays)
-          required final int intervalDays}) = _$_Remind;
+      @JsonKey(name: Strings.jsonKeyRemindTiming)
+          required final int timing}) = _$_Remind;
 
   factory _Remind.fromJson(Map<String, dynamic> json) = _$_Remind.fromJson;
 
   @override
-  @JsonKey(name: Strings.jsonKeyId)
-  int get id;
-  @override
   @JsonKey(name: Strings.jsonKeyAnniversaryId)
   String get anniversaryId;
   @override
-  @JsonKey(name: Strings.jsonKeyIntervalDays)
-  int get intervalDays;
+  @JsonKey(name: Strings.jsonKeyRemindTiming)
+  int get timing;
   @override
   @JsonKey(ignore: true)
   _$$_RemindCopyWith<_$_Remind> get copyWith =>

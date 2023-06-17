@@ -57,7 +57,7 @@ void main() {
                 name: "test",
                 date: DateTime.now(),
                 personId: "0",
-                reminds: [Remind(id: 0, anniversaryId: "0", intervalDays: 1)],
+                reminds: [Remind(anniversaryId: "0", timing: 1)],
               ),
               Anniversary(
                 id: "1",

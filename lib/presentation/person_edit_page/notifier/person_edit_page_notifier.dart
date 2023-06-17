@@ -56,8 +56,8 @@ class PersonEditPageNotifier extends StateNotifier<PersonEditPageState> {
     if (res == null) {
       return;
     }
-    var added = state.person.addAnniversary(res);
-    state = state.copyWith(person: added);
+    final added = state.person.addAnniversary(res);
+    state = state.copyWith.person(anniversaries: added.toList());
   }
 
   Future<void> onPressedEditAnniversary(Anniversary anniversary) async {
@@ -67,12 +67,8 @@ class PersonEditPageNotifier extends StateNotifier<PersonEditPageState> {
     if (res == null) {
       return;
     }
-    var edited = state.person.editAnniversary(res);
-    var copy = state.copyWith.person(anniversaries: edited.toList());
-    debugPrint(sprintf("edited: %s", [edited.toString()]));
-    debugPrint(sprintf("copy: %s", [copy.anniversaries.toString()]));
-    state = copy;
-    debugPrint(sprintf("state: %s", [state.anniversaries.toString()]));
+    final edited = state.person.editAnniversary(res);
+    state = state.copyWith.person(anniversaries: edited.toList());
   }
 
   void onPressedDeletAnniversary(Anniversary anniversary) {

@@ -7,13 +7,11 @@ part of 'remind.dart';
 // **************************************************************************
 
 _$_Remind _$$_RemindFromJson(Map<String, dynamic> json) => _$_Remind(
-      id: json['id'] as int,
       anniversaryId: json['anniversary_id'] as String,
-      intervalDays: json['interval_days'] as int,
+      timing: json['timing'] as int,
     );
 
 Map<String, dynamic> _$$_RemindToJson(_$_Remind instance) => <String, dynamic>{
-      'id': instance.id,
       'anniversary_id': instance.anniversaryId,
-      'interval_days': instance.intervalDays,
+      'timing': instance.timing,
     };
