@@ -55,6 +55,7 @@ dependencies:
   sprintf: ^7.0.0
   flutter_native_splash: ^2.2.18
   table_calendar: ^3.0.8
+  flutter_datetime_picker_plus: ^2.0.1
 
 dev_dependencies:
   flutter_test:
