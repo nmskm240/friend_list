@@ -46,13 +46,22 @@ class LocalNotificationService {
   }
 
   /// スケジュールを設定
-  ///
-  /// [scheduledDate]は[month]と[day]のみ使用する
   Future<void> setSchedule(
-      int id, String title, String body, DateTime scheduledDate) async {
+    int id,
+    String title,
+    String body,
+    int month,
+    int day,
+  ) async {
     final time = SharedPreferencesHelper.getNotificationTime();
-    final zonedScheduleDate = TZDateTime(local, DateTime.now().year,
-        scheduledDate.month, scheduledDate.day, time.hour, time.minute);
+    final zonedScheduleDate = TZDateTime(
+      local,
+      DateTime.now().year,
+      month,
+      day,
+      time.hour,
+      time.minute,
+    );
     await localNotificationsPlugin.zonedSchedule(
       id,
       title,
@@ -75,17 +84,21 @@ class LocalNotificationService {
     await localNotificationsPlugin.cancel(id);
   }
 
-  Future<Iterable<ActiveNotification>> getScheduledAll() async {
-    return await localNotificationsPlugin.getActiveNotifications();
+  Future<void> cnacelAllScheduled() async {
+    await localNotificationsPlugin.cancelAll();
   }
 
-  Future<Iterable<ActiveNotification>> getScheduled(Iterable<int> ids) async {
-    final list = await localNotificationsPlugin.getActiveNotifications();
+  Future<Iterable<PendingNotificationRequest>> getScheduledAll() async {
+    return await localNotificationsPlugin.pendingNotificationRequests();
+  }
+
+  Future<Iterable<PendingNotificationRequest>> getScheduled(Iterable<int> ids) async {
+    final list = await localNotificationsPlugin.pendingNotificationRequests();
     return list.where((element) => ids.contains(element.id));
   }
 
   Future<bool> isScheduled(int id) async {
-    final list = await localNotificationsPlugin.getActiveNotifications();
+    final list = await localNotificationsPlugin.pendingNotificationRequests();
     return list.any((e) => e.id == id);
   }
 }

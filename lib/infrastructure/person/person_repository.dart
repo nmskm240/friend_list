@@ -1,3 +1,6 @@
+import 'dart:collection';
+import 'dart:core';
+
 import 'package:flutter/widgets.dart';
 import 'package:friend_list/common/exception/unregistered_person_exception.dart';
 import 'package:friend_list/data_source/database_table.dart';
@@ -29,7 +32,8 @@ class PersonRepository implements IPersonRepository {
           }
           if (prefix == "anniversary") {
             map["reminds"] = convertToJson(
-                columns.where((element) => element["anniversary_id"] == map["anniversary_id"]),
+                columns.where((element) =>
+                    element["anniversary_id"] == map["anniversary_id"]),
                 "notification",
                 additionalKey: "anniversary_id");
           }
@@ -242,9 +246,39 @@ class PersonRepository implements IPersonRepository {
           MapEntry(key.replaceFirst("anniversary_", ""), value));
       return Anniversary.fromJson({
         ...json,
-        "reminds": convertToJson(columns, "notification", additionalKey: "anniversary_id"),
+        "reminds": convertToJson(columns, "notification",
+            additionalKey: "anniversary_id"),
       });
     });
+  }
+
+  /// 登録済みのリマインドを現在時刻に近いものから順にソートして取得する
+  ///
+  /// すでにリマインド日時を過ぎたものは来年のリマインド日時に変換して取得する
+  @override
+  Future<Map<DateTime, Anniversary>> getSortedRemindMap() async {
+    final anniversaries = await getAllAnniversaries();
+    final now = DateTime.now();
+    final map = anniversaries.expand((anniversary) {
+      final thisYearDate = anniversary.date.copyWith(year: now.year);
+      return anniversary.reminds.map((remind) {
+        final duration = Duration(days: remind.timing);
+        final remindDate = thisYearDate.subtract(duration);
+        return {
+          remindDate.copyWith(
+            year:
+                remindDate.isAfter(now) ? remindDate.year : remindDate.year + 1,
+          ): anniversary
+        };
+      });
+    }).fold<Map<DateTime, Anniversary>>(
+        {}, ((previousValue, element) => {...previousValue, ...element}));
+    final sorted = SplayTreeMap<DateTime, Anniversary>.from(
+      map,
+      (a, b) => a.compareTo(b),
+      (potentialKey) => potentialKey is DateTime && potentialKey.isAfter(now),
+    );
+    return sorted;
   }
 
   @override

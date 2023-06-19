@@ -6,6 +6,9 @@ abstract class RemindFactoryBase {
   RemindFactoryBase(this.anniversaryId);
 
   Remind create(int timing) {
-    return Remind(anniversaryId: anniversaryId, timing: timing);
+    return Remind(
+      anniversaryId: anniversaryId,
+      timing: timing,
+    );
   }
 }

@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:friend_list/common/constant/strings.dart';
 import 'package:friend_list/common/exception/unregistred_preferences_exception.dart';
 import 'package:friend_list/common/extension/time_of_day.dart';
-import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -47,13 +46,14 @@ class SharedPreferencesHelper {
 
   static void setNotificationTime(TimeOfDay time) {
     // 24時間表記で保存
-    _preferences!.setString(SharedPreferencesKeys.notificationTime.name, time.to24Hours());
+    _preferences!.setString(
+        SharedPreferencesKeys.notificationTime.name, time.to24Hours());
   }
 
   static TimeOfDay getNotificationTime() {
     final key = SharedPreferencesKeys.notificationTime.name;
     final str = _preferences!.getString(key);
-    if(str == null) {
+    if (str == null) {
       throw UnregisteredPreferenceException(key);
     }
     return TimeOfDayExtension.parseFrom24Hours(str);

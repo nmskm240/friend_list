@@ -24,6 +24,6 @@ void main() async {
       ),
       localNotificationServiceProvider.overrideWithValue(notificationService),
     ],
-    child: const App(),
+    child: App(),
   ));
 }
