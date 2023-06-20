@@ -30,17 +30,15 @@ class AnniversaryEditPageState with _$AnniversaryEditPageState {
     return person.hasSameAnniversaryByName(name) && isDiffrent;
   }
 
-  /// 名前が入力されていない、birthdateなど予約語が入力されている、重複した名前など場合はvalidateを通さない
-  String? validateAnniversayName(String? name) {
-    //TODO: 返り値をconstにする
-    if (name == null || name.isEmpty) return "必須パラメータ";
-    if (name == Strings.birthdate) return "使用できない名前";
-    if (isDuplicatedAnniversaryName(name)) return Strings.duplicateAnniversary;
-    return null;
+  bool isResercedWord(String name) {
+    return !anniversary.isBirthdate && name == Strings.birthdate;
   }
 
   bool validate() {
-    return key.currentState!.validate();
+    final value = key.currentState!.instantValue;
+    return key.currentState!.validate() &&
+        !isDuplicatedAnniversaryName(value[formFieldName]) &&
+        !isResercedWord(value[formFieldName]);
   }
 
   Anniversary save() {
@@ -51,6 +49,16 @@ class AnniversaryEditPageState with _$AnniversaryEditPageState {
       // TODO: 例外クラス定義
       throw Exception("Formが正しく作られていません");
     }
-    return anniversary.copyWith(name: value[formFieldName], date: value[formFieldDate]);
+    return anniversary.copyWith(
+        name: value[formFieldName], date: value[formFieldDate]);
+  }
+
+  void onInvalid() {
+    final value = key.currentState!.instantValue;
+    if(isDuplicatedAnniversaryName(value[formFieldName])) {
+      key.currentState!.fields[formFieldName]!.invalidate("名前の重複");
+    } else if(isResercedWord(value[formFieldName])) {
+      key.currentState!.fields[formFieldName]!.invalidate("使用できない名前");
+    }
   }
 }

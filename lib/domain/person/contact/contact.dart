@@ -31,7 +31,6 @@ class Contact with _$Contact {
 
   bool get isValid {
     return id.isNotEmpty &&
-        name.isNotEmpty &&
         method != ContactMethod.unknown &&
         value.isNotEmpty &&
         personId.isNotEmpty;
