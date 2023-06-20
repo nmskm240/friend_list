@@ -133,8 +133,9 @@ class PersonDetailPage extends ConsumerWidget {
                   subtitle: Text(DateFormat.yMd().format(anniversary.date)),
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () {
-                    ref.read(router).push(AnniversaryEditRoute(
-                        person: person, anniversary: anniversary));
+                    ref.read(router).push(
+                          AnniversaryDetailRoute(anniversary: anniversary),
+                        );
                   },
                 );
               },

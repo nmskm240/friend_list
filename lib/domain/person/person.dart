@@ -74,7 +74,7 @@ class Person with _$Person {
         hasSameAnniversaryById(anniversary.id)) {
       throw DuplicateAnniversaryException(anniversary.id, anniversary.name);
     }
-    if (anniversary.name == Strings.birthdate) {
+    if (hasBirthdate && anniversary.name == Strings.birthdate) {
       throw Exception("登録できない名称");
     }
     return copyWith(anniversaries: [...anniversaries, anniversary]);
@@ -95,7 +95,7 @@ class Person with _$Person {
     if (!hasSameAnniversaryById(edited.id)) {
       throw UnregisteredAnniversaryException(edited.id);
     }
-    if (edited.name == Strings.birthdate) {
+    if (hasBirthdate || edited.name == Strings.birthdate) {
       throw Exception("登録できない名称");
     }
     return anniversaries.map((e) => e.id == edited.id ? edited : e);
