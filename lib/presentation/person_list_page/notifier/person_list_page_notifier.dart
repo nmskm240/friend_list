@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:friend_list/domain/person/i_person_repository.dart';
 import 'package:friend_list/domain/person/person.dart';
-import 'package:friend_list/infrastructure/person/person_factory.dart';
+import 'package:friend_list/infrastructure/local_database/person/person_factory.dart';
 import 'package:friend_list/presentation/app_router.dart';
 import 'package:friend_list/presentation/person_list_page/provider/person_list_page_provider.dart';
 import 'package:friend_list/presentation/person_list_page/state/person_list_page_state.dart';

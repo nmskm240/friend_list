@@ -1,4 +1,3 @@
-import 'dart:collection';
 import 'dart:core';
 
 import 'package:flutter/widgets.dart';
@@ -7,7 +6,7 @@ import 'package:friend_list/data_source/database_table.dart';
 import 'package:friend_list/domain/person/anniversary/anniversary.dart';
 import 'package:friend_list/domain/person/i_person_repository.dart';
 import 'package:friend_list/domain/person/person.dart';
-import 'package:friend_list/infrastructure/i_local_data_source.dart';
+import 'package:friend_list/infrastructure/local_database/i_local_data_source.dart';
 
 class PersonRepository implements IPersonRepository {
   final ILocalDataSource source;
@@ -250,35 +249,6 @@ class PersonRepository implements IPersonRepository {
             additionalKey: "anniversary_id"),
       });
     });
-  }
-
-  /// 登録済みのリマインドを現在時刻に近いものから順にソートして取得する
-  ///
-  /// すでにリマインド日時を過ぎたものは来年のリマインド日時に変換して取得する
-  @override
-  Future<Map<DateTime, Anniversary>> getSortedRemindMap() async {
-    final anniversaries = await getAllAnniversaries();
-    final now = DateTime.now();
-    final map = anniversaries.expand((anniversary) {
-      final thisYearDate = anniversary.date.copyWith(year: now.year);
-      return anniversary.reminds.map((remind) {
-        final duration = Duration(days: remind.timing);
-        final remindDate = thisYearDate.subtract(duration);
-        return {
-          remindDate.copyWith(
-            year:
-                remindDate.isAfter(now) ? remindDate.year : remindDate.year + 1,
-          ): anniversary
-        };
-      });
-    }).fold<Map<DateTime, Anniversary>>(
-        {}, ((previousValue, element) => {...previousValue, ...element}));
-    final sorted = SplayTreeMap<DateTime, Anniversary>.from(
-      map,
-      (a, b) => a.compareTo(b),
-      (potentialKey) => potentialKey is DateTime && potentialKey.isAfter(now),
-    );
-    return sorted;
   }
 
   @override

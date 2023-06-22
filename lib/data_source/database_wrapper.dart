@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:friend_list/common/constant/strings.dart';
 import 'package:friend_list/data_source/i_table.dart';
-import 'package:friend_list/infrastructure/i_local_data_source.dart';
+import 'package:friend_list/infrastructure/local_database/i_local_data_source.dart';
 import 'package:sqflite/sqflite.dart';
 
 abstract class DatabaseWrapper implements ILocalDataSource {

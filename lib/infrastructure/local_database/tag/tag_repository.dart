@@ -1,7 +1,7 @@
 import 'package:friend_list/data_source/database_table.dart';
 import 'package:friend_list/domain/tag/i_tag_repository.dart';
 import 'package:friend_list/domain/tag/tag.dart';
-import 'package:friend_list/infrastructure/i_local_data_source.dart';
+import 'package:friend_list/infrastructure/local_database/i_local_data_source.dart';
 
 class TagRepository implements ITagRepository {
   final ILocalDataSource _source;

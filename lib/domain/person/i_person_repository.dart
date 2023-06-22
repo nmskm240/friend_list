@@ -14,7 +14,6 @@ abstract class IPersonRepository {
   Future<Iterable<Person>> findByNameOrNickname(String value);
   Future<Iterable<Person>> getAll();
   Future<Iterable<Anniversary>> getAllAnniversaries();
-  Future<Map<DateTime, Anniversary>> getSortedRemindMap();
   Future<Iterable<String>> getAttachedTagIDs(String id);
   Future<void> removeTags(String id, List<String> tagIds);
   Future<Person> save(Person person);

@@ -5,7 +5,7 @@ import 'package:friend_list/common/constant/strings.dart';
 import 'package:friend_list/domain/person/anniversary/anniversary.dart';
 import 'package:friend_list/domain/person/anniversary/remind/remind.dart';
 import 'package:friend_list/domain/person/person.dart';
-import 'package:friend_list/infrastructure/person/anniversary/remind/remind_factory.dart';
+import 'package:friend_list/infrastructure/local_database/person/anniversary/remind/remind_factory.dart';
 
 part 'anniversary_edit_page_state.freezed.dart';
 
