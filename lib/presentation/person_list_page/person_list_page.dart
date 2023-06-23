@@ -7,25 +7,15 @@ import 'package:friend_list/presentation/person_list_page/provider/person_list_p
 import 'package:sprintf/sprintf.dart';
 
 @RoutePage()
-class PersonListPage extends ConsumerWidget {
+class PersonListPage extends StatelessWidget {
   const PersonListPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final asyncValue = ref.watch(personListPageProvider);
-    return asyncValue.when(
-      error: ((error, stackTrace) {
-        debugPrintStack(label: error.toString(), stackTrace: stackTrace);
-        return Text(error.toString());
-      }),
-      loading: () => const CircularProgressIndicator(),
-      data: (state) {
-        FlutterNativeSplash.remove();
-        return const Scaffold(
-          appBar: _AppBar(),
-          body: _Body(),
-        );
-      },
+  Widget build(BuildContext context) {
+    FlutterNativeSplash.remove();
+    return const Scaffold(
+      appBar: _AppBar(),
+      body: _Body(),
     );
   }
 }
@@ -57,6 +47,13 @@ class _AppBar extends ConsumerWidget implements PreferredSizeWidget {
             icon: const Icon(Icons.search),
             onPressed: () async {
               await notifier.onSwitchSearchMode(true);
+            },
+          ),
+        if (!isFiltering)
+          IconButton(
+            icon: const Icon(Icons.sort),
+            onPressed: () async {
+              notifier.onChangedSortOrder();
             },
           ),
         if (!isFiltering)
@@ -95,14 +92,20 @@ class _Body extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final persons = ref
+    final asyncValue = ref
             .watch(personListPageProvider
-                .select((value) => value.whenData((state) => state.persons)))
-            .asData
-            ?.valueOrNull ??
-        const Iterable.empty();
+                .select((value) => value.whenData((state) => state.persons)));
     final notifier = ref.read(personListPageProvider.notifier);
-    return persons.isEmpty
+    return asyncValue.when(
+      error: (error, stacktrace) {
+        debugPrintStack();
+        return Text(error.toString());
+      },
+      loading: () {
+        return const CircularProgressIndicator();
+      },
+      data: (persons) {
+      return persons.isEmpty
         ? const Center(
             child: Column(
               children: [
@@ -130,5 +133,7 @@ class _Body extends ConsumerWidget {
               );
             },
           );
+    },);
+     
   }
 }
