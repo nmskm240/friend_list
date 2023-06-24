@@ -2,17 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:friend_list/common/shared_preferences_helper.dart';
 import 'package:friend_list/domain/person/anniversary/anniversary.dart';
 import 'package:friend_list/domain/person/contact/contact.dart';
 import 'package:friend_list/domain/person/i_person_repository.dart';
 import 'package:friend_list/domain/person/person.dart';
 import 'package:friend_list/infrastructure/local_database/person/anniversary/anniversary_factory.dart';
 import 'package:friend_list/infrastructure/local_database/person/contact/contact_factory.dart';
+import 'package:friend_list/infrastructure/shared_preferences/app_shared_preferences.dart';
 import 'package:friend_list/presentation/app_router.dart';
 import 'package:friend_list/presentation/person_edit_page/state/person_edit_page_state.dart';
 import 'package:friend_list/presentation/person_list_page/provider/person_list_page_provider.dart';
-import 'package:sprintf/sprintf.dart';
 
 class PersonEditPageNotifier extends StateNotifier<PersonEditPageState> {
   @protected
@@ -35,8 +34,9 @@ class PersonEditPageNotifier extends StateNotifier<PersonEditPageState> {
   }
 
   void onChangedIcon(Uint8List? newIcon) {
+    final defaultIcon = ref.read(sharedPreferences).getDefaultIcon();
     state = state.copyWith
-        .person(icon: newIcon ?? SharedPreferencesHelper.getDefaultIcon());
+        .person(icon: newIcon ?? defaultIcon);
   }
 
   void onChangedName(String? newName) {

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:friend_list/common/shared_preferences_helper.dart';
 import 'package:friend_list/domain/person/anniversary/anniversary.dart';
 import 'package:friend_list/domain/person/i_person_repository.dart';
+import 'package:friend_list/infrastructure/shared_preferences/app_shared_preferences.dart';
 import 'package:friend_list/presentation/anniversary_calendar_page/state/anniversary_calendar_page_state.dart';
 import 'package:friend_list/presentation/app_router.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -19,10 +19,11 @@ class AnniversaryCalendarPageNotifier
 
   Future<void> _init() async {
     state = await AsyncValue.guard(() async {
+      final format = ref.read(sharedPreferences).getCalendarForrmat();
       final repository = ref.read(personRepository);
       final list = await repository.getAllAnniversaries();
       return AnniversaryCalendarPageState(
-        format: SharedPreferencesHelper.getCalendarForrmat(),
+        format: format,
         focusedDay: DateTime.now(),
         thisYearAnniversaries: list.toList(),
       );
@@ -30,7 +31,7 @@ class AnniversaryCalendarPageNotifier
   }
 
   Future<void> onFormatChanged(CalendarFormat format) async {
-    SharedPreferencesHelper.setCalendartFormat(format);
+    ref.read(sharedPreferences).setCalendarFormat(format);
     state = await AsyncValue.guard(() async {
       return state.value!.copyWith(format: format);
     });

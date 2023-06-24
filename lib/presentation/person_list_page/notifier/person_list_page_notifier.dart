@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:friend_list/application/usecase/filtered_persons_usecase.dart';
 import 'package:friend_list/application/usecase/sorted_persons_usecase.dart';
 import 'package:friend_list/common/constant/person_sort_order.dart';
-import 'package:friend_list/common/shared_preferences_helper.dart';
 import 'package:friend_list/domain/person/person.dart';
 import 'package:friend_list/infrastructure/local_database/person/person_factory.dart';
+import 'package:friend_list/infrastructure/shared_preferences/app_shared_preferences.dart';
 import 'package:friend_list/presentation/app_router.dart';
 import 'package:friend_list/presentation/person_list_page/provider/person_list_page_provider.dart';
 import 'package:friend_list/presentation/person_list_page/state/person_list_page_state.dart';
@@ -29,16 +29,17 @@ class PersonListPageNotifier
     state = await AsyncValue.guard<PersonListPageState>(() async {
       final filtered = await ref.read(filteredPersons).call("");
       final sorted = await ref.read(sortedPersons).call(filtered);
+      final sortOrder = ref.read(sharedPreferences).getPersonSortOrder();
       return PersonListPageState(
         persons: sorted,
         searchBarController: TextEditingController(),
-        sortOrder: SharedPreferencesHelper.getPersonSortOrder(),
+        sortOrder: sortOrder,
       );
     });
   }
 
   Future<void> onPressedAddPerson() async {
-    final factory = PersonFactory();
+    final factory = PersonFactory(ref.read(sharedPreferences).getDefaultIcon());
     final person = factory.create();
     final route = PersonEditRoute(person: person);
     final res = await ref.read(router).push<Person>(route);
@@ -76,7 +77,7 @@ class PersonListPageNotifier
   }
 
   Future<void> onChangedSortOrder(PersonSortOrder order) async {
-    SharedPreferencesHelper.setPersonSortOrder(order);
+    ref.read(sharedPreferences).setPersonSortOrder(order);
     state = await AsyncValue.guard(() async {
       final sorted = await ref.read(sortedPersons).call(state.value!.persons);
       return state.value!.copyWith(persons: sorted, sortOrder: order);

@@ -1,14 +1,22 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:friend_list/common/constant/person_sort_order.dart';
-import 'package:friend_list/common/shared_preferences_helper.dart';
 import 'package:friend_list/domain/person/person.dart';
+import 'package:friend_list/infrastructure/shared_preferences/app_shared_preferences.dart';
+import 'package:friend_list/infrastructure/shared_preferences/i_shared_preferences_wrapper.dart';
 
 final sortedPersons = Provider<_SortPersonsUsecase>((ref) {
-  return const _SortPersonsUsecase();
+  final preferences = ref.read(sharedPreferences);
+  return _SortPersonsUsecase(
+    preferences: preferences,
+  );
 });
 
 class _SortPersonsUsecase {
-  const _SortPersonsUsecase();
+  final ISharedPreferencesWrapper preferences;
+
+  const _SortPersonsUsecase({
+    required this.preferences,
+  });
 
   Future<Iterable<Person>> call(Iterable<Person> targets) async {
     final persons = List<Person>.from(targets);
@@ -17,7 +25,7 @@ class _SortPersonsUsecase {
   }
 
   int _sort(Person a, Person b) {
-    switch (SharedPreferencesHelper.getPersonSortOrder()) {
+    switch (preferences.getPersonSortOrder()) {
       case PersonSortOrder.added:
         if (a.createdAt == null) return -1;
         if (b.createdAt == null) return 1;
