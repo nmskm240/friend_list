@@ -1,15 +1,18 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:friend_list/common/constant/person_sort_order.dart';
 import 'package:friend_list/common/constant/strings.dart';
 import 'package:friend_list/common/exception/unregistred_preferences_exception.dart';
+import 'package:friend_list/common/extension/time_of_day.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 enum SharedPreferencesKeys {
   defaultIcon,
   calendarFormat,
+  notificationTime,
   personSortOrder,
 }
 
@@ -30,6 +33,8 @@ class SharedPreferencesHelper {
     if (!_preferences!.containsKey(SharedPreferencesKeys.calendarFormat.name)) {
       setCalendartFormat(CalendarFormat.month);
     }
+    if(!_preferences!.containsKey(SharedPreferencesKeys.notificationTime.name)) {
+      setNotificationTime(const TimeOfDay(hour: 9, minute: 0));
     if (!_preferences!
         .containsKey(SharedPreferencesKeys.personSortOrder.name)) {
       setPersonSortOrder(PersonSortOrder.name);
@@ -44,6 +49,19 @@ class SharedPreferencesHelper {
     setCalendartFormat(CalendarFormat.month);
   }
 
+  static void setNotificationTime(TimeOfDay time) {
+    // 24時間表記で保存
+    _preferences!.setString(
+        SharedPreferencesKeys.notificationTime.name, time.to24Hours());
+  }
+
+  static TimeOfDay getNotificationTime() {
+    final key = SharedPreferencesKeys.notificationTime.name;
+    final str = _preferences!.getString(key);
+    if (str == null) {
+      throw UnregisteredPreferenceException(key);
+    }
+    return TimeOfDayExtension.parseFrom24Hours(str);
   static PersonSortOrder rotationPersonSortOrder() {
     final currentOrder = getPersonSortOrder();
     final nextOrder =

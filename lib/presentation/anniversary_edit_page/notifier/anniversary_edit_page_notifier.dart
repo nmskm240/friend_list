@@ -11,6 +11,7 @@ class AnniversaryEditPageNotifier
   @protected
   Ref ref;
 
+  // TODO: Person指定じゃないでインターフェースにした方が管理しやすそう
   AnniversaryEditPageNotifier(this.ref, Person person, Anniversary anniversary)
       : super(AnniversaryEditPageState(
           person: person,

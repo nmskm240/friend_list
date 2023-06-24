@@ -28,7 +28,6 @@ class PersonEditPageState with _$PersonEditPageState {
   ///birthdateが一番上になっている記念日リスト
   ///birthdateが未登録の場合先頭に[null]を配置
   Iterable<Anniversary?> get anniversaries {
-    debugPrint(person.anniversaries.toString());
     final copied = List<Anniversary?>.generate(
       person.anniversaries.length,
       (i) {
@@ -38,6 +37,7 @@ class PersonEditPageState with _$PersonEditPageState {
           name: original.name,
           date: original.date,
           personId: original.personId,
+          reminds: original.reminds,
         );
       },
     );

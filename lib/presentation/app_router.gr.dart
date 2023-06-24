@@ -10,10 +10,17 @@
 part of 'app_router.dart';
 
 abstract class _$AppRouter extends RootStackRouter {
-  _$AppRouter([GlobalKey<NavigatorState>? navigatorKey]) : super();
+  // ignore: unused_element
+  _$AppRouter({super.navigatorKey});
 
   @override
   final Map<String, PageFactory> pagesMap = {
+    AnniversaryCalendarRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const AnniversaryCalendarPage(),
+      );
+    },
     AnniversaryDetailRoute.name: (routeData) {
       final args = routeData.argsAs<AnniversaryDetailRouteArgs>();
       return AutoRoutePage<dynamic>(
@@ -78,13 +85,21 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const RootPage(),
       );
     },
-    AnniversaryCalendarRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const AnniversaryCalendarPage(),
-      );
-    },
   };
+}
+
+/// generated route for
+/// [AnniversaryCalendarPage]
+class AnniversaryCalendarRoute extends PageRouteInfo<void> {
+  const AnniversaryCalendarRoute({List<PageRouteInfo>? children})
+      : super(
+          AnniversaryCalendarRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'AnniversaryCalendarRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
@@ -311,20 +326,6 @@ class RootRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'RootRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [AnniversaryCalendarPage]
-class AnniversaryCalendarRoute extends PageRouteInfo<void> {
-  const AnniversaryCalendarRoute({List<PageRouteInfo>? children})
-      : super(
-          AnniversaryCalendarRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'AnniversaryCalendarRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

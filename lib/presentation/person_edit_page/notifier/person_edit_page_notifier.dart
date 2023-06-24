@@ -7,8 +7,8 @@ import 'package:friend_list/domain/person/anniversary/anniversary.dart';
 import 'package:friend_list/domain/person/contact/contact.dart';
 import 'package:friend_list/domain/person/i_person_repository.dart';
 import 'package:friend_list/domain/person/person.dart';
-import 'package:friend_list/infrastructure/person/anniversary/anniversary_factory.dart';
-import 'package:friend_list/infrastructure/person/contact/contact_factory.dart';
+import 'package:friend_list/infrastructure/local_database/person/anniversary/anniversary_factory.dart';
+import 'package:friend_list/infrastructure/local_database/person/contact/contact_factory.dart';
 import 'package:friend_list/presentation/app_router.dart';
 import 'package:friend_list/presentation/person_edit_page/state/person_edit_page_state.dart';
 import 'package:friend_list/presentation/person_list_page/provider/person_list_page_provider.dart';
@@ -56,8 +56,8 @@ class PersonEditPageNotifier extends StateNotifier<PersonEditPageState> {
     if (res == null) {
       return;
     }
-    var added = state.person.addAnniversary(res);
-    state = state.copyWith(person: added);
+    final added = state.person.addAnniversary(res);
+    state = state.copyWith.person(anniversaries: added.toList());
   }
 
   Future<void> onPressedEditAnniversary(Anniversary anniversary) async {
@@ -67,12 +67,8 @@ class PersonEditPageNotifier extends StateNotifier<PersonEditPageState> {
     if (res == null) {
       return;
     }
-    var edited = state.person.editAnniversary(res);
-    var copy = state.copyWith.person(anniversaries: edited.toList());
-    debugPrint(sprintf("edited: %s", [edited.toString()]));
-    debugPrint(sprintf("copy: %s", [copy.anniversaries.toString()]));
-    state = copy;
-    debugPrint(sprintf("state: %s", [state.anniversaries.toString()]));
+    final edited = state.person.editAnniversary(res);
+    state = state.copyWith.person(anniversaries: edited.toList());
   }
 
   void onPressedDeletAnniversary(Anniversary anniversary) {

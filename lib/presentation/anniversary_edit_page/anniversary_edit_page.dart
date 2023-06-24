@@ -64,7 +64,30 @@ class AnniversaryEditPage extends ConsumerWidget {
                 name: state.formFieldDate,
                 validator: FormBuilderValidators.required(),
               ),
-              const Divider(),
+              FormBuilderFilterChip(
+                name: state.formFieldRemind,
+                decoration: const InputDecoration(
+                  label: Text("remind"),
+                ),
+                options: const [
+                  FormBuilderChipOption<int>(
+                    value: 0,
+                    child: Text("That day"),
+                  ),
+                  FormBuilderChipOption<int>(
+                    value: 1,
+                    child: Text("That day before"),
+                  ),
+                  FormBuilderChipOption<int>(
+                    value: 7,
+                    child: Text("7 days before"),
+                  ),
+                  FormBuilderChipOption<int>(
+                    value: 30,
+                    child: Text("30 days before"),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
