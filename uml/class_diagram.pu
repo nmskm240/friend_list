@@ -16,24 +16,22 @@ package notifyer {
 }
 
 package application {
-    package model {
-        class CustomModel<<freezed>>
+    package usecase {
+        class CustomUsecase
     }
-    class PersonAppService
-    class TagAppService
 }
 
 package domain {
     package person {
         package anniversary {
-            class Anniversary<<JsonSerializable>>
+            class Anniversary<<freezed>>
             interface IAnniversaryFactory
         }
         package contact {
-            class Contact<<JsonSerializable>>
+            class Contact<<freezed>>
             interface IContactFactory
         }
-        class Person<<JsonSerializable>>
+        class Person<<freezed>>
         interface IPersonFactory
         interface IPersonRepository
     }
@@ -46,21 +44,31 @@ package domain {
 }
 
 package infrastructure {
-    package "anniversary " {
-        class AnniversaryFactory
+    package local_database {
+        package "person " {
+            package "anniversary " {
+                class AnniversaryFactory
+            }
+            package "contact " {
+                class ContactFactory
+            }
+            class PersonFactory
+            class PersonRepository
+        }
+        package "tag " {
+            class TagFacotory
+            class TagRepository
+        }
+        interface LocalDataSource
     }
-    package "contact " {
-        class ContactFactory
+    package local_notification {
+        interface ILocalNotificationScheduler
+        class LocalNotificationSheduler
     }
-    package "person " {
-        class PersonFactory
-        class PersonRepository
+    package shared_preferences {
+        interface ISharedPreferencesWrapper
+        class AppSharedPreferences
     }
-    package "tag " {
-        class TagFacotory
-        class TagRepository
-    }
-    interface LocalDataSource
 }
 
 package datasource {
@@ -81,23 +89,26 @@ CustomPage -- CustomWidget
 CustomWidget ..> CustomNotifyer
 
 ' notifyer - application
-CustomNotifyer ..> CustomModel
+CustomNotifyer ..> CustomUsecase
 
 ' application
-CustomModel <-- TagAppService : create
-CustomModel <-- PersonAppService : create
+
 
 ' application - domain
-TagAppService ..> TagService
-PersonAppService --> Person
+CustomUsecase ..> IPersonRepository
+CustomUsecase ..> IPersonFactory
+CustomUsecase ..> ITagRepository
+CustomUsecase ..> ITagFactory
+CustomUsecase ..> ILocalNotificationScheduler
+CustomUsecase ..> ISharedPreferencesWrapper
 
 ' domain
 Anniversary -- IAnniversaryFactory
 Contact -- IContactFactory
-Person *.. Anniversary
-Person *.. Contact
-Person -- IPersonFactory
-Person -- IPersonRepository
+Anniversary ..* Person
+Contact ..* Person
+IPersonFactory -- Person
+IPersonRepository -- Person
 TagService ..> Tag
 TagService ..> ITagFactory
 TagService ..> ITagRepository
@@ -114,6 +125,8 @@ IPersonRepository <|.. PersonRepository
 ' infrastructure
 TagRepository ..> LocalDataSource
 PersonRepository ..> LocalDataSource
+ILocalNotificationScheduler <|-- LocalNotificationSheduler
+ISharedPreferencesWrapper <|-- AppSharedPreferences
 
 ' infrastructure - datasource
 LocalDataSource <|-- DatabaseWrapper

@@ -1,7 +1,6 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
-import 'package:friend_list/common/shared_preferences_helper.dart';
 import 'package:friend_list/infrastructure/local_notification/i_notification_scheduler.dart';
 import 'package:timezone/data/latest.dart';
 import 'package:timezone/timezone.dart';
@@ -49,8 +48,8 @@ class LocalNotificationScheduler
     String body,
     int month,
     int day,
+    TimeOfDay time,
   ) async {
-    final time = SharedPreferencesHelper.getNotificationTime();
     final now = DateTime.now();
     final year =
         now.isBefore(DateTime(now.year, month, day)) ? now.year : now.year + 1;

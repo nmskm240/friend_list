@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:friend_list/common/shared_preferences_helper.dart';
 import 'package:friend_list/domain/person/anniversary/anniversary.dart';
 import 'package:friend_list/presentation/anniversary_calendar_page/provider/anniverrsary_calendar_page_provider.dart';
 import 'package:table_calendar/table_calendar.dart';

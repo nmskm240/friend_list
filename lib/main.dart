@@ -5,16 +5,17 @@ import 'package:friend_list/app.dart';
 import 'package:friend_list/infrastructure/local_database/person/person_repository.dart';
 import 'package:friend_list/infrastructure/local_notification/i_notification_scheduler.dart';
 import 'package:friend_list/infrastructure/local_notification/local_notification_scheduler.dart';
-import 'package:friend_list/common/shared_preferences_helper.dart';
 import 'package:friend_list/domain/person/i_person_repository.dart';
+import 'package:friend_list/infrastructure/shared_preferences/app_shared_preferences.dart';
 import 'package:friend_list/presentation/common/provider/app_database_provider.dart';
 
 void main() async {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   final scheduler = LocalNotificationScheduler();
+  final preferences = AppSharedPreferences();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await scheduler.init();
-  await SharedPreferencesHelper.loadOrDefault();
+  await preferences.init();
   runApp(ProviderScope(
     overrides: [
       personRepository.overrideWith(
@@ -24,6 +25,7 @@ void main() async {
         },
       ),
       notificationScheduler.overrideWithValue(scheduler),
+      sharedPreferences.overrideWithValue(preferences),
     ],
     child: App(),
   ));
