@@ -2,30 +2,34 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:friend_list/common/constant/strings.dart';
-import 'package:friend_list/domain/person/i_person_repository.dart';
 import 'package:friend_list/domain/person/person.dart';
 import 'package:friend_list/presentation/app_router.dart';
+import 'package:friend_list/presentation/person_detail_page/notifier/person_detail_page_notifier.dart';
+import 'package:friend_list/presentation/person_detail_page/provider/person_detail_page_provider.dart';
+import 'package:friend_list/presentation/person_detail_page/state/person_detail_page_state.dart';
 import 'package:intl/intl.dart';
-import 'package:sprintf/sprintf.dart';
 
 @RoutePage()
 class PersonDetailPage extends ConsumerWidget {
   @protected
-  final Person person;
+  final AutoDisposeStateNotifierProvider<PersonDetailPageNotifier,
+      PersonDetailPageState> provider;
 
-  const PersonDetailPage({
+  PersonDetailPage({
     super.key,
-    required this.person,
-  });
+    required Person person,
+  }) : provider = personDetailPage.call(person);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(provider);
+    final notifier = ref.read(provider.notifier);
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
           IconButton(
             onPressed: () async {
-              await ref.read(personRepository).deleteByID(person.id);
+              await notifier.onPressedDeleteButton();
               ref.read(router).pop();
             },
             icon: const Icon(Icons.delete),
@@ -52,21 +56,19 @@ class PersonDetailPage extends ConsumerWidget {
                           Center(
                             child: CircleAvatar(
                               radius: 45,
-                              backgroundImage: MemoryImage(person.icon),
+                              backgroundImage: MemoryImage(state.icon),
                             ),
                           ),
                           Text(
-                            person.name,
+                            state.name,
                             style: Theme.of(context).textTheme.headlineSmall,
                           ),
                           Text(
-                            person.nickname,
+                            state.nickname,
                             style: Theme.of(context).textTheme.titleSmall,
                           ),
                           Text(
-                            sprintf(Strings.yearsOldFormat, [
-                              person.hasBirthdate ? person.age.toString() : "??"
-                            ]),
+                            state.formatedAge,
                             style: Theme.of(context).textTheme.caption,
                           ),
                         ],
@@ -85,10 +87,10 @@ class PersonDetailPage extends ConsumerWidget {
                                 ),
                                 builder: (builder) {
                                   return ListView.builder(
-                                    itemCount: person.contacts.length,
+                                    itemCount: state.contacts.length,
                                     itemBuilder: (context, index) {
                                       final contact =
-                                          person.contacts.elementAt(index);
+                                          state.contacts.elementAt(index);
                                       return ListTile(
                                         leading: Icon(contact.method.icon),
                                         title: Text(contact.method.name),
@@ -105,10 +107,8 @@ class PersonDetailPage extends ConsumerWidget {
                             child: const Icon(Icons.contacts),
                           ),
                           ElevatedButton.icon(
-                            onPressed: () {
-                              ref
-                                  .read(router)
-                                  .push(PersonEditRoute(person: person));
+                            onPressed: () async {
+                              await notifier.onPressedEditButton();
                             },
                             icon: const Icon(Icons.edit),
                             label: const Text(Strings.editButtonLable),
@@ -127,19 +127,17 @@ class PersonDetailPage extends ConsumerWidget {
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (context, index) {
-                final anniversary = person.anniversaries.elementAt(index);
+                final anniversary = state.anniversaries.elementAt(index);
                 return ListTile(
                   title: Text(anniversary.name),
                   subtitle: Text(DateFormat.yMd().format(anniversary.date)),
                   trailing: const Icon(Icons.chevron_right),
-                  onTap: () {
-                    ref.read(router).push(
-                          AnniversaryDetailRoute(anniversary: anniversary),
-                        );
+                  onTap: () async {
+                    await notifier.onPressedAnniveraryListTile(anniversary);
                   },
                 );
               },
-              childCount: person.anniversaries.length,
+              childCount: state.anniversaries.length,
             ),
           )
         ],
