@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$PersonListPageState {
   Iterable<Person> get persons => throw _privateConstructorUsedError;
   bool get isFiltering => throw _privateConstructorUsedError;
+  PersonSortOrder get sortOrder => throw _privateConstructorUsedError;
   TextEditingController get searchBarController =>
       throw _privateConstructorUsedError;
 
@@ -35,6 +36,7 @@ abstract class $PersonListPageStateCopyWith<$Res> {
   $Res call(
       {Iterable<Person> persons,
       bool isFiltering,
+      PersonSortOrder sortOrder,
       TextEditingController searchBarController});
 }
 
@@ -53,6 +55,7 @@ class _$PersonListPageStateCopyWithImpl<$Res, $Val extends PersonListPageState>
   $Res call({
     Object? persons = null,
     Object? isFiltering = null,
+    Object? sortOrder = null,
     Object? searchBarController = null,
   }) {
     return _then(_value.copyWith(
@@ -64,6 +67,10 @@ class _$PersonListPageStateCopyWithImpl<$Res, $Val extends PersonListPageState>
           ? _value.isFiltering
           : isFiltering // ignore: cast_nullable_to_non_nullable
               as bool,
+      sortOrder: null == sortOrder
+          ? _value.sortOrder
+          : sortOrder // ignore: cast_nullable_to_non_nullable
+              as PersonSortOrder,
       searchBarController: null == searchBarController
           ? _value.searchBarController
           : searchBarController // ignore: cast_nullable_to_non_nullable
@@ -83,6 +90,7 @@ abstract class _$$_PersonListPageStateCopyWith<$Res>
   $Res call(
       {Iterable<Person> persons,
       bool isFiltering,
+      PersonSortOrder sortOrder,
       TextEditingController searchBarController});
 }
 
@@ -99,6 +107,7 @@ class __$$_PersonListPageStateCopyWithImpl<$Res>
   $Res call({
     Object? persons = null,
     Object? isFiltering = null,
+    Object? sortOrder = null,
     Object? searchBarController = null,
   }) {
     return _then(_$_PersonListPageState(
@@ -110,6 +119,10 @@ class __$$_PersonListPageStateCopyWithImpl<$Res>
           ? _value.isFiltering
           : isFiltering // ignore: cast_nullable_to_non_nullable
               as bool,
+      sortOrder: null == sortOrder
+          ? _value.sortOrder
+          : sortOrder // ignore: cast_nullable_to_non_nullable
+              as PersonSortOrder,
       searchBarController: null == searchBarController
           ? _value.searchBarController
           : searchBarController // ignore: cast_nullable_to_non_nullable
@@ -124,6 +137,7 @@ class _$_PersonListPageState extends _PersonListPageState {
   const _$_PersonListPageState(
       {required this.persons,
       this.isFiltering = false,
+      required this.sortOrder,
       required this.searchBarController})
       : super._();
 
@@ -133,11 +147,13 @@ class _$_PersonListPageState extends _PersonListPageState {
   @JsonKey()
   final bool isFiltering;
   @override
+  final PersonSortOrder sortOrder;
+  @override
   final TextEditingController searchBarController;
 
   @override
   String toString() {
-    return 'PersonListPageState(persons: $persons, isFiltering: $isFiltering, searchBarController: $searchBarController)';
+    return 'PersonListPageState(persons: $persons, isFiltering: $isFiltering, sortOrder: $sortOrder, searchBarController: $searchBarController)';
   }
 
   @override
@@ -148,6 +164,8 @@ class _$_PersonListPageState extends _PersonListPageState {
             const DeepCollectionEquality().equals(other.persons, persons) &&
             (identical(other.isFiltering, isFiltering) ||
                 other.isFiltering == isFiltering) &&
+            (identical(other.sortOrder, sortOrder) ||
+                other.sortOrder == sortOrder) &&
             (identical(other.searchBarController, searchBarController) ||
                 other.searchBarController == searchBarController));
   }
@@ -157,6 +175,7 @@ class _$_PersonListPageState extends _PersonListPageState {
       runtimeType,
       const DeepCollectionEquality().hash(persons),
       isFiltering,
+      sortOrder,
       searchBarController);
 
   @JsonKey(ignore: true)
@@ -171,6 +190,7 @@ abstract class _PersonListPageState extends PersonListPageState {
   const factory _PersonListPageState(
           {required final Iterable<Person> persons,
           final bool isFiltering,
+          required final PersonSortOrder sortOrder,
           required final TextEditingController searchBarController}) =
       _$_PersonListPageState;
   const _PersonListPageState._() : super._();
@@ -179,6 +199,8 @@ abstract class _PersonListPageState extends PersonListPageState {
   Iterable<Person> get persons;
   @override
   bool get isFiltering;
+  @override
+  PersonSortOrder get sortOrder;
   @override
   TextEditingController get searchBarController;
   @override

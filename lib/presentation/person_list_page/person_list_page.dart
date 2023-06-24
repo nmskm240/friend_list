@@ -2,6 +2,7 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:friend_list/common/constant/person_sort_order.dart';
 import 'package:friend_list/common/constant/strings.dart';
 import 'package:friend_list/presentation/person_list_page/provider/person_list_page_provider.dart';
 import 'package:sprintf/sprintf.dart';
@@ -51,13 +52,6 @@ class _AppBar extends ConsumerWidget implements PreferredSizeWidget {
           ),
         if (!isFiltering)
           IconButton(
-            icon: const Icon(Icons.sort),
-            onPressed: () async {
-              notifier.onChangedSortOrder();
-            },
-          ),
-        if (!isFiltering)
-          IconButton(
             icon: const Icon(Icons.add),
             onPressed: () async {
               await notifier.onPressedAddPerson();
@@ -92,9 +86,13 @@ class _Body extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final asyncValue = ref
+    final asyncValue = ref.watch(personListPageProvider
+        .select((value) => value.whenData((state) => state.persons)));
+    final sortOrder = ref
             .watch(personListPageProvider
-                .select((value) => value.whenData((state) => state.persons)));
+                .select((value) => value.whenData((state) => state.sortOrder)))
+            .valueOrNull ??
+        PersonSortOrder.added;
     final notifier = ref.read(personListPageProvider.notifier);
     return asyncValue.when(
       error: (error, stacktrace) {
@@ -105,35 +103,70 @@ class _Body extends ConsumerWidget {
         return const CircularProgressIndicator();
       },
       data: (persons) {
-      return persons.isEmpty
-        ? const Center(
-            child: Column(
-              children: [
-                Icon(Icons.people),
-                Text(Strings.nonRegistered),
-              ],
-            ),
-          )
-        : ListView.builder(
-            itemCount: persons.length,
-            itemBuilder: (context, index) {
-              final person = persons.elementAt(index);
-              return ListTile(
-                title: Text(person.name),
-                subtitle: Text(person.nickname),
-                leading: CircleAvatar(
-                  backgroundImage: MemoryImage(person.icon),
+        return persons.isEmpty
+            ? const Center(
+                child: Column(
+                  children: [
+                    Icon(Icons.people),
+                    Text(Strings.nonRegistered),
+                  ],
                 ),
-                trailing: person.hasBirthdate
-                    ? Text(sprintf(Strings.yearsOldFormat, [person.age]))
-                    : null,
-                onTap: () {
-                  notifier.onPressedPersonListTile(person);
-                },
+              )
+            : Column(
+                children: [
+                  Wrap(
+                    children: [
+                      ChoiceChip(
+                        label: Text(PersonSortOrder.added.name),
+                        selected: sortOrder == PersonSortOrder.added,
+                        onSelected: (value) async {
+                          await notifier
+                              .onChangedSortOrder(PersonSortOrder.added);
+                        },
+                      ),
+                      ChoiceChip(
+                        label: Text(PersonSortOrder.age.name),
+                        selected: sortOrder == PersonSortOrder.age,
+                        onSelected: (value) async {
+                          await notifier
+                              .onChangedSortOrder(PersonSortOrder.age);
+                        },
+                      ),
+                      ChoiceChip(
+                        label: Text(PersonSortOrder.name.name),
+                        selected: sortOrder == PersonSortOrder.name,
+                        onSelected: (value) async {
+                          await notifier
+                              .onChangedSortOrder(PersonSortOrder.name);
+                        },
+                      ),
+                    ],
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: persons.length,
+                      itemBuilder: (context, index) {
+                        final person = persons.elementAt(index);
+                        return ListTile(
+                          title: Text(person.name),
+                          subtitle: Text(person.nickname),
+                          leading: CircleAvatar(
+                            backgroundImage: MemoryImage(person.icon),
+                          ),
+                          trailing: person.hasBirthdate
+                              ? Text(
+                                  sprintf(Strings.yearsOldFormat, [person.age]))
+                              : null,
+                          onTap: () {
+                            notifier.onPressedPersonListTile(person);
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                ],
               );
-            },
-          );
-    },);
-     
+      },
+    );
   }
 }
