@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:friend_list/domain/person/i_person_repository.dart';
+import 'package:friend_list/application/usecase/filtered_persons_usecase.dart';
+import 'package:friend_list/application/usecase/sorted_persons_usecase.dart';
+import 'package:friend_list/common/constant/person_sort_order.dart';
+import 'package:friend_list/common/shared_preferences_helper.dart';
 import 'package:friend_list/domain/person/person.dart';
 import 'package:friend_list/infrastructure/person/person_factory.dart';
 import 'package:friend_list/presentation/app_router.dart';
@@ -24,11 +27,12 @@ class PersonListPageNotifier
 
   Future<void> _init() async {
     state = await AsyncValue.guard<PersonListPageState>(() async {
-      final repository = ref.read(personRepository);
-      final list = await repository.getAll();
+      final filtered = await ref.read(filteredPersons).call("");
+      final sorted = await ref.read(sortedPersons).call(filtered);
       return PersonListPageState(
-        persons: list,
+        persons: sorted,
         searchBarController: TextEditingController(),
+        sortOrder: SharedPreferencesHelper.getPersonSortOrder(),
       );
     });
   }
@@ -50,15 +54,10 @@ class PersonListPageNotifier
   }
 
   Future<void> onChangedSearchBar(String content) async {
-    final repository = ref.read(personRepository);
     state = await AsyncValue.guard(() async {
-      Iterable<Person> searched;
-      if (content.isEmpty) {
-        searched = await repository.getAll();
-      } else {
-        searched = await repository.findByNameOrNickname(content);
-      }
-      return state.value!.copyWith(persons: searched);
+      final filtered = await ref.read(filteredPersons).call(content);
+      final sorted = await ref.read(sortedPersons).call(filtered);
+      return state.value!.copyWith(persons: sorted);
     });
   }
 
@@ -69,11 +68,18 @@ class PersonListPageNotifier
     state = await AsyncValue.guard(() async {
       var list = state.valueOrNull?.persons ?? [];
       if (!isFiltering) {
-        final repository = ref.read(personRepository);
-        state.value!.searchBarController.clear();
-        list = await repository.getAll();
+        final filtered = await ref.read(filteredPersons).call("");
+        list = await ref.read(sortedPersons).call(filtered);
       }
       return state.value!.copyWith(isFiltering: isFiltering, persons: list);
+    });
+  }
+
+  Future<void> onChangedSortOrder(PersonSortOrder order) async {
+    SharedPreferencesHelper.setPersonSortOrder(order);
+    state = await AsyncValue.guard(() async {
+      final sorted = await ref.read(sortedPersons).call(state.value!.persons);
+      return state.value!.copyWith(persons: sorted, sortOrder: order);
     });
   }
 }

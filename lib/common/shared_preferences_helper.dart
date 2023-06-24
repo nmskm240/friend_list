@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/services.dart';
+import 'package:friend_list/common/constant/person_sort_order.dart';
 import 'package:friend_list/common/constant/strings.dart';
 import 'package:friend_list/common/exception/unregistred_preferences_exception.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -9,6 +10,7 @@ import 'package:table_calendar/table_calendar.dart';
 enum SharedPreferencesKeys {
   defaultIcon,
   calendarFormat,
+  personSortOrder,
 }
 
 class SharedPreferencesHelper {
@@ -28,6 +30,10 @@ class SharedPreferencesHelper {
     if (!_preferences!.containsKey(SharedPreferencesKeys.calendarFormat.name)) {
       setCalendartFormat(CalendarFormat.month);
     }
+    if (!_preferences!
+        .containsKey(SharedPreferencesKeys.personSortOrder.name)) {
+      setPersonSortOrder(PersonSortOrder.name);
+    }
   }
 
   static Future<void> setDefault() async {
@@ -36,6 +42,29 @@ class SharedPreferencesHelper {
     final bytes = buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
     setDefaultIcon(bytes);
     setCalendartFormat(CalendarFormat.month);
+  }
+
+  static PersonSortOrder rotationPersonSortOrder() {
+    final currentOrder = getPersonSortOrder();
+    final nextOrder =
+        PersonSortOrder.values.elementAtOrNull(currentOrder.index + 1) ??
+            PersonSortOrder.added;
+    setPersonSortOrder(nextOrder);
+    return nextOrder;
+  }
+
+  static void setPersonSortOrder(PersonSortOrder order) {
+    _preferences!
+        .setInt(SharedPreferencesKeys.personSortOrder.name, order.index);
+  }
+
+  static PersonSortOrder getPersonSortOrder() {
+    final key = SharedPreferencesKeys.personSortOrder.name;
+    final index = _preferences!.getInt(key);
+    if (index == null) {
+      throw UnregisteredPreferenceException(key);
+    }
+    return PersonSortOrder.values.elementAt(index);
   }
 
   static void setCalendartFormat(CalendarFormat format) {
