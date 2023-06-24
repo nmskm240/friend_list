@@ -23,6 +23,8 @@ class AnniversaryEditPageNotifier
     if (state.validate()) {
       final res = state.save();
       ref.read(router).pop<Anniversary>(res);
+    } else {
+      state.onInvalid();
     }
   }
 }

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:friend_list/common/constant/person_sort_order.dart';
 import 'package:friend_list/common/constant/strings.dart';
 import 'package:friend_list/common/exception/unregistred_preferences_exception.dart';
 import 'package:friend_list/common/extension/time_of_day.dart';
@@ -12,6 +13,7 @@ enum SharedPreferencesKeys {
   defaultIcon,
   calendarFormat,
   notificationTime,
+  personSortOrder,
 }
 
 class SharedPreferencesHelper {
@@ -33,6 +35,9 @@ class SharedPreferencesHelper {
     }
     if(!_preferences!.containsKey(SharedPreferencesKeys.notificationTime.name)) {
       setNotificationTime(const TimeOfDay(hour: 9, minute: 0));
+    if (!_preferences!
+        .containsKey(SharedPreferencesKeys.personSortOrder.name)) {
+      setPersonSortOrder(PersonSortOrder.name);
     }
   }
 
@@ -57,6 +62,27 @@ class SharedPreferencesHelper {
       throw UnregisteredPreferenceException(key);
     }
     return TimeOfDayExtension.parseFrom24Hours(str);
+  static PersonSortOrder rotationPersonSortOrder() {
+    final currentOrder = getPersonSortOrder();
+    final nextOrder =
+        PersonSortOrder.values.elementAtOrNull(currentOrder.index + 1) ??
+            PersonSortOrder.added;
+    setPersonSortOrder(nextOrder);
+    return nextOrder;
+  }
+
+  static void setPersonSortOrder(PersonSortOrder order) {
+    _preferences!
+        .setInt(SharedPreferencesKeys.personSortOrder.name, order.index);
+  }
+
+  static PersonSortOrder getPersonSortOrder() {
+    final key = SharedPreferencesKeys.personSortOrder.name;
+    final index = _preferences!.getInt(key);
+    if (index == null) {
+      throw UnregisteredPreferenceException(key);
+    }
+    return PersonSortOrder.values.elementAt(index);
   }
 
   static void setCalendartFormat(CalendarFormat format) {

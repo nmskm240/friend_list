@@ -11,6 +11,7 @@ import 'package:friend_list/presentation/anniversary_edit_page/provider/annivers
 import 'package:friend_list/presentation/anniversary_edit_page/provider/anniversary_edit_page_provider_parameter.dart';
 import 'package:friend_list/presentation/anniversary_edit_page/state/anniversary_edit_page_state.dart';
 import 'package:friend_list/presentation/anniversary_edit_page/widget/form_builder_drum_roll_date_picker.dart';
+import 'package:friend_list/presentation/common/always_disabled_focus_node.dart';
 
 @RoutePage<Anniversary>()
 class AnniversaryEditPage extends ConsumerWidget {
@@ -53,14 +54,11 @@ class AnniversaryEditPage extends ConsumerWidget {
             children: [
               FormBuilderTextField(
                 name: state.formFieldName,
-                enabled: state.isEditableName,
+                focusNode: state.isEditableName ? null : AlwaysDisabledFocusNode(),
                 decoration: const InputDecoration(
                   label: Text(Strings.anniversaryEditPageFormNameLabel),
                 ),
-                validator: FormBuilderValidators.compose([
-                  FormBuilderValidators.required(),
-                  state.validateAnniversayName,
-                ]),
+                validator: FormBuilderValidators.required(),
               ),
               FormBuilderDrumRollDatePicker(
                 name: state.formFieldDate,
