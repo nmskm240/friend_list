@@ -18,8 +18,10 @@ class PersonDetailPageNotifier extends StateNotifier<PersonDetailPageState> {
   }
 
   Future<void> onPressedEditButton() async {
-    final res = await _ref.read(router).push<Person>(PersonEditRoute(person: state.person));
-    if(res == null) {
+    final res = await _ref
+        .read(router)
+        .push<Person>(PersonEditRoute(person: state.person));
+    if (res == null) {
       return;
     }
     state = state.copyWith(person: res);
