@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:friend_list/common/constant/strings.dart';
 import 'package:friend_list/domain/person/person.dart';
-import 'package:friend_list/presentation/common/always_disabled_focus_node.dart';
 import 'package:friend_list/presentation/common/widget/list_view_with_header.dart';
 import 'package:friend_list/presentation/person_edit_page/notifier/person_edit_page_notifier.dart';
 import 'package:friend_list/presentation/person_edit_page/provider/person_edit_page_provider.dart';

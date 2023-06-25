@@ -29,7 +29,7 @@ class PersonEditPageNotifier extends StateNotifier<PersonEditPageState> {
     if (state.validate()) {
       await ref.read(personRepository).save(state.person);
       ref.invalidate(personListPageProvider);
-      ref.read(router).pop();
+      ref.read(router).pop(state.person);
     }
   }
 
