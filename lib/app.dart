@@ -6,19 +6,17 @@ import 'package:friend_list/common/constant/strings.dart';
 import 'package:friend_list/presentation/app_router.dart' as app_router;
 
 class App extends ConsumerWidget {
-  late final WidgetRef _ref;
+  const App({Key? key}) : super(key: key);
 
-  App({Key? key}) : super(key: key);
-
-  Future<void> onAppInactive() async {
-    await _ref.read(resetNotificationSchedule).call();
+  Future<void> onAppInactive(WidgetRef ref) async {
+    await ref.read(resetNotificationSchedule).call();
   }
 
-  Future<void> onChangedAppLifecycleState(
+  Future<void> onChangedAppLifecycleState(WidgetRef ref,
       AppLifecycleState? previous, AppLifecycleState next) async {
     switch (next) {
       case AppLifecycleState.inactive:
-        await onAppInactive();
+        await onAppInactive(ref);
         break;
       default:
         break;
@@ -27,10 +25,9 @@ class App extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    _ref = ref;
     final router = ref.watch(app_router.router);
-    ref.listen<AppLifecycleState>(
-        appLifecycleProvider, onChangedAppLifecycleState);
+    ref.listen<AppLifecycleState>(appLifecycleProvider,
+        ((previous, next) => onChangedAppLifecycleState(ref, previous, next)));
     return MaterialApp.router(
       routerConfig: router.config(),
       title: Strings.appTitle,
