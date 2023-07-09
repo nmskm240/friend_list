@@ -11,7 +11,6 @@ import 'package:friend_list/infrastructure/local_database/person/contact/contact
 import 'package:friend_list/infrastructure/shared_preferences/app_shared_preferences.dart';
 import 'package:friend_list/presentation/app_router.dart';
 import 'package:friend_list/presentation/person_edit_page/state/person_edit_page_state.dart';
-import 'package:friend_list/presentation/person_list_page/provider/person_list_page_provider.dart';
 
 class PersonEditPageNotifier extends StateNotifier<PersonEditPageState> {
   @protected
@@ -28,7 +27,6 @@ class PersonEditPageNotifier extends StateNotifier<PersonEditPageState> {
   Future<void> onPressedSave() async {
     if (state.validate()) {
       await ref.read(personRepository).save(state.person);
-      ref.invalidate(personListPageProvider);
       ref.read(router).pop(state.person);
     }
   }
