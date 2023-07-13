@@ -46,7 +46,7 @@ class PersonListPageNotifier
     if (res == null) {
       return;
     }
-    state = ref.refresh(personListPageProvider);
+    ref.invalidate(personListPageProvider);
   }
 
   Future<void> onPressedPersonListTile(Person person) async {
